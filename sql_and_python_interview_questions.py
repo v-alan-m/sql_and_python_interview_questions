@@ -33,12 +33,25 @@ exercises = load_exercises()
 
 # --- SIDEBAR ---
 st.sidebar.header("🎯 Training Menu")
+
+category_options = {
+    "Pandas (Python)": "python",
+    "SQL and Pandas": "sql_and_pandas"
+}
+selected_category = st.sidebar.selectbox("Select Category:", list(category_options.keys()))
+folder_prefix = f"{category_options[selected_category]} > "
+
 if not exercises:
     st.sidebar.warning("No exercises found in /exercises folder!")
     selected_key = None
 else:
-    selected_key = st.sidebar.selectbox("Select Exercise:", sorted(list(exercises.keys())))
-    ex = exercises[selected_key]
+    filtered_exercises = {k: v for k, v in exercises.items() if k.startswith(folder_prefix)}
+    if not filtered_exercises:
+        st.sidebar.warning(f"No exercises found for {selected_category}!")
+        selected_key = None
+    else:
+        selected_key = st.sidebar.selectbox("Select Exercise:", sorted(list(filtered_exercises.keys())))
+        ex = filtered_exercises[selected_key]
 
 # Timer
 if 'start_time' not in st.session_state:
