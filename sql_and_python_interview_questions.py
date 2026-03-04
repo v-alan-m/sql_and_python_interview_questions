@@ -5,9 +5,10 @@ import os
 import importlib.util
 import time
 
-st.set_page_config(page_title="DE Interview Lab", layout="wide")
+# --- APP CONFIG ---
+st.set_page_config(page_title="DE Interview Lab Pro", layout="wide")
 
-# --- UPDATED DYNAMIC EXERCISE LOADER (Subfolder Support) ---
+# --- DYNAMIC EXERCISE LOADER ---
 def load_exercises(base_folder="exercises"):
     exercises = {}
     if not os.path.exists(base_folder):
@@ -15,12 +16,10 @@ def load_exercises(base_folder="exercises"):
         os.makedirs(os.path.join(base_folder, "python"))
         os.makedirs(os.path.join(base_folder, "sql_and_pandas"))
     
-    # Walk through all subdirectories
     for root, dirs, files in os.walk(base_folder):
         for filename in files:
             if filename.endswith(".py"):
                 path = os.path.join(root, filename)
-                # Create a unique key using folder + filename
                 relative_path = os.path.relpath(path, base_folder)
                 exercise_key = relative_path.replace(os.sep, " > ")[:-3]
                 
@@ -33,51 +32,66 @@ def load_exercises(base_folder="exercises"):
 exercises = load_exercises()
 
 # --- SIDEBAR ---
-st.sidebar.header("Select Exercise")
-selected_key = st.sidebar.selectbox("Choose Problem:", sorted(list(exercises.keys())))
-ex = exercises[selected_key]
+st.sidebar.header("🎯 Training Menu")
+if not exercises:
+    st.sidebar.warning("No exercises found in /exercises folder!")
+    selected_key = None
+else:
+    selected_key = st.sidebar.selectbox("Select Exercise:", sorted(list(exercises.keys())))
+    ex = exercises[selected_key]
 
-# Timer logic
+# Timer
 if 'start_time' not in st.session_state:
     st.session_state.start_time = time.time()
 timer_placeholder = st.sidebar.empty()
-remaining = max(0, 1200 - int(time.time() - st.session_state.start_time))
-timer_placeholder.metric("Time Remaining", f"{remaining // 60}:{remaining % 60:02d}")
+elapsed = int(time.time() - st.session_state.start_time)
+remaining = max(0, 1200 - elapsed)
+timer_placeholder.metric("Session Timer", f"{remaining // 60}:{remaining % 60:02d}")
+
+if st.sidebar.button("Reset Timer"):
+    st.session_state.start_time = time.time()
+    st.rerun()
 
 # --- MAIN UI ---
-st.title(f"Problem: {ex['title']}")
-
-col1, col2 = st.columns([1, 1])
-
-with col1:
-    st.markdown(f"**Goal:** {ex['description']}")
-    st.write("### Input Data")
-    df = ex['data']
-    st.dataframe(df, use_container_width=True)
-
-with col2:
-    # Check if the exercise is restricted to one mode or allows both
-    available_modes = ex.get("allowed_modes", ["SQL", "Python"])
-    mode = st.radio("Language:", available_modes, horizontal=True)
+if selected_key:
+    st.title(f"Problem: {ex['title']}")
     
-    user_code = st.text_area(f"Write your {mode} code here:", height=250)
-    
-    if st.button("Run Code"):
-        try:
-            if mode == "SQL":
-                res = duckdb.query(user_code).to_df()
-            else:
-                # This allows for multi-line logic and custom functions
-                ldict = {'df': df, 'pd': pd}
-                # We wrap the user code to ensure we capture the final 'result' variable
-                full_code = f"{user_code}" 
-                exec(full_code, globals(), ldict)
-                res = ldict.get('result', "Error: Please assign your final output to a variable named 'result'")
+    col1, col2 = st.columns([1, 1])
+
+    with col1:
+        st.markdown(f"### 📋 Objective\n{ex['description']}")
+        st.write("### 📥 Input Data")
+        df = ex['data']
+        st.dataframe(df, use_container_width=True)
+        
+        # Help Sections
+        with st.expander("💡 View Hint"):
+            st.info(ex.get('hint_sql' if 'SQL' in ex.get('allowed_modes', ["SQL", "Python"]) else 'hint_python', "No hint available."))
+        
+        with st.expander("✅ View Reference Solution"):
+            mode_choice = st.selectbox("Solution for:", ex.get('allowed_modes', ["SQL", "Python"]))
+            sol_key = f"solution_{mode_choice.lower()}"
+            st.code(ex.get(sol_key, "Solution not yet added."), language='python' if mode_choice == "Python" else "sql")
             
-            st.write("### Output")
-            st.dataframe(res, use_container_width=True)
-        except Exception as e:
-            st.error(f"Error: {e}")
+            if 'deep_dive' in ex:
+                st.markdown("#### 🧠 The 'Why' behind this logic")
+                st.success(ex['deep_dive'])
 
-if st.sidebar.checkbox("Show Hint"):
-    st.sidebar.info(ex['hint_sql'] if mode == "SQL" else ex['hint_python'])
+    with col2:
+        st.write("### 💻 Workspace")
+        mode = st.radio("Language:", ex.get('allowed_modes', ["SQL", "Python"]), horizontal=True)
+        user_code = st.text_area(f"Write your {mode} code here:", height=300, placeholder="Assign your final result to a variable named 'result'...")
+        
+        if st.button("🚀 Run Code"):
+            try:
+                if mode == "SQL":
+                    result = duckdb.query(user_code).to_df()
+                else:
+                    ldict = {'df': df, 'pd': pd}
+                    exec(user_code, globals(), ldict)
+                    result = ldict.get('result', "Error: Please assign output to 'result' variable.")
+                
+                st.write("### 📤 Output")
+                st.dataframe(result, use_container_width=True)
+            except Exception as e:
+                st.error(f"Execution Error: {e}")
