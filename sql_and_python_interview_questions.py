@@ -67,9 +67,12 @@ with col2:
             if mode == "SQL":
                 res = duckdb.query(user_code).to_df()
             else:
+                # This allows for multi-line logic and custom functions
                 ldict = {'df': df, 'pd': pd}
-                exec(f"result = {user_code}", globals(), ldict)
-                res = ldict['result']
+                # We wrap the user code to ensure we capture the final 'result' variable
+                full_code = f"{user_code}" 
+                exec(full_code, globals(), ldict)
+                res = ldict.get('result', "Error: Please assign your final output to a variable named 'result'")
             
             st.write("### Output")
             st.dataframe(res, use_container_width=True)
