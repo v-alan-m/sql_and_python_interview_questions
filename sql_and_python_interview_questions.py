@@ -1,82 +1,71 @@
 import streamlit as st
 import pandas as pd
 import duckdb
+import os
+import importlib.util
 import time
 
-# --- APP CONFIG ---
-st.set_page_config(page_title="DE Interview Pro", layout="wide")
-st.title("🚀 Data Engineering Interview Practice Lab")
+st.set_page_config(page_title="DE Interview Lab", layout="wide")
 
-# --- SAMPLE DATA GENERATION ---
-data = {
-    'user_id': [101, 102, 101, 103, 102, 101],
-    'timestamp': pd.to_datetime(['2025-01-01', '2025-01-02', '2025-01-03', '2025-01-01', '2025-01-04', '2025-01-05']),
-    'revenue': [50, 150, 200, 50, 300, 100],
-    'category': ['Tech', 'Health', 'Tech', 'Retail', 'Health', 'Tech']
-}
-df = pd.DataFrame(data)
+# --- DYNAMIC EXERCISE LOADER ---
+def load_exercises(folder="exercises"):
+    exercises = {}
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+    
+    for filename in os.listdir(folder):
+        if filename.endswith(".py"):
+            path = os.path.join(folder, filename)
+            spec = importlib.util.spec_from_file_location(filename[:-3], path)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            exercises[filename[:-3]] = module.get_exercise()
+    return exercises
 
-# --- SIDEBAR: CONTROLS ---
-st.sidebar.header("Practice Settings")
-category = st.sidebar.selectbox("Choose a Pattern:", 
-    ["Deduplication (Latest Record)", "Cumulative Revenue", "Category Aggregates", "String Mutation"])
+exercises = load_exercises()
 
-# Timer Logic
+# --- SIDEBAR ---
+st.sidebar.header("Select Exercise")
+selected_key = st.sidebar.selectbox("Choose Problem:", list(exercises.keys()))
+ex = exercises[selected_key]
+
+# Timer
 if 'start_time' not in st.session_state:
     st.session_state.start_time = time.time()
-
 timer_placeholder = st.sidebar.empty()
-elapsed = int(time.time() - st.session_state.start_time)
-remaining = max(0, 1200 - elapsed) # 20 minute limit
+remaining = max(0, 1200 - int(time.time() - st.session_state.start_time))
 timer_placeholder.metric("Time Remaining", f"{remaining // 60}:{remaining % 60:02d}")
 
-# --- MAIN INTERFACE ---
+# --- MAIN UI ---
+st.title(f"Problem: {ex['title']}")
+
 col1, col2 = st.columns([1, 1])
 
 with col1:
-    st.subheader("1. Inspect Source Data")
+    st.markdown(f"**Goal:** {ex['description']}")
+    st.write("### Input Data")
+    df = ex['data']
     st.dataframe(df, use_container_width=True)
-    
-    st.subheader("2. Problem Statement")
-    if category == "Deduplication (Latest Record)":
-        st.write("Find the **most recent** record for each `user_id` based on the `timestamp`.")
-    elif category == "Cumulative Revenue":
-        st.write("Calculate a **running total** of revenue ordered by timestamp.")
-    elif category == "String Mutation":
-        st.write("Create a new column where 'Category' is converted to Pig Latin (move 1st letter to end + 'ay').")
 
 with col2:
-    mode = st.radio("Solution Mode:", ["SQL (DuckDB)", "Python (Pandas)"], horizontal=True)
+    mode = st.radio("Language:", ["SQL", "Python"], horizontal=True)
+    user_code = st.text_area(f"Write your {mode} code here:", height=250)
     
-    # Code Input
-    if mode == "SQL (DuckDB)":
-        default_code = "SELECT * FROM df LIMIT 5"
-        user_code = st.text_area("Write your SQL here (Refer to table as 'df'):", default_code, height=200)
-    else:
-        default_code = "df.head(5)"
-        user_code = st.text_area("Write your Python/Pandas here:", default_code, height=200)
-
-    if st.button("▶ Run Solution"):
-        st.subheader("Results")
+    if st.button("Run Code"):
         try:
-            if mode == "SQL (DuckDB)":
-                result = duckdb.query(user_code).to_df()
+            if mode == "SQL":
+                # DuckDB queries the 'df' variable in scope
+                res = duckdb.query(user_code).to_df()
             else:
-                # Security note: In a real app, use a safer eval/exec method
-                # This is for local practice only
-                local_vars = {'df': df, 'pd': pd}
-                exec(f"st.session_state['res'] = {user_code}", {}, local_vars)
-                result = st.session_state['res']
+                # We execute the string and capture the result
+                ldict = {'df': df, 'pd': pd}
+                exec(f"result = {user_code}", globals(), ldict)
+                res = ldict['result']
             
-            st.dataframe(result, use_container_width=True)
-            st.success("Code executed successfully!")
+            st.write("### Output")
+            st.dataframe(res, use_container_width=True)
         except Exception as e:
             st.error(f"Error: {e}")
 
-# --- FOOTER ---
-st.divider()
-if st.checkbox("Show Hint"):
-    if mode == "SQL (DuckDB)":
-        st.info("Hint: Use ROW_NUMBER() OVER(PARTITION BY user_id ORDER BY timestamp DESC)")
-    else:
-        st.info("Hint: Try df.sort_values().drop_duplicates(subset=['user_id'], keep='first')")
+if st.sidebar.checkbox("Show Hint"):
+    st.sidebar.info(ex['hint_sql'] if mode == "SQL" else ex['hint_python'])
