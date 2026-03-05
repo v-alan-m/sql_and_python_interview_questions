@@ -28,7 +28,7 @@ result = result.sort_values(by="frequency", ascending=False).reset_index(drop=Tr
         "solution_sql": """
 -- Assuming PostgreSQL syntax for string splitting into rows
 WITH SplitWords AS (
-    SELECT unnest(string_to_array(text, ' ')) AS word
+    SELECT unnest(string_split(text, ' ')) AS word
     FROM table_name
 )
 SELECT 

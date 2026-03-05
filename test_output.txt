@@ -1,0 +1,78 @@
+Starting exercise tests in 'C:\Users\VAM\Desktop\desktop_all_files\projects\python\interview_coding_questions\sql_and_python_interview_questions\exercises'...
+--------------------------------------------------
+Testing: python > anagram_checker (Anagram Checker)
+  [OK] Python Passed
+Testing: python > caesar_cipher (Caesar Cipher)
+  [OK] Python Passed
+Testing: python > first_unique_character (First Unique Character)
+  [OK] Python Passed
+Testing: python > isomorphic_strings (Isomorphic Strings)
+  [OK] Python Passed
+Testing: python > keyboard_row (Keyboard Row)
+  [OK] Python Passed
+Testing: python > last_word_length (Last Word Length)
+  [OK] Python Passed
+Testing: python > longest_common_prefix (Longest Common Prefix)
+  [OK] Python Passed
+Testing: python > palindrome_logic (Palindrome Logic)
+  [OK] Python Passed
+Testing: python > permutations (Permutations)
+  [OK] Python Passed
+Testing: python > pig_latin_mutation (Pig Latin Mutation)
+  [OK] Python Passed
+Testing: python > remove_duplicates (Remove Duplicates)
+  [OK] Python Passed
+Testing: python > reverse_words (Reverse Words)
+  [OK] Python Passed
+Testing: python > roman_to_int (Roman to Int)
+  [OK] Python Passed
+Testing: python > string_compression (String Compression)
+  [OK] Python Passed
+Testing: python > string_rotation (String Rotation)
+  [OK] Python Passed
+Testing: python > title_case_manual (Title Case Manual)
+  [OK] Python Passed
+Testing: python > urlify (URLify)
+  [OK] Python Passed
+Testing: python > valid_parentheses (Valid Parentheses)
+  [OK] Python Passed
+Testing: python > vowel_counter (Vowel Counter)
+  [OK] Python Passed
+Testing: python > word_frequency (Word Frequency)
+  [OK] Python Passed
+Testing: python > zigzag_conversion (ZigZag Conversion)
+  [OK] Python Passed
+Testing: sql_and_pandas > cumulative_revenue (Cumulative Revenue)
+  [OK] Python Passed
+  [OK] SQL Passed
+Testing: sql_and_pandas > daily_price_delta (Daily Price Delta)
+  [OK] Python Passed
+  [OK] SQL Passed
+Testing: sql_and_pandas > deduplication (Deduplication)
+  [OK] Python Passed
+  [OK] SQL Passed
+Testing: sql_and_pandas > deduplication_latest_record (Deduplication (Latest Record))
+  [OK] Python Passed
+  [OK] SQL Passed
+Testing: sql_and_pandas > gaps_and_islands (Gaps and Islands)
+  [OK] Python Passed
+  [OK] SQL Passed
+Testing: sql_and_pandas > last_word_length (Last Word Length)
+  [OK] Python Passed
+  [OK] SQL Passed
+Testing: sql_and_pandas > longest_common_prefix (Longest Common Prefix)
+  [OK] Python Passed
+  [OK] SQL Passed
+Testing: sql_and_pandas > remove_duplicates (Remove Duplicates)
+  [OK] Python Passed
+  [OK] SQL Passed
+Testing: sql_and_pandas > word_frequency (Word Frequency)
+  [OK] Python Passed
+  [OK] SQL Passed
+--------------------------------------------------
+Test Summary:
+Total Exercises Executed: 30
+Passed: 30
+Failed: 0
+
+All tests passed successfully!

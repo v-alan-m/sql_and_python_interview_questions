@@ -13,11 +13,12 @@ def get_exercise():
         "hint_sql": "SQL isn't naturally great at dynamic substring matching across rows like this without complex recursive CTEs, but you can use string functions like `LEFT()` and standard aggregation if the prefix length is known or bounded.",
         "solution_python": """
 def get_longest_prefix(strings):
+    strings = list(strings)
     if not strings:
         return ""
     
     # Sort strings to easily compare the most different strings first
-    strings = sorted(list(strings))
+    strings = sorted(strings)
     first = strings[0]
     last = strings[-1]
     
@@ -54,13 +55,14 @@ WITH RECURSIVE PrefixFinder AS (
     -- Recursive step: increment length
     SELECT 
         t.group_id,
-        LEFT(MIN(t.string), p.length + 1),
+        LEFT(MIN(t.string), CAST(p.length + 1 AS INTEGER)),
         p.length + 1
-    FROM table_name t
+    FROM df t
     JOIN PrefixFinder p ON t.group_id = p.group_id
-    WHERE LEFT(t.string, p.length) = p.prefix
+    WHERE LEFT(t.string, CAST(p.length AS INTEGER)) = p.prefix
+      AND p.length < (SELECT MAX(LENGTH(string)) FROM df WHERE group_id = t.group_id)
     GROUP BY t.group_id, p.length, p.prefix
-    HAVING COUNT(DISTINCT LEFT(t.string, p.length + 1)) = 1
+    HAVING COUNT(DISTINCT LEFT(t.string, CAST(p.length + 1 AS INTEGER))) = 1
 )
 SELECT group_id, MAX(prefix) as longest_prefix
 FROM PrefixFinder

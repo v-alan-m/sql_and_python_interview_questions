@@ -54,7 +54,7 @@ GroupedIslands AS (
         -- Subtracting the integers creates a constant 'anchor' date for sequences!
         -- E.g., Jan 2 - 2 days = Dec 31. Jan 3 - 3 days = Dec 31.
         -- Jan 6 - 4 days = Jan 2 (New anchor!)
-        DATE_SUB(active_date, INTERVAL rn DAY) as island_anchor
+        CAST(active_date AS DATE) - CAST(rn AS INTEGER) * INTERVAL 1 DAY as island_anchor
     FROM NumberedDates
 )
 SELECT 
