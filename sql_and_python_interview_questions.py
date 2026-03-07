@@ -97,16 +97,59 @@ if selected_key:
         
         if st.button("🚀 Run Code"):
             try:
+                # 1. Run user code
                 if mode == "SQL":
                     table_name = ex.get("table_name", "df")
                     duckdb.register(table_name, df)
                     result = duckdb.query(user_code).to_df()
                 else:
-                    ldict = {'df': df, 'pd': pd}
+                    ldict = {'df': df.copy(), 'pd': pd}
                     exec(user_code, globals(), ldict)
                     result = ldict.get('result', "Error: Please assign output to 'result' variable.")
                 
-                st.write("### 📤 Output")
-                st.dataframe(result, use_container_width=True)
+                # 2. Run expected solution
+                sol_key = f"solution_{mode.lower()}"
+                expected_result = None
+                if sol_key in ex and ex[sol_key]:
+                    if mode == "SQL":
+                        # We must re-register the df in case the user query messed with it, though it shouldn't
+                        duckdb.register(table_name, df)
+                        expected_result = duckdb.query(ex[sol_key]).to_df()
+                    else:
+                        sol_dict = {'df': df.copy(), 'pd': pd}
+                        exec(ex[sol_key], globals(), sol_dict)
+                        expected_result = sol_dict.get('result')
+
+                # 3. Compare
+                is_correct = False
+                if isinstance(result, pd.DataFrame) and isinstance(expected_result, pd.DataFrame):
+                    try:
+                        pd.testing.assert_frame_equal(result.reset_index(drop=True), expected_result.reset_index(drop=True), check_dtype=False)
+                        is_correct = True
+                    except Exception:
+                        is_correct = False
+                elif result == expected_result:
+                    is_correct = True
+
+                # 4. Display results
+                if is_correct:
+                    st.success("✅ Correct! Your code produced the expected output.")
+                    st.write("### 📤 Your Output")
+                    st.dataframe(result, use_container_width=True)
+                else:
+                    st.error("❌ Incorrect. Your output did not match the expected result.")
+                    st.write("### 📤 Your Output")
+                    if isinstance(result, pd.DataFrame):
+                        st.dataframe(result, use_container_width=True)
+                    else:
+                        st.write(result)
+                    
+                    st.write("### ✅ Reference Solution")
+                    st.code(ex.get(sol_key, "No reference solution available."), language='python' if mode == "Python" else "sql")
+                    
+                    if expected_result is not None:
+                        st.write("### 🎯 Expected Output")
+                        st.dataframe(expected_result, use_container_width=True)
+                        
             except Exception as e:
                 st.error(f"Execution Error: {e}")
