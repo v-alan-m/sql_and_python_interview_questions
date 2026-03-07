@@ -66,10 +66,9 @@ def load_and_test_exercises(base_folder="exercises"):
                         if "solution_sql" in ex and ex["solution_sql"] and ex["solution_sql"] != "Not applicable":
                             try:
                                 df_sql = df.copy()
-                                # 'df' must be available in local scope for DuckDB to query it easily if it's named 'df'
-                                # In the app it queries `table` or `df`. Many SQL solutions use 'FROM df'.
-                                # We'll replace 'table_name' with 'df' if it exists just in case.
-                                sql_code = ex["solution_sql"].replace("table_name", "df")
+                                table_name = ex.get("table_name", "df")
+                                duckdb.register(table_name, df_sql)
+                                sql_code = ex["solution_sql"]
                                 result = duckdb.query(sql_code).to_df()
                                 if not isinstance(result, pd.DataFrame):
                                      print(f"  [X] SQL Failed: Did not return DataFrame.")

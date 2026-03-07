@@ -15,6 +15,7 @@ def get_exercise():
                 "2022-12-31 23:59:59"
             ]
         }),
+        "table_name": "user_logins",
         "allowed_modes": ["SQL", "Python"],
         "hint_python": "You can use `groupby()` on the user identifier combined with an aggregation like `min()`. Alternatively, you can sort the DataFrame by date and use `drop_duplicates()`.",
         "hint_sql": "Use the `MIN()` aggregate function combined with a `GROUP BY` clause on the user identifier, or use the `ROW_NUMBER()` window function partitioned by the user identifier.",
@@ -32,7 +33,7 @@ result = df.groupby("user_id", as_index=False)["login_time"].min()
 SELECT 
     user_id, 
     MIN(login_time) AS first_login
-FROM table_name
+FROM user_logins
 GROUP BY user_id;
 """,
         "deep_dive": "Deduplication via Hash Aggregation (`GROUP BY` and `MIN`) processes in O(N) time complexity, making it highly efficient. Sorting the data and dropping duplicates takes O(N log N) time due to the sorting overhead. However, sorting is sometimes required if we need to retrieve the entire row associated with the minimum date rather than just the minimum value itself."

@@ -7,6 +7,7 @@ def get_exercise():
         "data": pd.DataFrame({
             "string": ["Hello World", "   fly me   to   the moon  ", "luffy is still joyboy"]
         }),
+        "table_name": "text_data",
         "allowed_modes": ["SQL", "Python"],
         "hint_python": "The `.split()` method in Python handles trailing whitespaces automatically if used without arguments. Alternatively, `.strip()` the string first.",
         "hint_sql": "SQL string manipulation varies by dialect. You typically need to `TRIM()` trailing spaces first, then find the position of the last space using `REVERSE()` and `CHARINDEX()` or `STRPOS()`. The difference is the last word length.",
@@ -38,7 +39,7 @@ SELECT
         THEN LENGTH(TRIM(string))
         ELSE POSITION(' ' IN REVERSE(TRIM(string))) - 1
     END AS last_word_length
-FROM table_name;
+FROM text_data;
 """,
         "deep_dive": "Python makes tokenization incredibly easy; `.split()` is an internal O(N) C-implementation that perfectly handles variable length whitespace natively. Doing string parsing backwards conceptually (without creating an array of strings first) is standard in SQL or lower-level languages like C to avoid massive memory allocations or when arrays aren't natively supported."
     }

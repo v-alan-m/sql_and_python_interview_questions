@@ -8,6 +8,7 @@ def get_exercise():
             "group_id": [1, 1, 1, 2, 2, 2],
             "string": ["flower", "flow", "flight", "dog", "racecar", "car"]
         }),
+        "table_name": "string_groups",
         "allowed_modes": ["SQL", "Python"],
         "hint_python": "Group by the ID. For each group, take the first string as a reference prefix. Iterate through its characters and check if the other strings in the group match at that position.",
         "hint_sql": "SQL isn't naturally great at dynamic substring matching across rows like this without complex recursive CTEs, but you can use string functions like `LEFT()` and standard aggregation if the prefix length is known or bounded.",
@@ -47,7 +48,7 @@ WITH RECURSIVE PrefixFinder AS (
         group_id, 
         LEFT(MIN(string), 1) as prefix, 
         1 as length
-    FROM table_name
+    FROM string_groups
     GROUP BY group_id
     
     UNION ALL

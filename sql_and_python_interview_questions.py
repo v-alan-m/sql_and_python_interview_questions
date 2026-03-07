@@ -98,6 +98,8 @@ if selected_key:
         if st.button("🚀 Run Code"):
             try:
                 if mode == "SQL":
+                    table_name = ex.get("table_name", "df")
+                    duckdb.register(table_name, df)
                     result = duckdb.query(user_code).to_df()
                 else:
                     ldict = {'df': df, 'pd': pd}

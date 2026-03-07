@@ -12,6 +12,7 @@ def get_exercise():
                 "2023-02-01", "2023-02-05"
             ]
         }),
+        "table_name": "user_activity",
         "allowed_modes": ["SQL", "Python"],
         "hint_python": "Calculate the difference in days between the current row and the previous row using `.diff()`. Where the difference is > 1 day, it marks the start of a new island. Assign a cumulative ID to group by.",
         "hint_sql": "Use the `ROW_NUMBER()` trick: subtract the row number (as integer days) from the date. Sequential dates will yield the same 'baseline' date, which can then be used to `GROUP BY`.",
@@ -45,7 +46,7 @@ WITH NumberedDates AS (
         active_date,
         -- Generate sequential numbers (1, 2, 3...)
         ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY active_date) as rn
-    FROM table_name
+    FROM user_activity
 ),
 GroupedIslands AS (
     SELECT 

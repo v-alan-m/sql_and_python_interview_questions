@@ -12,6 +12,7 @@ def get_exercise():
                 "2023-03-01", "2022-12-01", "2023-04-20"
             ]
         }),
+        "table_name": "user_records",
         "allowed_modes": ["SQL", "Python"],
         "hint_python": "Sort the DataFrame by 'user_id' and 'updated_at' (descending). Then use the DataFrame `.drop_duplicates()` method, specifying a subset constraint on 'user_id' and keeping the 'first' instance.",
         "hint_sql": "Use the `ROW_NUMBER()` window function. Partition by 'user_id' and order by 'updated_at' descending. Then, filter where the row number equals 1. You will need a CTE or subquery.",
@@ -31,7 +32,7 @@ WITH RankedUsers AS (
         email,
         updated_at,
         ROW_NUMBER() OVER(PARTITION BY user_id ORDER BY updated_at DESC) as rn
-    FROM table_name
+    FROM user_records
 )
 SELECT 
     user_id,

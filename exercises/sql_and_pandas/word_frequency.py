@@ -7,6 +7,7 @@ def get_exercise():
         "data": pd.DataFrame({
             "text": ["the sunny day is sunny and the day is good"]
         }),
+        "table_name": "documents",
         "allowed_modes": ["SQL", "Python"],
         "hint_python": "Extract the single string, split it into a list of words, use `collections.Counter` to get the frequencies, and convert the result back to a DataFrame.",
         "hint_sql": "SQL isn't designed for splitting strings natively into rows. You would typically need a string-splitting function (like `STRING_SPLIT` in T-SQL or `unnest(string_to_array())` in Postgres) to turn the space-separated string into rows before grouping.",
@@ -29,7 +30,7 @@ result = result.sort_values(by="frequency", ascending=False).reset_index(drop=Tr
 -- Assuming PostgreSQL syntax for string splitting into rows
 WITH SplitWords AS (
     SELECT unnest(string_split(text, ' ')) AS word
-    FROM table_name
+    FROM documents
 )
 SELECT 
     word,
