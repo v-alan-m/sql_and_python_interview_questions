@@ -36,10 +36,20 @@ st.sidebar.header("🎯 Training Menu")
 
 category_options = {
     "Pandas (Python)": "python",
-    "SQL and Pandas": "sql_and_pandas"
+    "SQL and Pandas": "sql_and_pandas",
+    "Sorting Algorithms": "sorting_algorithms"
 }
 selected_category = st.sidebar.selectbox("Select Category:", list(category_options.keys()))
 folder_prefix = f"{category_options[selected_category]} > "
+
+if selected_category == "Sorting Algorithms":
+    level_options = {
+        "Entry Level": "entry_algos",
+        "Mid Level": "mid_algos",
+        "Senior Level": "senior_algos"
+    }
+    selected_level = st.sidebar.selectbox("Select Level:", list(level_options.keys()))
+    folder_prefix = f"sorting_algorithms > {level_options[selected_level]} > "
 
 if not exercises:
     st.sidebar.warning("No exercises found in /exercises folder!")
