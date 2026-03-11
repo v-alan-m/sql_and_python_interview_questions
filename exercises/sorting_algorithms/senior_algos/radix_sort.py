@@ -2,7 +2,7 @@ import pandas as pd
 
 def get_exercise():
     return {
-        "title": "Radix Sort",
+        "title": "Radix Sort (1/10)",
         "description": "Implement the Radix Sort algorithm for positive integers. You are given a DataFrame with a single column 'numbers'. Sort the numbers in ascending order and return the result as a list.",
         "data": pd.DataFrame({"numbers": [170, 45, 75, 90, 802, 24, 2, 66]}),
         "allowed_modes": ["Python"],

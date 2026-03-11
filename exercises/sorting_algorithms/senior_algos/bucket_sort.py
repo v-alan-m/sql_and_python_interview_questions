@@ -2,7 +2,7 @@ import pandas as pd
 
 def get_exercise():
     return {
-        "title": "Bucket Sort",
+        "title": "Bucket Sort (1/10)",
         "description": "Implement the Bucket Sort algorithm for floating point numbers in range [0, 1). You are given a DataFrame with a single column 'numbers'. Sort the numbers in ascending order and return the result as a list.",
         "data": pd.DataFrame({"numbers": [0.897, 0.565, 0.656, 0.1234, 0.665, 0.3434]}),
         "allowed_modes": ["Python"],

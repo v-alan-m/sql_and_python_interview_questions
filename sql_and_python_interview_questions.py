@@ -46,7 +46,8 @@ if selected_category == "Sorting Algorithms":
     level_options = {
         "Entry Level": "entry_algos",
         "Mid Level": "mid_algos",
-        "Senior Level": "senior_algos"
+        "Senior Level": "senior_algos",
+        "Data Engineering (DE) Level": "de_algos"
     }
     selected_level = st.sidebar.selectbox("Select Level:", list(level_options.keys()))
     folder_prefix = f"sorting_algorithms > {level_options[selected_level]} > "
