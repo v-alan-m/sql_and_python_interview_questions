@@ -115,7 +115,7 @@ if selected_key:
                     result = duckdb.query(user_code).to_df()
                 else:
                     ldict = {'df': df.copy(), 'pd': pd}
-                    exec(user_code, globals(), ldict)
+                    exec(user_code, ldict, ldict)
                     result = ldict.get('result', "Error: Please assign output to 'result' variable.")
                 
                 # 2. Run expected solution
@@ -128,7 +128,7 @@ if selected_key:
                         expected_result = duckdb.query(ex[sol_key]).to_df()
                     else:
                         sol_dict = {'df': df.copy(), 'pd': pd}
-                        exec(ex[sol_key], globals(), sol_dict)
+                        exec(ex[sol_key], sol_dict, sol_dict)
                         expected_result = sol_dict.get('result')
 
                 # 3. Compare
