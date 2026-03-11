@@ -27,8 +27,12 @@ result = df['sentences'].apply(reverse_func)
 
 The following algorithms are **unlikely** to appear in a Data Engineering interview, as they lean heavily towards pure Software Engineering or academic concepts rather than testing data pipeline/streaming logic:
 
-*   **3-Way Quick Sort (Dutch National Flag):** A specific pointer-manipulation trick not commonly used over basic Quick Sort.
+*  **3-Way Quick Sort (Dutch National Flag):** A specific pointer-manipulation trick not commonly used over basic Quick Sort.
+
 *   **In-Place Merge Sort:** Extremely complex pointer/index management that tests deep systems knowledge rather than Python/Data skills.
+
 *   **Binary Insertion Sort:** Considered too academic.
+
 *   **Sorting Linked Lists:** DEs almost always use Arrays/Lists or DataFrames. Having to sort a custom-built Singly Linked List is a classic SWE question that rarely applies to DE scenarios.
+
 *   **Radix / Bucket Sort Variations (Strings/Negatives):** Radix and Bucket sorts are already niche. Being asked to modify them for negative numbers or alphabetizing strings is very low probability for a DE role.
