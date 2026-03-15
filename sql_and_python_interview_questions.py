@@ -78,35 +78,120 @@ if st.sidebar.button("Reset Timer"):
 
 # --- MAIN UI ---
 if selected_key:
-    st.title(f"Problem: {ex['title']}")
-    
+    has_stages = "interview_stages" in ex
+    stages = ex.get("interview_stages", [])
+    total_stages = len(stages)
+
+    # --- Stage session state ---
+    stage_key = f"stage_{selected_key}"
+    if stage_key not in st.session_state:
+        st.session_state[stage_key] = 0  # 0 = original exercise, 1..N = interview stages
+
+    current_stage_idx = st.session_state[stage_key]
+
+    # Determine active content based on stage
+    if has_stages and current_stage_idx > 0:
+        active_stage = stages[current_stage_idx - 1]
+        active_title = f"Stage {active_stage['stage_number']} — {active_stage['title']}"
+        active_scenario = active_stage["scenario"]
+        active_data = active_stage["data"]
+        active_hint = active_stage.get("hint", "No hint available.")
+        active_solution = active_stage.get("solution_code", "No solution available.")
+        active_expected_output = active_stage.get("expected_output", None)
+        active_evaluation = active_stage.get("evaluation_criteria", [])
+        active_followups = active_stage.get("follow_up_probes", [])
+    else:
+        active_title = None
+        active_scenario = ex["description"]
+        active_data = ex["data"]
+        active_hint = ex.get('hint_sql' if 'SQL' in ex.get('allowed_modes', ["SQL", "Python"]) else 'hint_python', "No hint available.")
+        active_solution = ex.get("solution_python", "No solution available.")
+        active_expected_output = None
+        active_evaluation = []
+        active_followups = []
+
+    # --- Title ---
+    if active_title:
+        st.title(f"Problem: {ex['title']}")
+        st.caption(f"🎤 **{active_title}**")
+    else:
+        st.title(f"Problem: {ex['title']}")
+
     col1, col2 = st.columns([1, 1])
 
     with col1:
-        st.markdown(f"### 📋 Objective\n{ex['description']}")
-        st.write("### 📥 Input Data")
-        df = ex['data']
+        # Objective / Scenario
+        if active_title:
+            st.markdown(f"### 🎯 Scenario\n{active_scenario}")
+        else:
+            st.markdown(f"### 📋 Objective\n{active_scenario}")
+
+        # Data
+        st.write("### 📥 Sample Data" if active_title else "### 📥 Input Data")
+        df = active_data
         st.dataframe(df, use_container_width=True)
-        
-        # Help Sections
+
+        # Hint
         with st.expander("💡 View Hint"):
-            st.info(ex.get('hint_sql' if 'SQL' in ex.get('allowed_modes', ["SQL", "Python"]) else 'hint_python', "No hint available."))
-        
+            st.info(active_hint)
+
+        # Reference Solution
         with st.expander("✅ View Reference Solution"):
-            mode_choice = st.selectbox("Solution for:", ex.get('allowed_modes', ["SQL", "Python"]))
-            sol_key = f"solution_{mode_choice.lower()}"
-            st.code(ex.get(sol_key, "Solution not yet added."), language='python' if mode_choice == "Python" else "sql")
-            
+            if active_title:
+                st.code(active_solution, language="python")
+            else:
+                mode_choice = st.selectbox("Solution for:", ex.get('allowed_modes', ["SQL", "Python"]))
+                sol_key = f"solution_{mode_choice.lower()}"
+                st.code(ex.get(sol_key, "Solution not yet added."), language='python' if mode_choice == "Python" else "sql")
+
             if 'deep_dive' in ex:
                 st.markdown("#### 🧠 The 'Why' behind this logic")
                 st.success(ex['deep_dive'])
+
+        # Evaluation Criteria (stage only)
+        if active_evaluation:
+            with st.expander("🔍 What the Interviewer Evaluates"):
+                for criterion in active_evaluation:
+                    st.markdown(f"- {criterion}")
+
+        # Expected Output (stage only)
+        if active_expected_output is not None:
+            with st.expander("📤 Expected Output"):
+                st.dataframe(active_expected_output, use_container_width=True)
+
+        # Follow-Up Probes (stage only)
+        if active_followups:
+            with st.expander("💬 Follow-Up Probes"):
+                for j, probe in enumerate(active_followups, 1):
+                    st.markdown(f"{j}. *{probe}*")
 
     with col2:
         st.write("### 💻 Workspace")
         mode = st.radio("Language:", ex.get('allowed_modes', ["SQL", "Python"]), horizontal=True)
         user_code = st.text_area(f"Write your {mode} code here:", height=300, placeholder="Assign your final result to a variable named 'result'...")
-        
-        if st.button("🚀 Run Code"):
+
+        # --- Run Code + Stage Navigation Buttons ---
+        if has_stages:
+            btn_cols = st.columns([2, 1, 1, 1])
+            with btn_cols[0]:
+                run_clicked = st.button("🚀 Run Code")
+            with btn_cols[1]:
+                stage_label = f"Stage {current_stage_idx}/{total_stages}" if current_stage_idx > 0 else "Original"
+                st.markdown(f"<div style='text-align:center; padding-top:6px; font-weight:600; color:#6c757d;'>{stage_label}</div>", unsafe_allow_html=True)
+            with btn_cols[2]:
+                prev_disabled = current_stage_idx <= 0
+                if st.button("◀ Prev", disabled=prev_disabled):
+                    st.session_state[stage_key] = current_stage_idx - 1
+                    st.rerun()
+            with btn_cols[3]:
+                next_disabled = current_stage_idx >= total_stages
+                if st.button("Next ▶", disabled=next_disabled):
+                    st.session_state[stage_key] = current_stage_idx + 1
+                    st.rerun()
+        else:
+            run_clicked = st.button("🚀 Run Code")
+
+        if run_clicked:
             try:
                 # 1. Run user code
                 if mode == "SQL":
@@ -117,19 +202,23 @@ if selected_key:
                     ldict = {'df': df.copy(), 'pd': pd}
                     exec(user_code, ldict, ldict)
                     result = ldict.get('result', "Error: Please assign output to 'result' variable.")
-                
-                # 2. Run expected solution
-                sol_key = f"solution_{mode.lower()}"
-                expected_result = None
-                if sol_key in ex and ex[sol_key]:
-                    if mode == "SQL":
-                        # We must re-register the df in case the user query messed with it, though it shouldn't
-                        duckdb.register(table_name, df)
-                        expected_result = duckdb.query(ex[sol_key]).to_df()
-                    else:
-                        sol_dict = {'df': df.copy(), 'pd': pd}
-                        exec(ex[sol_key], sol_dict, sol_dict)
-                        expected_result = sol_dict.get('result')
+
+                # 2. Determine expected solution
+                if active_title:
+                    # Stage mode: run the stage solution code
+                    expected_result = active_expected_output
+                else:
+                    # Original mode: run the exercise solution
+                    sol_key = f"solution_{mode.lower()}"
+                    expected_result = None
+                    if sol_key in ex and ex[sol_key]:
+                        if mode == "SQL":
+                            duckdb.register(table_name, df)
+                            expected_result = duckdb.query(ex[sol_key]).to_df()
+                        else:
+                            sol_dict = {'df': df.copy(), 'pd': pd}
+                            exec(ex[sol_key], sol_dict, sol_dict)
+                            expected_result = sol_dict.get('result')
 
                 # 3. Compare
                 is_correct = False
@@ -154,13 +243,16 @@ if selected_key:
                         st.dataframe(result, use_container_width=True)
                     else:
                         st.write(result)
-                    
+
                     st.write("### ✅ Reference Solution")
-                    st.code(ex.get(sol_key, "No reference solution available."), language='python' if mode == "Python" else "sql")
-                    
+                    if active_title:
+                        st.code(active_solution, language="python")
+                    else:
+                        st.code(ex.get(sol_key, "No reference solution available."), language='python' if mode == "Python" else "sql")
+
                     if expected_result is not None:
                         st.write("### 🎯 Expected Output")
                         st.dataframe(expected_result, use_container_width=True)
-                        
+
             except Exception as e:
                 st.error(f"Execution Error: {e}")

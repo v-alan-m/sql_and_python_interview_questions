@@ -58,10 +58,10 @@ WITH RECURSIVE PrefixFinder AS (
         t.group_id,
         LEFT(MIN(t.string), CAST(p.length + 1 AS INTEGER)),
         p.length + 1
-    FROM df t
+    FROM string_groups t
     JOIN PrefixFinder p ON t.group_id = p.group_id
     WHERE LEFT(t.string, CAST(p.length AS INTEGER)) = p.prefix
-      AND p.length < (SELECT MAX(LENGTH(string)) FROM df WHERE group_id = t.group_id)
+      AND p.length < (SELECT MAX(LENGTH(string)) FROM string_groups WHERE group_id = t.group_id)
     GROUP BY t.group_id, p.length, p.prefix
     HAVING COUNT(DISTINCT LEFT(t.string, CAST(p.length + 1 AS INTEGER))) = 1
 )
