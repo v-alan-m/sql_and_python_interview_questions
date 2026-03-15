@@ -82,10 +82,23 @@ if selected_key:
     stages = ex.get("interview_stages", [])
     total_stages = len(stages)
 
-    # --- Stage session state ---
+    # --- Mode & Stage session state ---
+    mode_key = f"mode_{selected_key}"
+    default_mode = ex.get('allowed_modes', ["SQL", "Python"])[0]
+    current_mode = st.session_state.get(mode_key, default_mode)
+
     stage_key = f"stage_{selected_key}"
     if stage_key not in st.session_state:
-        st.session_state[stage_key] = 0  # 0 = original exercise, 1..N = interview stages
+        if has_stages and current_mode == "Python":
+            st.session_state[stage_key] = 1
+        else:
+            st.session_state[stage_key] = 0  # 0 = original exercise, 1..N = interview stages
+
+    # Ensure SQL mode always shows Objective, and Python mode (with stages) hides Objective
+    if current_mode == "SQL" and st.session_state.get(stage_key, 0) > 0:
+        st.session_state[stage_key] = 0
+    elif current_mode == "Python" and has_stages and st.session_state.get(stage_key, 0) == 0:
+        st.session_state[stage_key] = 1
 
     current_stage_idx = st.session_state[stage_key]
 
@@ -167,11 +180,11 @@ if selected_key:
 
     with col2:
         st.write("### 💻 Workspace")
-        mode = st.radio("Language:", ex.get('allowed_modes', ["SQL", "Python"]), horizontal=True)
+        mode = st.radio("Language:", ex.get('allowed_modes', ["SQL", "Python"]), horizontal=True, key=mode_key)
         user_code = st.text_area(f"Write your {mode} code here:", height=300, placeholder="Assign your final result to a variable named 'result'...")
 
         # --- Run Code + Stage Navigation Buttons ---
-        if has_stages:
+        if has_stages and mode == "Python":
             btn_cols = st.columns([2, 1, 1, 1])
             with btn_cols[0]:
                 run_clicked = st.button("🚀 Run Code")
@@ -179,7 +192,8 @@ if selected_key:
                 stage_label = f"Stage {current_stage_idx}/{total_stages}" if current_stage_idx > 0 else "Original"
                 st.markdown(f"<div style='text-align:center; padding-top:6px; font-weight:600; color:#6c757d;'>{stage_label}</div>", unsafe_allow_html=True)
             with btn_cols[2]:
-                prev_disabled = current_stage_idx <= 0
+                # In Python mode, objective is hidden, so min stage is 1
+                prev_disabled = current_stage_idx <= 1
                 if st.button("◀ Prev", disabled=prev_disabled):
                     st.session_state[stage_key] = current_stage_idx - 1
                     st.rerun()

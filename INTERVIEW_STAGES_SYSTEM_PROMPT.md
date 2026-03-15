@@ -61,6 +61,8 @@ Each exercise should have **3 to 5 stages** that progressively build toward the 
 5. **For `sql_and_pandas` exercises** with `allowed_modes: ["SQL", "Python"]`: stages should focus on the Python path for the `solution_code` field, since the stage navigation in the app uses Python mode. The SQL solution remains in the original exercise keys.
 6. **Stage-specific data**: Each stage should have its own `pd.DataFrame` that is tailored to test exactly the concepts introduced in that stage.
 7. **Realistic follow-up probes**: Include questions an interviewer would actually ask — walk-throughs, complexity analysis, optimisation questions, edge case discussions.
+8. **Mixed-path sample data**: From Stage 2 onwards, each stage's `data` must include a mix of rows that exercise **different branches** of the solution — not only the newly introduced branch. Include at least one row that would have been handled by an earlier stage's simpler logic alongside rows that test the new concept. This ensures the candidate's code is validated against multiple code paths simultaneously (e.g., in Pig Latin Stage 2, some words start with vowels and some start with consonants).
+9. **Conditional iteration patterns**: Where an exercise naturally involves processing a sequence (characters in a string, words in a sentence, items in a list), at least one stage should require iterating through the items and **selectively modifying only those that meet a condition** while leaving others unchanged. This tests the candidate's ability to write clean conditional logic inside loops — a core interview skill. Examples: shifting only alphabetic characters (Caesar Cipher), transforming words differently based on their first letter (Pig Latin). Do NOT force this pattern into exercises where it doesn't naturally fit (e.g., comparison-based problems).
 
 ### Reference Example (Structure Only — Do NOT Copy Stage Content)
 
@@ -138,8 +140,8 @@ When updating the `.py` file:
 ### `exercises/python/`
 
 - [x] pig_latin_mutation.py
-- [ ] anagram_checker.py
-- [ ] caesar_cipher.py
+- [x] anagram_checker.py
+- [x] caesar_cipher.py
 - [ ] first_unique_character.py
 - [ ] isomorphic_strings.py
 - [ ] keyboard_row.py
