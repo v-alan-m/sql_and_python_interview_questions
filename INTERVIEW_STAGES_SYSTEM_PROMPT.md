@@ -63,6 +63,7 @@ Each exercise should have **3 to 5 stages** that progressively build toward the 
 7. **Realistic follow-up probes**: Include questions an interviewer would actually ask — walk-throughs, complexity analysis, optimisation questions, edge case discussions.
 8. **Mixed-path sample data**: From Stage 2 onwards, each stage's `data` must include a mix of rows that exercise **different branches** of the solution — not only the newly introduced branch. Include at least one row that would have been handled by an earlier stage's simpler logic alongside rows that test the new concept. This ensures the candidate's code is validated against multiple code paths simultaneously (e.g., in Pig Latin Stage 2, some words start with vowels and some start with consonants).
 9. **Conditional iteration patterns**: Where an exercise naturally involves processing a sequence (characters in a string, words in a sentence, items in a list), at least one stage should require iterating through the items and **selectively modifying only those that meet a condition** while leaving others unchanged. This tests the candidate's ability to write clean conditional logic inside loops — a core interview skill. Examples: shifting only alphabetic characters (Caesar Cipher), transforming words differently based on their first letter (Pig Latin). Do NOT force this pattern into exercises where it doesn't naturally fit (e.g., comparison-based problems).
+10. **Multi-Word Contexts**: Make sure the sample `data` for string-based exercises includes multi-word inputs (e.g., "python code" alongside "python") where applicable and where it makes sense for the problem. This ensures solutions are tested for robustness against spaces and natural language-like inputs across the stages.
 
 ### Reference Example (Structure Only — Do NOT Copy Stage Content)
 
@@ -142,8 +143,8 @@ When updating the `.py` file:
 - [x] pig_latin_mutation.py
 - [x] anagram_checker.py
 - [x] caesar_cipher.py
-- [ ] first_unique_character.py
-- [ ] isomorphic_strings.py
+- [x] first_unique_character.py
+- [x] isomorphic_strings.py
 - [ ] keyboard_row.py
 - [ ] last_word_length.py
 - [ ] longest_common_prefix.py
