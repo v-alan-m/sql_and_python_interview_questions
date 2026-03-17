@@ -145,7 +145,7 @@ When updating the `.py` file:
 - [x] caesar_cipher.py
 - [x] first_unique_character.py
 - [x] isomorphic_strings.py
-- [ ] keyboard_row.py
+- [x] keyboard_row.py
 - [ ] last_word_length.py
 - [ ] longest_common_prefix.py
 - [ ] palindrome_logic.py
