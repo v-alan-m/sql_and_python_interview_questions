@@ -147,7 +147,7 @@ When updating the `.py` file:
 - [x] isomorphic_strings.py
 - [x] keyboard_row.py
 - [x] last_word_length.py
-- [ ] longest_common_prefix.py
+- [x] longest_common_prefix.py
 - [ ] palindrome_logic.py
 - [ ] permutations.py
 - [ ] remove_duplicates.py
