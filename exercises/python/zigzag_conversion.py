@@ -36,5 +36,125 @@ df["zigzag_result"] = df.apply(lambda row: convert_zigzag(row["string"], row["nu
 result = df
 """,
         "solution_sql": "Not applicable",
-        "deep_dive": "This approach simulates the ZigZag traversal directly. By keeping track of the current row and direction, we iterate through the sequence of characters exactly once. Time complexity is O(N) where N is the length of the string. Space complexity is O(N) because the result string and intermediate row array store no more than N total characters."
+        "deep_dive": "This approach simulates the ZigZag traversal directly. By keeping track of the current row and direction, we iterate through the sequence of characters exactly once. Time complexity is O(N) where N is the length of the string. Space complexity is O(N) because the result string and intermediate row array store no more than N total characters.",
+        # --- MULTI-STAGE INTERVIEW DATA ---
+        "interview_stages": [
+            {
+                "stage_number": 1,
+                "title": "Two-Row Alternation",
+                "scenario": "To start, let's write a function that takes a string and distributes its characters alternately between two rows (like dealing cards into two hands), then combines them into a single string. Assume `numRows` is always exactly 2 for now.",
+                "hint": "Create two string variables or a list of two empty strings. Iterate through the input string, appending characters to the first row, then the second row, then back to the first. You can use a toggle variable or `index % 2`.",
+                "data": pd.DataFrame({
+                    "string": ["HELLO", "WORLD", "PYTHON"],
+                    "num_rows": [2, 2, 2]
+                }),
+                "evaluation_criteria": [
+                    "Basic String iteration and string building",
+                    "State toggling or modulo arithmetic"
+                ],
+                "solution_code": """\
+def process_stage(s):
+    rows = ["", ""]
+    current = 0
+    for char in s:
+        rows[current] += char
+        current = 1 - current
+    return "".join(rows)
+
+df["zigzag_result"] = df.apply(lambda row: process_stage(row["string"]), axis=1)
+result = df""",
+                "expected_output": pd.DataFrame({
+                    "string": ["HELLO", "WORLD", "PYTHON"],
+                    "num_rows": [2, 2, 2],
+                    "zigzag_result": ["HLOEL", "WRDOL", "PTOYHN"]
+                }),
+                "follow_up_probes": [
+                    "What is the time and space complexity of your approach?",
+                    "Can you write this using python slice notation `s[::2] + s[1::2]` instead of a loop?"
+                ]
+            },
+            {
+                "stage_number": 2,
+                "title": "Full ZigZag Pattern",
+                "scenario": "Now let's generalize this. Instead of strictly alternating between two rows, the characters should move down the rows until they hit `numRows`, then move diagonally up until they hit the first row, repeating this zigzag pattern.",
+                "hint": "You'll need an array of strings `rows` of size `num_rows`. Keep track of the `current_row` and a boolean `going_down`. When you hit the top (0) or bottom (`numRows - 1`), reverse the direction.",
+                "data": pd.DataFrame({
+                    "string": ["PAYPALISHIRING", "PAYPALISHIRING", "PYTHON"],
+                    "num_rows": [3, 4, 2]
+                }),
+                "evaluation_criteria": [
+                    "Advanced state tracking (direction flag)",
+                    "Boundary detection within an array",
+                    "Extensibility of the previous logic"
+                ],
+                "solution_code": """\
+def process_stage(s, numRows):
+    rows = ["" for _ in range(numRows)]
+    current_row = 0
+    going_down = False
+    
+    for char in s:
+        rows[current_row] += char
+        if current_row == 0 or current_row == numRows - 1:
+            going_down = not going_down
+        current_row += 1 if going_down else -1
+        
+    return "".join(rows)
+
+df["zigzag_result"] = df.apply(lambda row: process_stage(row["string"], row["num_rows"]), axis=1)
+result = df""",
+                "expected_output": pd.DataFrame({
+                    "string": ["PAYPALISHIRING", "PAYPALISHIRING", "PYTHON"],
+                    "num_rows": [3, 4, 2],
+                    "zigzag_result": ["PAHNAPLSIIGYIR", "PINALSIGYAHRPI", "PTOYHN"]
+                }),
+                "follow_up_probes": [
+                    "Why is creating an array of strings better than evaluating the math behind the string indices?",
+                    "What bug might happen if `numRows` is 1? Walk through your loop logic."
+                ]
+            },
+            {
+                "stage_number": 3,
+                "title": "Handling Edge Cases",
+                "scenario": "Your code works great for standard zigzag patterns, but what if `numRows` is 1? Or what if the input string is shorter than `numRows`? Update your logic to handle these edge cases robustly.",
+                "hint": "If `numRows` is 1, the `current_row` becomes 0, and the direction changes back and forth, but it will try to increment/decrement out of bounds or get stuck. Add a guard clause early or prevent out of bounds when allocating `rows` array.",
+                "data": pd.DataFrame({
+                    "string": ["A", "AB", "PAYPALISHIRING", "X", "SHORT"],
+                    "num_rows": [1, 1, 3, 5, 10]
+                }),
+                "evaluation_criteria": [
+                    "Edge case identification and handling",
+                    "Short-circuit early returns",
+                    "Array memory optimization"
+                ],
+                "solution_code": """\
+def process_stage(s, numRows):
+    if numRows == 1 or numRows >= len(s):
+        return s
+        
+    rows = ["" for _ in range(min(numRows, len(s)))]
+    current_row = 0
+    going_down = False
+    
+    for char in s:
+        rows[current_row] += char
+        if current_row == 0 or current_row == numRows - 1:
+            going_down = not going_down
+        current_row += 1 if going_down else -1
+        
+    return "".join(rows)
+
+df["zigzag_result"] = df.apply(lambda row: process_stage(row["string"], row["num_rows"]), axis=1)
+result = df""",
+                "expected_output": pd.DataFrame({
+                    "string": ["A", "AB", "PAYPALISHIRING", "X", "SHORT"],
+                    "num_rows": [1, 1, 3, 5, 10],
+                    "zigzag_result": ["A", "AB", "PAHNAPLSIIGYIR", "X", "SHORT"]
+                }),
+                "follow_up_probes": [
+                    "Why do we check `numRows >= len(s)` in the guard clause? What does it save us?",
+                    "What is the final space and time complexity for the optimal solution?"
+                ]
+            }
+        ]
     }

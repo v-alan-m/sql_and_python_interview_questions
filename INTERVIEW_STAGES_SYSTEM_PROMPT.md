@@ -148,19 +148,19 @@ When updating the `.py` file:
 - [x] keyboard_row.py
 - [x] last_word_length.py
 - [x] longest_common_prefix.py
-- [ ] palindrome_logic.py
-- [ ] permutations.py
-- [ ] remove_duplicates.py
-- [ ] reverse_words.py
-- [ ] roman_to_int.py
-- [ ] string_compression.py
-- [ ] string_rotation.py
-- [ ] title_case_manual.py
-- [ ] urlify.py
-- [ ] valid_parentheses.py
-- [ ] vowel_counter.py
-- [ ] word_frequency.py
-- [ ] zigzag_conversion.py
+- [x] palindrome_logic.py
+- [x] permutations.py
+- [x] remove_duplicates.py
+- [x] reverse_words.py
+- [x] roman_to_int.py
+- [x] string_compression.py
+- [x] string_rotation.py
+- [x] title_case_manual.py
+- [x] urlify.py
+- [x] valid_parentheses.py
+- [x] vowel_counter.py
+- [x] word_frequency.py
+- [x] zigzag_conversion.py
 
 ### `exercises/sql_and_pandas/`
 
