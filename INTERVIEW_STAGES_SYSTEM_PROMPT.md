@@ -118,8 +118,9 @@ When updating the `.py` file:
 1. **Keep all existing keys** (`title`, `description`, `data`, `hint_python`, `hint_sql`, `solution_python`, `solution_sql`, `deep_dive`, `allowed_modes`, `table_name`) untouched.
 2. **Add** the `"interview_stages"` list after the `"deep_dive"` key, preceded by a `# --- MULTI-STAGE INTERVIEW DATA ---` comment.
 3. **Use `pd.DataFrame()`** for both `data` and `expected_output` in each stage. Ensure the column names and data shape exactly match the `result` variable returned by `solution_code`, as Pytest will run `pandas.testing.assert_frame_equal()` against them.
-4. **Use `"""\` (backslash after triple-quote)** for `solution_code` strings to avoid leading newlines.
-5. **Verify** by running `python test_all_exercises.py` after each file update.
+4. **Datetime consistency**: If any stage's `solution_code` converts a column to datetime (e.g., `pd.to_datetime()`), the corresponding `expected_output` **must** also use `pd.to_datetime()` for that column — not plain strings. Likewise, if the `data` uses plain date strings and the solution doesn't convert them, keep `expected_output` as strings too. **All stages should be consistent** — if any stage converts dates, preferably use `pd.to_datetime()` in `expected_output` across all stages to avoid type mismatches during comparison.
+5. **Use `"""\` (backslash after triple-quote)** for `solution_code` strings to avoid leading newlines.
+6. **Verify** by running `python test_all_exercises.py` after each file update.
 
 ---
 

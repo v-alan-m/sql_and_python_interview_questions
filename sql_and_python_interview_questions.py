@@ -241,7 +241,17 @@ if selected_key:
                 is_correct = False
                 if isinstance(result, pd.DataFrame) and isinstance(expected_result, pd.DataFrame):
                     try:
-                        pd.testing.assert_frame_equal(result.reset_index(drop=True), expected_result.reset_index(drop=True), check_dtype=False)
+                        # Normalize datetime columns so DuckDB date types
+                        # match expected_output datetime64 types
+                        result_cmp = result.reset_index(drop=True).copy()
+                        expected_cmp = expected_result.reset_index(drop=True).copy()
+                        for col in expected_cmp.columns:
+                            if col in result_cmp.columns:
+                                if str(expected_cmp[col].dtype).startswith('datetime64'):
+                                    result_cmp[col] = pd.to_datetime(result_cmp[col])
+                                elif str(result_cmp[col].dtype).startswith('datetime64'):
+                                    expected_cmp[col] = pd.to_datetime(expected_cmp[col])
+                        pd.testing.assert_frame_equal(result_cmp, expected_cmp, check_dtype=False)
                         is_correct = True
                     except Exception:
                         is_correct = False
