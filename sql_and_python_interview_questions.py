@@ -89,15 +89,15 @@ if selected_key:
 
     stage_key = f"stage_{selected_key}"
     if stage_key not in st.session_state:
-        if has_stages and current_mode == "Python":
+        if has_stages:
             st.session_state[stage_key] = 1
         else:
             st.session_state[stage_key] = 0  # 0 = original exercise, 1..N = interview stages
 
-    # Ensure SQL mode always shows Objective, and Python mode (with stages) hides Objective
-    if current_mode == "SQL" and st.session_state.get(stage_key, 0) > 0:
+    # If no stages exist, always show base exercise
+    if not has_stages and st.session_state.get(stage_key, 0) > 0:
         st.session_state[stage_key] = 0
-    elif current_mode == "Python" and has_stages and st.session_state.get(stage_key, 0) == 0:
+    elif has_stages and st.session_state.get(stage_key, 0) == 0:
         st.session_state[stage_key] = 1
 
     current_stage_idx = st.session_state[stage_key]
@@ -109,7 +109,10 @@ if selected_key:
         active_scenario = active_stage["scenario"]
         active_data = active_stage["data"]
         active_hint = active_stage.get("hint", "No hint available.")
-        active_solution = active_stage.get("solution_code", "No solution available.")
+        if current_mode == "SQL" and "solution_sql" in active_stage:
+            active_solution = active_stage.get("solution_sql", "No SQL solution available.")
+        else:
+            active_solution = active_stage.get("solution_code", "No solution available.")
         active_expected_output = active_stage.get("expected_output", None)
         active_evaluation = active_stage.get("evaluation_criteria", [])
         active_followups = active_stage.get("follow_up_probes", [])
@@ -151,7 +154,8 @@ if selected_key:
         # Reference Solution
         with st.expander("✅ View Reference Solution"):
             if active_title:
-                st.code(active_solution, language="python")
+                lang = "sql" if current_mode == "SQL" else "python"
+                st.code(active_solution, language=lang)
             else:
                 mode_choice = st.selectbox("Solution for:", ex.get('allowed_modes', ["SQL", "Python"]))
                 sol_key = f"solution_{mode_choice.lower()}"
@@ -184,7 +188,7 @@ if selected_key:
         user_code = st.text_area(f"Write your {mode} code here:", height=300, placeholder="Assign your final result to a variable named 'result'...")
 
         # --- Run Code + Stage Navigation Buttons ---
-        if has_stages and mode == "Python":
+        if has_stages:
             btn_cols = st.columns([2, 1, 1, 1])
             with btn_cols[0]:
                 run_clicked = st.button("🚀 Run Code")
@@ -192,7 +196,6 @@ if selected_key:
                 stage_label = f"Stage {current_stage_idx}/{total_stages}" if current_stage_idx > 0 else "Original"
                 st.markdown(f"<div style='text-align:center; padding-top:6px; font-weight:600; color:#6c757d;'>{stage_label}</div>", unsafe_allow_html=True)
             with btn_cols[2]:
-                # In Python mode, objective is hidden, so min stage is 1
                 prev_disabled = current_stage_idx <= 1
                 if st.button("◀ Prev", disabled=prev_disabled):
                     st.session_state[stage_key] = current_stage_idx - 1
