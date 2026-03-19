@@ -47,6 +47,7 @@ Each exercise should have **3 to 5 stages** that progressively build toward the 
     "data": pd.DataFrame({...}),  # Stage-specific sample data
     "evaluation_criteria": [str], # What the interviewer evaluates
     "solution_code": str,         # Complete Python solution for this stage
+    "solution_sql": str,          # Complete SQL query for this stage (for SQL/Pandas exercises)
     "expected_output": pd.DataFrame({...}),  # Expected result
     "follow_up_probes": [str]     # Follow-up interview questions
 }
@@ -58,7 +59,7 @@ Each exercise should have **3 to 5 stages** that progressively build toward the 
 2. **Each subsequent stage** introduces ONE new concept: more complex data, edge cases, multi-value inputs, capitalisation, mixed types, empty/null handling, punctuation, etc.
 3. **The final stage** should match or exceed the complexity of the original exercise's full solution.
 4. **Minimal code changes**: Each stage should require only small additions to the previous stage's solution. This rewards candidates who write clean, extensible code.
-5. **For `sql_and_pandas` exercises** with `allowed_modes: ["SQL", "Python"]`: stages should focus on the Python path for the `solution_code` field, since the stage navigation in the app uses Python mode. The SQL solution remains in the original exercise keys.
+5. **Dual-Language Stages**: For exercises in the `sql_and_pandas/` folder that have `allowed_modes: ["SQL", "Python"]`, **each stage must include both a `"solution_code"` (Python) and a `"solution_sql"` (SQL query)**. The SQL query must logically mirror the Python stage and achieve the exact same expected output dataset.
 6. **Stage-specific data**: Each stage should have its own `pd.DataFrame` that is tailored to test exactly the concepts introduced in that stage.
 7. **Realistic follow-up probes**: Include questions an interviewer would actually ask — walk-throughs, complexity analysis, optimisation questions, edge case discussions.
 8. **Mixed-path sample data**: From Stage 2 onwards, each stage's `data` must include a mix of rows that exercise **different branches** of the solution — not only the newly introduced branch. Include at least one row that would have been handled by an earlier stage's simpler logic alongside rows that test the new concept. This ensures the candidate's code is validated against multiple code paths simultaneously (e.g., in Pig Latin Stage 2, some words start with vowels and some start with consonants).
@@ -94,7 +95,8 @@ For each exercise, create a markdown artifact document following this structure:
 ### 💡 Hint
 ### Sample Data (table)
 ### What's Evaluated (bullet list)
-### ✅ Solution (code block)
+### ✅ Python Solution (code block)
+### ✅ SQL Solution (code block - if applicable)
 ### Expected Output (table)
 ### 💬 Follow-Up Probes (numbered list)
 
@@ -164,7 +166,7 @@ When updating the `.py` file:
 
 ### `exercises/sql_and_pandas/`
 
-- [ ] cumulative_revenue.py
+- [x] cumulative_revenue.py
 - [ ] daily_price_delta.py
 - [ ] deduplication.py
 - [ ] deduplication_latest_record.py
