@@ -61,7 +61,6 @@ def extract_test_cases(modules, mode="Python"):
             # 2. Stage tests (New feature)
             if "interview_stages" in ex:
                  for stage in ex["interview_stages"]:
-                     # Only stage Python right now as SQL stages aren't standard yet in the structure
                      if mode == "Python" and "solution_code" in stage:
                          test_cases.append((
                              exercise_key,
@@ -71,6 +70,18 @@ def extract_test_cases(modules, mode="Python"):
                                  "data": stage["data"],
                                  "solution_code": stage["solution_code"],
                                  "expected_output": stage.get("expected_output", None)
+                             }
+                         ))
+                     elif mode == "SQL" and "solution_sql" in stage:
+                         test_cases.append((
+                             exercise_key,
+                             f"Stage {stage['stage_number']} - {stage['title']}",
+                             {
+                                 "is_stage": True,
+                                 "data": stage["data"],
+                                 "solution_code": stage["solution_sql"],
+                                 "expected_output": stage.get("expected_output", None),
+                                 "table_name": ex.get("table_name", "df")
                              }
                          ))
                          

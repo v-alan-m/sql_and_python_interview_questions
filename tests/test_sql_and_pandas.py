@@ -42,6 +42,7 @@ def test_sql_folder_sql_exercises(exercise_key, test_name, test_data):
     df_sql = test_data["data"].copy()
     code = test_data["solution_code"]
     table_name = test_data.get("table_name", "df")
+    is_stage = test_data.get("is_stage", False)
     
     try:
         duckdb.register(table_name, df_sql)
@@ -49,6 +50,13 @@ def test_sql_folder_sql_exercises(exercise_key, test_name, test_data):
         
         if not isinstance(result, pd.DataFrame):
             pytest.fail(f"SQL did not return a DataFrame. Got {type(result)}")
+            
+        if is_stage and "expected_output" in test_data:
+            expected = test_data["expected_output"]
+            for col in expected.columns:
+                if col in result.columns and str(expected[col].dtype).startswith('datetime64'):
+                    result[col] = pd.to_datetime(result[col])
+            pd.testing.assert_frame_equal(result.reset_index(drop=True), expected.reset_index(drop=True), check_dtype=False)
             
     except Exception as e:
         pytest.fail(f"SQL Execution failed with Exception: {e}")
