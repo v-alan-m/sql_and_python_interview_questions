@@ -174,5 +174,5 @@ When updating the `.py` file:
 - [x] gaps_and_islands.py
 - [x] last_word_length.py
 - [x] longest_common_prefix.py
-- [ ] remove_duplicates.py
-- [ ] word_frequency.py
+- [x] remove_duplicates.py
+- [x] word_frequency.py
