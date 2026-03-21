@@ -168,11 +168,11 @@ When updating the `.py` file:
 ### `exercises/sql_and_pandas/`
 
 - [x] cumulative_revenue.py
-- [ ] daily_price_delta.py
-- [ ] deduplication.py
-- [ ] deduplication_latest_record.py
-- [ ] gaps_and_islands.py
-- [ ] last_word_length.py
-- [ ] longest_common_prefix.py
+- [x] daily_price_delta.py
+- [x] deduplication.py
+- [x] deduplication_latest_record.py
+- [x] gaps_and_islands.py
+- [x] last_word_length.py
+- [x] longest_common_prefix.py
 - [ ] remove_duplicates.py
 - [ ] word_frequency.py
