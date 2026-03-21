@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Quick Select (5/10)",
+        "subtitle": "Loops, Arrays / Lists",
         "description": "Find the K-th smallest element in an unordered list 'numbers'. Instead of returning the sorted list, return the exact integer. K=3. Use Quick Select to achieve this in O(N) average time.",
         "data": pd.DataFrame({"numbers": [7, 10, 4, 3, 20, 15]}),
         "allowed_modes": ["Python"],

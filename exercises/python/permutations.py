@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Permutations",
+        "subtitle": "Recursion, Loops, Arrays / Lists, Sets",
         "description": "Given a string, print or return a list of all its valid permutations. You can assume all characters in the string are unique.",
         "data": pd.DataFrame({
             "string": ["abc", "ab", "a"]

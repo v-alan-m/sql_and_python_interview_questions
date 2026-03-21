@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Longest Common Prefix",
+        "subtitle": "Loops, Arrays / Lists",
         "description": "Given a dataset where each row contains a list of words, find the longest common prefix string amongst the array of strings. If there is no common prefix, return an empty string.",
         "data": pd.DataFrame({
             "word_list": [

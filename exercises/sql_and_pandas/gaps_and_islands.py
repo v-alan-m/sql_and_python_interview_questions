@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Gaps and Islands",
+        "subtitle": "Window Functions, GROUP BY, Common Table Expressions (CTEs), Pandas Aggregation",
         "description": "The 'Gaps and Islands' problem involves grouping sequential dates or numbers together into 'islands' and treating non-sequential breaks as 'gaps'. Given a sequence of dates where a user was active, find the start and end date for each continuous streak of activity.",
         "data": pd.DataFrame({
             "user_id": [1, 1, 1, 1, 1, 2, 2],

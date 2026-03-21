@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Valid Parentheses",
+        "subtitle": "Stacks, Recursion, Loops, Arrays / Lists, Hash Maps / Dictionaries",
         "description": "Given a string containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid. Open brackets must be closed by the same type of brackets, and they must be closed in the correct order.",
         "data": pd.DataFrame({
             "string": ["()", "()[]{}", "(]", "([)]", "{[]}"]

@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Word Frequency",
+        "subtitle": "GROUP BY, Common Table Expressions (CTEs), Pandas Aggregation",
         "description": "Write a query or script to calculate the frequency of each word in a given text body. Assume the text is a single string where words are separated by spaces. Return the result sorted by frequency descending.",
         "data": pd.DataFrame({
             "text": ["the sunny day is sunny and the day is good"]

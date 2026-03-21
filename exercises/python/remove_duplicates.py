@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Remove Duplicates",
+        "subtitle": "Loops, Arrays / Lists, Two Pointers",
         "description": "Given a text column, remove all consecutive duplicate characters from the string. For example, 'aabbcc' becomes 'abc', and 'mississippi' becomes 'misisipi'.",
         "data": pd.DataFrame({
             "text": [

@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Bubble Sort (1/10)",
+        "subtitle": "Loops, Arrays / Lists",
         "description": "Implement the Bubble Sort algorithm. You are given a DataFrame with a single column 'numbers' containing unsorted integers. Sort the list in ascending order and return a new list.",
         "data": pd.DataFrame({"numbers": [64, 34, 25, 12, 22, 11, 90]}),
         "allowed_modes": ["Python"],

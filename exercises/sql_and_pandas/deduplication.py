@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Deduplication",
+        "subtitle": "Window Functions, GROUP BY, Common Table Expressions (CTEs), Pandas Aggregation",
         "description": "You are given a table of user logins containing 'user_id' and 'login_time'. Extract the earliest login time for each user, effectively deduplicating the table to show just the first login per user.",
         "data": pd.DataFrame({
             "user_id": [1, 2, 1, 3, 2, 1],

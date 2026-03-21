@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Top K Elements Priority Queue (9/10)",
+        "subtitle": "Queues / Priority Queues, Loops, Arrays / Lists",
         "description": "Given a large, unsorted stream of user login attempts (represented as a DataFrame column 'login_counts'), write a function to find the top K most active users without completely sorting the list. Return the result as a sorted descending list. Let K = 3.",
         "data": pd.DataFrame({"login_counts": [2, 11, 4, 18, 9, 3, 21, 14, 1, 7]}),
         "allowed_modes": ["Python"],

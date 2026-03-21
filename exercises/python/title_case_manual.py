@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Title Case Manual",
+        "subtitle": "Loops, Arrays / Lists",
         "description": "Convert a string to title case manually (capitalize the first letter of each word and lowercase the rest) WITHOUT using Python's built-in `.title()` method. Handle multiple spaces by preserving them.",
         "data": pd.DataFrame({
             "string": ["hello world", "PYTHON is AWESOME", "  spaces   everywhere  "]

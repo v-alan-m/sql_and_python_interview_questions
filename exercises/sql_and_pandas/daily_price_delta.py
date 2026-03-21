@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Daily Price Delta",
+        "subtitle": "Window Functions, Pandas Aggregation",
         "description": "Calculate the difference in closing price between the current day and the previous day for a given stock.",
         "data": pd.DataFrame({
             "date": ["2023-01-01", "2023-01-02", "2023-01-03", "2023-01-04"],

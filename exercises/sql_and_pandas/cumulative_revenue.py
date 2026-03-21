@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Cumulative Revenue",
+        "subtitle": "Window Functions, GROUP BY, Common Table Expressions (CTEs), Pandas Aggregation",
         "description": "Calculate the running total (cumulative sum) of revenue chronologically. The dataset contains 'date' and 'daily_revenue'.",
         "data": pd.DataFrame({
             "date": ["2023-01-03", "2023-01-01", "2023-01-04", "2023-01-02"],

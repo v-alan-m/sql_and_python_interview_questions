@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Insertion Sort (1/10)",
+        "subtitle": "Loops, Arrays / Lists",
         "description": "Implement the Insertion Sort algorithm. You are given a DataFrame with a single column 'numbers'. Sort the numbers in ascending order and return the result as a list.",
         "data": pd.DataFrame({"numbers": [12, 11, 13, 5, 6]}),
         "allowed_modes": ["Python"],

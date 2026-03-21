@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Last Word Length",
+        "subtitle": "Pandas Aggregation",
         "description": "Given a string `s` consisting of words and spaces, return the length of the last word in the string. A word is a maximal substring consisting of non-space characters only.",
         "data": pd.DataFrame({
             "string": ["Hello World", "   fly me   to   the moon  ", "luffy is still joyboy"]

@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Iterative Merge Sort (5/10)",
+        "subtitle": "Stacks, Recursion, Loops, Arrays / Lists",
         "description": "Implement the Merge Sort algorithm ITERATIVELY (without recursion) to prevent call stack issues on massive datasets. You are given a DataFrame with a single column 'numbers'. Sort and return the result as a list.",
         "data": pd.DataFrame({"numbers": [4, 2, 3, 1, 6, 5]}),
         "allowed_modes": ["Python"],

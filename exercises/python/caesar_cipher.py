@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Caesar Cipher",
+        "subtitle": "Loops, Arrays / Lists",
         "description": "Implement a Caesar cipher that shifts every alphabet character in a string by a given integer offset. The shift should wrap around the alphabet (e.g., shifting 'z' by 1 gives 'a'). Preserve the case of the characters and leave non-alphabet characters unchanged.",
         "data": pd.DataFrame({
             "string": ["Hello, World!", "abc", "XYZ", "Python 3!"],

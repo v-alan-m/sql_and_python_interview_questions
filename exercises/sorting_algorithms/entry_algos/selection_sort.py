@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Selection Sort (1/10)",
+        "subtitle": "Loops, Arrays / Lists",
         "description": "Implement the Selection Sort algorithm. You are given a DataFrame with a single column 'numbers'. Sort the numbers in ascending order and specify the return value as a list.",
         "data": pd.DataFrame({"numbers": [29, 10, 14, 37, 14, 2, 7, 22]}),
         "allowed_modes": ["Python"],

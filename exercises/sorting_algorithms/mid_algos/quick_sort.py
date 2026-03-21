@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Quick Sort (3/10)",
+        "subtitle": "Loops, Arrays / Lists",
         "description": "Implement the Quick Sort algorithm. You are given a DataFrame with a single column 'numbers'. Sort the numbers in ascending order and return the result as a list.",
         "data": pd.DataFrame({"numbers": [10, 7, 8, 9, 1, 5]}),
         "allowed_modes": ["Python"],

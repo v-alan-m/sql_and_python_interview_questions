@@ -129,9 +129,13 @@ if selected_key:
     # --- Title ---
     if active_title:
         st.title(f"Problem: {ex['title']}")
+        if "subtitle" in ex:
+            st.caption(f"**Concepts:** {ex['subtitle']}")
         st.caption(f"🎤 **{active_title}**")
     else:
         st.title(f"Problem: {ex['title']}")
+        if "subtitle" in ex:
+            st.caption(f"**Concepts:** {ex['subtitle']}")
 
     col1, col2 = st.columns([1, 1])
 
@@ -181,6 +185,27 @@ if selected_key:
             with st.expander("💬 Follow-Up Probes"):
                 for j, probe in enumerate(active_followups, 1):
                     st.markdown(f"{j}. *{probe}*")
+                    
+        # Big O Notation & Optimization (Cumulative)
+        if current_stage_idx > 0 or "big_o_explanation" in ex:
+            # We want to show base exercise explanation if no stages, or cumulative up to current stage
+            explanations = []
+            if "big_o_explanation" in ex:
+                explanations.append(("Base Approach", ex["big_o_explanation"]))
+            
+            if has_stages and current_stage_idx > 0:
+                for i in range(current_stage_idx):
+                    stage_dict = stages[i]
+                    if "big_o_explanation" in stage_dict:
+                        title = stage_dict.get('title', f"Stage {i+1}")
+                        explanations.append((f"Stage {i+1} : {title}", stage_dict["big_o_explanation"]))
+                        
+            if explanations:
+                with st.expander("⏱️ Big O Notation & Optimization"):
+                    for title, exp in explanations:
+                        st.markdown(f"#### {title}")
+                        st.markdown(exp)
+                        st.markdown("---")
 
     with col2:
         st.write("### 💻 Workspace")

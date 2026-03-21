@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "ZigZag Conversion",
+        "subtitle": "Loops, Arrays / Lists",
         "description": "The string 'PAYPALISHIRING' is written in a zigzag pattern on a given number of rows like this:\nP   A   H   N\nA P L S I I G\nY   I   R\nAnd then read line by line: 'PAHNAPLSIIGYIR'. Write the code that takes a string and makes this conversion given a number of rows.",
         "data": pd.DataFrame({
             "string": ["PAYPALISHIRING", "PAYPALISHIRING", "A"],

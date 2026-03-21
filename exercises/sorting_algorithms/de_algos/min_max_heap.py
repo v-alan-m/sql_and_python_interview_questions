@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Min/Max Priority Queue Job Scheduler (8/10)",
+        "subtitle": "Queues / Priority Queues, Loops, Arrays / Lists",
         "description": "You are building a basic Task Scheduler. You are given a DataFrame column 'tasks' containing dictionaries of `{'score': int, 'name': str}`. Create a Priority Queue that outputs tasks in DESCENDING priority order (Max-Heap behavior). Process all tasks and return an ordered list of only the `task_name` strings.",
         "data": pd.DataFrame({"tasks": [{"score": 3, "name": "ETL Extract"}, {"score": 10, "name": "Database Crash Alert"}, {"score": 1, "name": "Daily Report"}, {"score": 7, "name": "Log Rotation"}]}),
         "allowed_modes": ["Python"],

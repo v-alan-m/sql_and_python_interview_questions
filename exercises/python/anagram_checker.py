@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Anagram Checker",
+        "subtitle": "Loops",
         "description": "Check if two strings are anagrams of each other. Return True if they are, False otherwise. Ignore spaces and case.",
         "data": pd.DataFrame({
             "word1": ["listen", "triangle", "hello", "Dormitory"],
@@ -26,6 +27,7 @@ df["is_anagram"] = df.apply(lambda row: is_anagram(row["word1"], row["word2"]), 
 result = df
 """,
         "solution_sql": "Not applicable",
+        "big_o_explanation": "For an anagram check, the time complexity `Counter(w1) == Counter(w2)` is **O(N)** where N is the length of the string, as it simply iterates through the characters to build a frequency map. Space complexity is **O(C)** where C is the number of distinct characters (up to 26 for English letters). This is significantly more optimal than sorting both strings first, which would take **O(N log N)** time.",
         "deep_dive": "Using `Counter` to tally frequencies runs in O(N) time complexity, where N is the length of the string. Sorting both strings would take O(N log N) time, making the frequency counting approach slightly more optimal for larger strings. Space complexity for counting is O(C) where C is the number of distinct characters (e.g., 26 for English letters).",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
@@ -60,7 +62,8 @@ result = df
                 "follow_up_probes": [
                     "What is the time complexity of your solution? (Sorting is O(N log N), while counting is O(N)).",
                     "Is there a difference in space complexity between sorting inplace vs keeping a frequency map?"
-                ]
+                ],
+                "big_o_explanation": "Evaluating two lowercase words for anagram status using a frequency counter gives us a pristine **O(N) Time Complexity** (where N is the length of the string). We iterate over each character exactly once to populate the hash map. **Space Complexity is O(1)** (technically O(C) where C is the alphabet size), since the hash map size is bounded by the alphabet, not the length of the string. Sorting the strings instead would have incurred an **O(N log N)** time penalty."
             },
             {
                 "stage_number": 2,
@@ -94,7 +97,8 @@ result = df
                 }),
                 "follow_up_probes": [
                     "What happens if w1 or w2 are NaN or None in Pandas? How does str() behave?"
-                ]
+                ],
+                "big_o_explanation": "Adding `.lower()` requires creating entirely new string objects in memory before the counting begins. Because strings are immutable in Python, this drops our **Space Complexity from O(1) to O(N)** since we have to allocate memory proportional to the input sizes. However, our **Time Complexity remains O(N)** because making a string lowercase is just another linear pass over the characters."
             },
             {
                 "stage_number": 3,
@@ -132,7 +136,8 @@ result = df
                 "follow_up_probes": [
                     "What if we had punctuation too? How would you replace all non-alphanumeric characters instead of just spaces?",
                     "Could we do a length check up front to fail-fast before doing counts and replacements?"
-                ]
+                ],
+                "big_o_explanation": "Chaining `.replace()` introduces yet another linear O(N) pass across the string that generates a new object in memory. While we are doing more work (Replace -> Lower -> Counter), constants are dropped in Big O notation, meaning it is still `O(3N)` -> **O(N) Time Complexity**. A clever optimization would be to do a length check first `if len(w1) != len(w2): return False` to prevent O(N) computations on strings that obviously cannot be anagrams (though this requires them to be pre-cleaned)."
             }
         ]
     }

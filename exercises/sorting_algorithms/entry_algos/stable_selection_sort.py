@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Stable Selection Sort (3/10)",
+        "subtitle": "Loops, Arrays / Lists",
         "description": "Implement a 'Stable' Selection Sort. You are given a DataFrame listing dictionaries of `{'id': int, 'val': int}`. Sort the array so that numerical 'val's are in ascending order. However, if two 'val's are equal, their original relative 'id' order must be preserved. Return the list.",
         "data": pd.DataFrame({"records": [{"id": 1, "val": 4}, {"id": 2, "val": 4}, {"id": 3, "val": 2}]}),
         "allowed_modes": ["Python"],

@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Heap Sort (6/10)",
+        "subtitle": "Queues / Priority Queues, Loops, Arrays / Lists",
         "description": "Implement the Heap Sort algorithm. You are given a DataFrame with a single column 'numbers'. Sort the numbers in ascending order and return the result as a list.",
         "data": pd.DataFrame({"numbers": [12, 11, 13, 5, 6, 7]}),
         "allowed_modes": ["Python"],

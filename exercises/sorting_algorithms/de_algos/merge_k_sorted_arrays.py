@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Merge K Sorted Arrays (9/10)",
+        "subtitle": "Queues / Priority Queues, Loops, Arrays / Lists",
         "description": "Imagine 3 parallel distributed worker nodes outputting individually sorted IDs. You are given a DataFrame where each row is a list of these sorted IDs from a worker. Efficiently merge all these arrays into one single sorted list.",
         "data": pd.DataFrame({"worker_arrays": [[1, 4, 7], [2, 5, 8], [3, 6, 9, 10]]}),
         "allowed_modes": ["Python"],

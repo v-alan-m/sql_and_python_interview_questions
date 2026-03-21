@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "First Unique Character",
+        "subtitle": "Loops, Arrays / Lists, Hash Maps / Dictionaries",
         "description": "Given a string, find the first non-repeating character in it and return its character. If it doesn't exist, return an empty string or None. Assume the string contains only lowercase English letters.",
         "data": pd.DataFrame({
             "string": ["leetcode", "loveleetcode", "aabb", "z"]

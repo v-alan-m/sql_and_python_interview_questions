@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Remove Duplicates",
+        "subtitle": "Window Functions, GROUP BY, Common Table Expressions (CTEs), Pandas Aggregation",
         "description": "Given a dataset of users, some users appear multiple times with different email addresses. Keep only the row with the most recently updated email address for each user_id. Remove the duplicate user rows.",
         "data": pd.DataFrame({
             "user_id": [101, 101, 102, 103, 101, 102],

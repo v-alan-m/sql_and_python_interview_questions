@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Last Word Length",
+        "subtitle": "Loops, Arrays / Lists",
         "description": "Given a column of strings consisting of words and spaces, return the length of the last word in the string. A word is a maximal substring consisting of non-space characters only. Handle potential trailing spaces gracefully.",
         "data": pd.DataFrame({
             "text": [

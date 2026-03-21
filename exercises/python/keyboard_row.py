@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Keyboard Row",
+        "subtitle": "Loops, Arrays / Lists, Sets",
         "description": "Given an array of words, return the words that can be typed using letters of the alphabet on only one row of an American QWERTY keyboard (e.g., 'Alaska' is on the middle row, so it should be kept).",
         "data": pd.DataFrame({
             "word": ["Hello", "Alaska", "Dad", "Peace"]

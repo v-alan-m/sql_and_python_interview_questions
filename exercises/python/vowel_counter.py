@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Vowel Counter",
+        "subtitle": "Loops, Arrays / Lists, Sets",
         "description": "Count the number of vowels (a, e, i, o, u) in a given string. Ignore casing (e.g., both 'a' and 'A' count).",
         "data": pd.DataFrame({
             "string": ["Hello World", "Queueing problem", "Rhythm", "AI is cool"]

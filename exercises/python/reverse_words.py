@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Reverse Words",
+        "subtitle": "Loops, Arrays / Lists",
         "description": "Given a column of sentences, reverse the order of the words in each sentence while keeping the words themselves intact. Multiple spaces should be reduced to a single space.",
         "data": pd.DataFrame({
             "sentence": [

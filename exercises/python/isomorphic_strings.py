@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Isomorphic Strings",
+        "subtitle": "Loops, Hash Maps / Dictionaries, Sets",
         "description": "Given two strings `s` and `t`, determine if they are isomorphic. Two strings are isomorphic if the characters in `s` can be replaced to get `t`. All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character.",
         "data": pd.DataFrame({
             "s": ["egg", "foo", "paper", "ab"],

@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Sorting Objects/Dictionaries (10/10)",
+        "subtitle": "Arrays / Lists",
         "description": "You are given a DataFrame column 'user_records' containing Python dictionaries. Sort this list of JSON-like objects FIRST by 'department' in ascending alphabetical order, and THEN by 'salary' in descending order. Return the sorted list.",
         "data": pd.DataFrame({"user_records": [
             {"id": 1, "department": "Engineering", "salary": 120000},

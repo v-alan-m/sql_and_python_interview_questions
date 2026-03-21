@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Roman to Int",
+        "subtitle": "Loops, Hash Maps / Dictionaries",
         "description": "Convert a Roman numeral string to an integer. Roman numerals are standard (I, V, X, L, C, D, M). Subtraction rules apply (e.g., IX is 9, XL is 40).",
         "data": pd.DataFrame({
             "roman": ["III", "LVIII", "MCMXCIV", "IV"]

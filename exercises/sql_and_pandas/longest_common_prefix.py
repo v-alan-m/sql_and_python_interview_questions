@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Longest Common Prefix",
+        "subtitle": "GROUP BY, JOINs, Pandas Aggregation",
         "description": "Write a function to find the longest common prefix string amongst an array of strings. If there is no common prefix, return an empty string.",
         "data": pd.DataFrame({
             "group_id": [1, 1, 1, 2, 2, 2],

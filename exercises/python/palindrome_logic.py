@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Palindrome Logic",
+        "subtitle": "Loops, Arrays / Lists, Two Pointers",
         "description": "Given a string, verify if it is a palindrome. Consider only alphanumeric characters and ignore case (e.g., 'A man, a plan, a canal: Panama' is a palindrome).",
         "data": pd.DataFrame({
             "string": [

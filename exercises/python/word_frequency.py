@@ -4,6 +4,7 @@ from collections import Counter
 def get_exercise():
     return {
         "title": "Word Frequency",
+        "subtitle": "Loops, Arrays / Lists, Hash Maps / Dictionaries, Sets",
         "description": "Given a column containing sentences, determine the frequency of each unique word across the entire column. A word is defined as a sequence of non-space characters. Return a dictionary mapping words to their integer counts, ignoring case.",
         "data": pd.DataFrame({
             "sentence": [

@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Pig Latin Mutation",
+        "subtitle": "Loops, Arrays / Lists, Sets",
         "description": "Given a Pandas DataFrame containing a column 'word', write a Python script to mutate each word into its Pig Latin equivalent. For words that begin with consonants, all letters before the initial vowel are placed at the end of the word sequence, followed by 'ay'. For words that begin with vowels, simply add 'yay' to the end.",
         "data": pd.DataFrame({
             "word": ["hello", "apple", "strong", "idea", "rhythm"]

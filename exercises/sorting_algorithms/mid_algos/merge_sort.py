@@ -3,6 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Merge Sort (4/10)",
+        "subtitle": "Loops, Arrays / Lists",
         "description": "Implement the Merge Sort algorithm. You are given a DataFrame with a column 'numbers'. Sort the numbers in ascending order and return the result as a list.",
         "data": pd.DataFrame({"numbers": [38, 27, 43, 3, 9, 82, 10]}),
         "allowed_modes": ["Python"],
