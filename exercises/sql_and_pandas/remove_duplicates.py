@@ -43,6 +43,7 @@ FROM RankedUsers
 WHERE rn = 1;
 """,
         "deep_dive": "The Python `drop_duplicates` backed by sorting is highly readable. The sort dictates the O(N log N) performance hit. In SQL, the `ROW_NUMBER()` function allows us to maintain the entire row's context (like the email) while aggregating based on another column (`updated_at`). Using a simple `GROUP BY` and `MAX(updated_at)` makes it hard to fetch the correct corresponding email if multiple emails exist per user, which is why window functions are superior for contextual deduplication.",
+        "big_o_explanation": "Time Complexity: O(N log N) in Python due to `.sort_values()` across the entire dataframe. In SQL, `ROW_NUMBER() OVER(PARTITION BY ... ORDER BY ...)` also inherently relies on a sorting operation under the hood, making it O(N log N) within each partition. Space Complexity: O(N) to hold the DataFrames and window partitions context in memory. The optimization here is replacing self-joins or nested queries with window functions/sorts, extracting the exact row context chronologically without Cartesian product explosions.",
         
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
@@ -76,6 +77,7 @@ ORDER BY user_id;
                     "user_id": [101, 102, 103],
                     "updated_at": pd.to_datetime(["2023-02-15", "2023-01-10", "2023-03-01"])
                 }),
+                "big_o_explanation": "Time Complexity: O(N) in python `groupby(...).max()` and SQL `GROUP BY`. Aggregation functions perform a single pass over the dataset hashing and tracking the running maximum. Space Complexity: O(U) where U is the number of unique users for the output. Because we don't need the corresponding 'email' context column, avoiding a full table sort yields massive performance benefits.",
                 "follow_up_probes": [
                     "What happens if a user has no records in the table? (Trick question: they wouldn't be grouped)",
                     "Is it guaranteed that the resulting records are sorted by user_id?"
@@ -126,6 +128,7 @@ ORDER BY user_id;
                     "email": ["new@a.com", "new_b@b.com", "c@c.com"],
                     "updated_at": pd.to_datetime(["2023-02-15", "2023-04-20", "2023-03-01"])
                 }),
+                "big_o_explanation": "Time Complexity: O(N log N). Whether using Python's `.sort_values()` or SQL's `ROW_NUMBER() OVER(ORDER BY ...)`, the engine must sort records before deduplication. Space Complexity: O(N) to hold the sorted dataset temporarily in memory. Keeping contextual columns forces us away from linear `GROUP BY` aggregations and into O(N log N) sorts, but it avoids O(N^2) naive subquery looping.",
                 "follow_up_probes": [
                     "Why did you use `ROW_NUMBER()` instead of `RANK()` or `DENSE_RANK()`?",
                     "What is the time complexity of the sorting operation in Python?"
@@ -175,6 +178,7 @@ ORDER BY user_id;
                     "email": ["zebra@a.com", "second@b.com"],
                     "updated_at": pd.to_datetime(["2023-02-15", "2023-04-20"])
                 }),
+                "big_o_explanation": "Time Complexity: O(N log N). Adding an extra column (`email`) to the sort conditions slightly increases overhead during the sort comparisons but the overall complexity remains asymptotically O(N log N). Space Complexity: O(N) to keep the records in memory for final evaluation. The optimization here is consolidating all determinism rules into a single pass of the sorting algorithm rather than running secondary filtering passes.",
                 "follow_up_probes": [
                     "If we used `RANK()` here instead of `ROW_NUMBER()`, would the result change?",
                     "Could we use `MAX() OVER()` combined with a `CASE` statement instead of sorting?"

@@ -30,6 +30,7 @@ result = df
 """,
         "solution_sql": "Not applicable",
         "deep_dive": "This approach uses two passes over the string. The first pass builds the hash map (Counter), taking O(N) time. The second pass checks the characters in order, taking at most O(N) time. Overall time complexity is linear O(N). Space complexity is O(1) because the English alphabet has a fixed limit of 26 characters, meaning the hash map size is bounded.",
+        "big_o_explanation": "This approach uses two distinct passes over the string. The first pass builds the frequency map using `O(N) Time`. The second pass checks each character in order, taking at most `O(N) Time`. Overall Time Complexity is linear **O(N)**. Space Complexity is **O(1)** because the English alphabet is strictly limited to 26 characters, so the hash map size never scales infinitely with longer inputs.",
         
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
@@ -63,7 +64,8 @@ result = df
                 "follow_up_probes": [
                     "What is the time and space complexity of your solution?",
                     "Could you do this without importing `Counter`?"
-                ]
+                ],
+                "big_o_explanation": "By using two distinct, non-nested passes, the Time Complexity is **O(N) + O(N) = O(N)**. The dict tracking frequencies stores at most 26 key-value pairs regardless of string length N, thus Space Complexity is strictly bounded at **O(1)**."
             },
             {
                 "stage_number": 2,
@@ -97,7 +99,8 @@ result = df
                 "follow_up_probes": [
                     "How does `Counter` behave with an empty string?",
                     "Is the empty string check strictly necessary, or does the loop handle it naturally?"
-                ]
+                ],
+                "big_o_explanation": "Providing a fallback `return None` does not alter the performance bounds. The algorithm safely skips iteration on empty strings and still reliably executes in **O(N) Time** and **O(1) Space** overall."
             },
             {
                 "stage_number": 3,
@@ -134,7 +137,8 @@ result = df
                 "follow_up_probes": [
                     "Does `s.lower()` create a new string in memory? How does that affect space complexity?",
                     "Could you do this by keeping counts manually in a dictionary without an extra fully lowercased string copy?"
-                ]
+                ],
+                "big_o_explanation": "Using `.lower()` on the entire string eagerly allocating a brand-new string in memory. While technically bounded within the linear complexity group, this *does* alter our strict O(1) Auxiliary Space to **O(N) Space**, since the duplicate string scales precisely with input length. Time complexity is still **O(N)**."
             },
             {
                 "stage_number": 4,
@@ -174,7 +178,8 @@ result = df
                 "follow_up_probes": [
                     "Why is it better to populate our own dictionary manually here rather than building a new filtered string and calling `Counter` on it?",
                     "In a real data engineering pipeline, what library or tool might you use to clean a huge dataset of strings before processing?"
-                ]
+                ],
+                "big_o_explanation": "By manually evaluating `.isalpha()` and `.lower()` on the fly within our `O(N)` linear loop instead of transforming the entire string upfront, we avoid allocating a massive new block of memory. Thus, we have reclaimed our **O(1) Space Complexity**, while keeping iteration linearly optimal at **O(N) Time**."
             }
         ]
     }

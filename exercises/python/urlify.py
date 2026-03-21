@@ -40,6 +40,7 @@ result = df
 """,
         "solution_sql": "Not applicable",
         "deep_dive": "In lower-level languages, mutating strings in place backwards prevents overwriting characters before they are processed. This runs in O(N) time with O(1) extra space (assuming the string array itself has the buffer). In Python, since strings are immutable, we convert it to a list first, making the space complexity O(N). The Pythonic `.replace()` method is heavily optimized in C and is preferred in production Python code.",
+        "big_o_explanation": "### ⏱️ Optimal Big O Notation\n**Time Complexity:** `O(N)` where N is the length of the string. We iterate through the string a constant number of times.\n**Space Complexity:** `O(1)` auxiliary space if done in place (like in C/Java where the input buffer is modifiable). In Python, strings are immutable, so converting it to a list first requires `O(N)` space. The optimal algorithmic approach modifies the array in-place from back to front, avoiding shifting elements.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
             {
@@ -70,7 +71,8 @@ result = df
                 }),
                 "follow_up_probes": [
                     "Performance limits: Under the hood, how does `.replace()` manage memory?"
-                ]
+                ],
+                "big_o_explanation": "#### Stage 1: Built-in string methods\n**Time Complexity:** `O(N)` since `.replace()` internally scans the string. Python's built-in methods are implemented in highly-optimized C code.\n**Space Complexity:** `O(N)` because a completely new string is allocated in memory to hold the replaced version. Strings in Python are immutable, so modifications always require new allocations."
             },
             {
                 "stage_number": 2,
@@ -107,7 +109,8 @@ result = df
                 }),
                 "follow_up_probes": [
                     "Space Complexity: What is the space complexity of this approach?"
-                ]
+                ],
+                "big_o_explanation": "#### Stage 2: Forward Array Building\n**Time Complexity:** `O(N)`. We iterate through the original array exactly once from start to finish.\n**Space Complexity:** `O(N)`. We instantiate an auxiliary list `result` to hold the characters and the `%20` expansions, and then call `\"\".join(result)` to build the final string, requiring additional memory proportional to the size of the final string."
             },
             {
                 "stage_number": 3,
@@ -152,7 +155,8 @@ result = df
                 "follow_up_probes": [
                     "Pointer Math: Why do we subtract 3 from the `index` when a space is found, but only subtract 1 for regular characters?",
                     "Real-world Application: In actual Python development, which of these 3 stages would you merge into production codebase?"
-                ]
+                ],
+                "big_o_explanation": "#### Stage 3: Optimal Backwards In-Place Traversal\n**Time Complexity:** `O(N)`. We iterate backwards from the original `true_length` to index 0.\n**Space Complexity:** `O(1)` auxiliary space theoretically, assuming the array is already sized to hold the extra characters and we are mutating the array directly (as we would in C/C++). In Python, we start by doing `list(s)` which takes `O(N)` space initially due to immutability, but the actual algorithmic operation (the two-pointer technique) avoids allocating any *new* auxiliary arrays during the traversal."
             }
         ]
     }

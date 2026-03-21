@@ -18,6 +18,7 @@ def get_exercise():
         "solution_python": '''\ndef longest_common_prefix(strs):\n    if not strs:\n        return ""\n        \n    # Sorting alphabetically makes it so we only need to compare\n    # the first and last words to find the max common prefix.\n    strs.sort()\n    first = strs[0]\n    last = strs[-1]\n    \n    prefix = []\n    for i in range(min(len(first), len(last))):\n        if first[i] == last[i]:\n            prefix.append(first[i])\n        else:\n            break\n            \n    return "".join(prefix)\n\ndf["common_prefix"] = df["word_list"].apply(longest_common_prefix)\nresult = df\n''',
         "solution_sql": "",
         "deep_dive": "Lexicographical sorting takes O(N log N) where N is the number of strings. Comparing only the first and last strings takes O(M) time, where M is the minimum length of the two strings. This sorting trick avoids the need for a nested loop structure doing vertical character-by-character scanning across all words, providing an elegant and terse Pythonic solution.",
+        "big_o_explanation": "Time Complexity: O(N * M * log N) where N is the number of words and M is the maximum word length, due to sorting the strings lexicographically. The subsequent comparison step takes O(M) time. Space Complexity: O(M) to store the result string/array. Sorting first avoids doing a nested character-by-character scan across all strings, resulting in concise Pythonic code.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
             {
@@ -59,6 +60,7 @@ result = df
                     ],
                     "common_prefix": ["flow", "", "cat"]
                 }),
+                "big_o_explanation": "Time Complexity: O(min(N, M)) where N and M are the lengths of the two words, because we only iterate up to in the length of the shorter word. Space Complexity: O(min(N, M)) to hold the characters in the `prefix` list before joining them into the final returned string. Using a list then `.join()` is an efficient O(K) space/time operation compared to string concatenation `+=` which rebuilds the string each time in O(K^2).",
                 "follow_up_probes": [
                     "Time Complexity: What is the Big-O time complexity of your solution? (O(min(N, M)) where N and M are the lengths of the two words).",
                     "String Concatenation: Why use a list and `\"\".join()` instead of `+=` for building the string in Python?"
@@ -111,6 +113,7 @@ result = df
                     ],
                     "common_prefix": ["fl", "", "inter", "data "]
                 }),
+                "big_o_explanation": "Time Complexity: O(N * M * log N) where N is the number of words and M is the maximum length of a word. Sorting the array lexicographically dictates the overall time. The comparison of just the first and last words takes O(M). Space Complexity: O(N * M) if `sorted()` creates a new list of all strings, plus O(M) for the prefix list. This approach is highly optimized for readability and leverages Python's fast C-based Timsort.",
                 "follow_up_probes": [
                     "Algorithm Analysis: Compare the time complexity of the sorting approach vs the iterative sequential comparison. (Sorting is O(N*M log N) whereas sequential is O(N*M)). Which one is better?",
                     "Optimisation: Can this be done using a Divide and Conquer approach? Or a Trie?"
@@ -165,6 +168,7 @@ result = df
                     ],
                     "common_prefix": ["fl", "", "singleword", "", ""]
                 }),
+                "big_o_explanation": "Time Complexity: O(N * M * log N) for sorting the array of strings. The guard clauses (`if not strs:`) run in O(1) time. Space Complexity: O(N * M) for the sorted list copy and O(M) for building the prefix. Adding early exits for edge cases guards against unnecessary computations or exceptions, without degrading the asymptotic performance.",
                 "follow_up_probes": [
                     "Empty Sequences: In python, how does `if not strs:` behave for empty lists vs arrays with empty strings?",
                     "Empty Strings during Sorting: Lexicographically, where do empty strings sort relative to populated strings? (They sort first)."

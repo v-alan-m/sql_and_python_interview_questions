@@ -35,6 +35,7 @@ result = df
 """,
         "solution_sql": "Not applicable",
         "deep_dive": "This string mutation algorithm requires looking at every character in the string once, resulting in an O(N) time complexity where N is the length of the string. Space complexity is O(N) due to the use of a list to build up the mutated string before joining it, which avoids the O(N^2) trap of immutable string concatenations inside a loop.",
+        "big_o_explanation": "Operating linearly on a string means examining each character exactly once. This yields an O(N) Time Complexity. The Space Complexity is also O(N) because a new list of characters is stored in memory to build the final string result.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
             {
@@ -69,7 +70,8 @@ result = df
                 }),
                 "follow_up_probes": [
                     "Why did you use a list `[]` and `\"\".join()` rather than concatenating strings with `+=`? (Strings are immutable, concatenation in a loop is O(N^2) in worst case, while lists are O(N))."
-                ]
+                ],
+                "big_o_explanation": "Iterating over each character takes **O(N) Time**, where N is the length of the string. Storing the characters in an auxiliary array (a list in Python) requires **O(N) Space**. Note: Building a list and using `.join()` is much faster than string concatenation `+=` which creates a new string in memory copying all characters each time, leading to O(N^2) time complexity."
             },
             {
                 "stage_number": 2,
@@ -103,7 +105,8 @@ result = df
                 }),
                 "follow_up_probes": [
                     "Will the modulo `% 26` still work effectively if `shift` is a massive number like 1000? (Yes, modulo handles extremely large rotations seamlessly)."
-                ]
+                ],
+                "big_o_explanation": "Mathematically wrapping with the modulo `% 26` uses constant time operations `O(1)` per character inside the loop. Therefore, the overall **Time and Space complexities remain exactly O(N) and O(N)**."
             },
             {
                 "stage_number": 3,
@@ -138,7 +141,8 @@ result = df
                 }),
                 "follow_up_probes": [
                     "If this function processes millions of characters and the casing is completely randomized, what impact might `if char.islower()` have on performance at a low level?"
-                ]
+                ],
+                "big_o_explanation": "Checking casing and performing conditional variable assignments (`base = ord(...)`) are `O(1)` operations per character. Thus, the loop continues to run in **O(N) Time**. Space is still **O(N)** to store the conditionally shifted output."
             },
             {
                 "stage_number": 4,
@@ -176,7 +180,8 @@ result = df
                 }),
                 "follow_up_probes": [
                     "In Python, `-2 % 26 = 24`. In languages like C++ or Java, it might evaluate to `-2` unless handled. How would you handle negative wrap-around if your language didn't smoothly perform modulo on negatives? (Add 26 before the modulo)."
-                ]
+                ],
+                "big_o_explanation": "Checking `.isalpha()` is an `O(1)` operation and Python's modulo arithmetic elegantly handles negative values natively in constant time. The final, robust algorithm continues to run in **O(N) Time** and **O(N) Space**, seamlessly managing every edge case in a single pass."
             }
         ]
     }

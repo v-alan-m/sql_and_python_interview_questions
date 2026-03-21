@@ -32,46 +32,46 @@ For **each** of those 5 files:
 ## Exercise Tracking List
 
 - [x] exercises/python/anagram_checker.py
-- [ ] exercises/python/caesar_cipher.py
-- [ ] exercises/python/first_unique_character.py
-- [ ] exercises/python/isomorphic_strings.py
-- [ ] exercises/python/keyboard_row.py
-- [ ] exercises/python/last_word_length.py
-- [ ] exercises/python/longest_common_prefix.py
-- [ ] exercises/python/palindrome_logic.py
-- [ ] exercises/python/permutations.py
-- [ ] exercises/python/pig_latin_mutation.py
-- [ ] exercises/python/remove_duplicates.py
-- [ ] exercises/python/reverse_words.py
-- [ ] exercises/python/roman_to_int.py
-- [ ] exercises/python/string_compression.py
-- [ ] exercises/python/string_rotation.py
-- [ ] exercises/python/title_case_manual.py
-- [ ] exercises/python/urlify.py
-- [ ] exercises/python/valid_parentheses.py
-- [ ] exercises/python/vowel_counter.py
-- [ ] exercises/python/word_frequency.py
-- [ ] exercises/python/zigzag_conversion.py
-- [ ] exercises/sorting_algorithms/de_algos/merge_k_sorted_arrays.py
-- [ ] exercises/sorting_algorithms/de_algos/min_max_heap.py
-- [ ] exercises/sorting_algorithms/de_algos/sorting_objects.py
-- [ ] exercises/sorting_algorithms/de_algos/top_k_elements.py
-- [ ] exercises/sorting_algorithms/entry_algos/bubble_sort.py
-- [ ] exercises/sorting_algorithms/entry_algos/insertion_sort.py
-- [ ] exercises/sorting_algorithms/entry_algos/selection_sort.py
-- [ ] exercises/sorting_algorithms/entry_algos/stable_selection_sort.py
-- [ ] exercises/sorting_algorithms/mid_algos/iterative_merge_sort.py
-- [ ] exercises/sorting_algorithms/mid_algos/merge_sort.py
-- [ ] exercises/sorting_algorithms/mid_algos/quick_select.py
-- [ ] exercises/sorting_algorithms/mid_algos/quick_sort.py
-- [ ] exercises/sorting_algorithms/senior_algos/bucket_sort.py
-- [ ] exercises/sorting_algorithms/senior_algos/heap_sort.py
-- [ ] exercises/sorting_algorithms/senior_algos/radix_sort.py
-- [ ] exercises/sql_and_pandas/cumulative_revenue.py
-- [ ] exercises/sql_and_pandas/daily_price_delta.py
-- [ ] exercises/sql_and_pandas/deduplication.py
-- [ ] exercises/sql_and_pandas/gaps_and_islands.py
-- [ ] exercises/sql_and_pandas/last_word_length.py
-- [ ] exercises/sql_and_pandas/longest_common_prefix.py
-- [ ] exercises/sql_and_pandas/remove_duplicates.py
-- [ ] exercises/sql_and_pandas/word_frequency.py
+- [x] exercises/python/caesar_cipher.py
+- [x] exercises/python/first_unique_character.py
+- [x] exercises/python/isomorphic_strings.py
+- [x] exercises/python/keyboard_row.py
+- [x] exercises/python/last_word_length.py
+- [x] exercises/python/longest_common_prefix.py
+- [x] exercises/python/palindrome_logic.py
+- [x] exercises/python/permutations.py
+- [x] exercises/python/pig_latin_mutation.py
+- [x] exercises/python/remove_duplicates.py
+- [x] exercises/python/reverse_words.py
+- [x] exercises/python/roman_to_int.py
+- [x] exercises/python/string_compression.py
+- [x] exercises/python/string_rotation.py
+- [x] exercises/python/title_case_manual.py
+- [x] exercises/python/urlify.py
+- [x] exercises/python/valid_parentheses.py
+- [x] exercises/python/vowel_counter.py
+- [x] exercises/python/word_frequency.py
+- [x] exercises/python/zigzag_conversion.py
+- [x] exercises/sorting_algorithms/de_algos/merge_k_sorted_arrays.py
+- [x] exercises/sorting_algorithms/de_algos/min_max_heap.py
+- [x] exercises/sorting_algorithms/de_algos/sorting_objects.py
+- [x] exercises/sorting_algorithms/de_algos/top_k_elements.py
+- [x] exercises/sorting_algorithms/entry_algos/bubble_sort.py
+- [x] exercises/sorting_algorithms/entry_algos/insertion_sort.py
+- [x] exercises/sorting_algorithms/entry_algos/selection_sort.py
+- [x] exercises/sorting_algorithms/entry_algos/stable_selection_sort.py
+- [x] exercises/sorting_algorithms/mid_algos/iterative_merge_sort.py
+- [x] exercises/sorting_algorithms/mid_algos/merge_sort.py
+- [x] exercises/sorting_algorithms/mid_algos/quick_select.py
+- [x] exercises/sorting_algorithms/mid_algos/quick_sort.py
+- [x] exercises/sorting_algorithms/senior_algos/bucket_sort.py
+- [x] exercises/sorting_algorithms/senior_algos/heap_sort.py
+- [x] exercises/sorting_algorithms/senior_algos/radix_sort.py
+- [x] exercises/sql_and_pandas/cumulative_revenue.py
+- [x] exercises/sql_and_pandas/daily_price_delta.py
+- [x] exercises/sql_and_pandas/deduplication.py
+- [x] exercises/sql_and_pandas/gaps_and_islands.py
+- [x] exercises/sql_and_pandas/last_word_length.py
+- [x] exercises/sql_and_pandas/longest_common_prefix.py
+- [x] exercises/sql_and_pandas/remove_duplicates.py
+- [x] exercises/sql_and_pandas/word_frequency.py

@@ -31,6 +31,7 @@ FROM daily_sales
 ORDER BY date ASC;
 """,
         "deep_dive": "Window functions in SQL and the `.cumsum()` method in Pandas process sequential operations effectively. Sorting the dataset is universally the bottleneck here, taking O(N log N) time, while the cumulative calculation itself runs in linear O(N) time. The overall time complexity is therefore O(N log N). Omitting the `ORDER BY` in SQL's `OVER()` clause would compute a total sum instead of a running sum.",
+        "big_o_explanation": "Sorting the dataset dominates the cost, taking **O(N log N)** time in both Pandas and SQL. The cumulative calculation itself runs in linear **O(N)** time, making the overall **Time Complexity O(N log N)**. The **Space Complexity is O(N)** since we create and store a new column containing the running sum for every row in the dataset.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
             {
@@ -61,6 +62,7 @@ ORDER BY date ASC;""",
                     "daily_revenue": [100, 250, 150, 300],
                     "cumulative_revenue": [100, 350, 500, 800]
                 }),
+                "big_o_explanation": "**Time Complexity:** **O(N)**. Since the data is already sorted chronologically, calculating the cumulative sum only requires a single pass over the rows.\n**Space Complexity:** **O(N)** to store the newly created `cumulative_revenue` column.",
                 "follow_up_probes": [
                     "Time Complexity: What is the time complexity of the cumulative sum operation under the hood?",
                     "Alternative Approaches: How would you achieve this if you were iterating with standard Python lists instead of using Pandas?"
@@ -96,6 +98,7 @@ ORDER BY date ASC;""",
                     "daily_revenue": [100, 250, 150, 300],
                     "cumulative_revenue": [100, 350, 500, 800]
                 }),
+                "big_o_explanation": "**Time Complexity:** **O(N log N)**. Out-of-order dates necessitate a sorting operation before computing the rolling total. The sort dominates the O(N) cumulative sum step.\n**Space Complexity:** **O(N)** to maintain the sorted structure and append the new cumulative sum column.",
                 "follow_up_probes": [
                     "Resetting Index: Why might `reset_index(drop=True)` be a good practice after sorting dataframes in Pandas?",
                     "Performance: What is the computational bottleneck of our solution now?"
@@ -139,6 +142,7 @@ ORDER BY date ASC;""",
                     "daily_revenue": [100, 250, 150],
                     "cumulative_revenue": [100, 350, 500]
                 }),
+                "big_o_explanation": "**Time Complexity:** **O(N + K log K)** where *N* is the total number of raw entries and *K* is the number of unique days. Grouping and summing the intra-day duplicates takes O(N) using hash grouping. Sorting those unique days takes O(K log K), and the final cumulative sum takes O(K).\n**Space Complexity:** **O(K)** for the flattened dataframe containing unique days.",
                 "follow_up_probes": [
                     "Datetime Grouping: If our dates included time components (`2023-01-01 14:05:00`), how would you group by just the calendar day?",
                     "Missing Days: What if there were days with zero transactions, and we wanted every calendar day represented? How would you fill those gaps?"

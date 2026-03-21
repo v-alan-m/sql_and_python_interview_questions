@@ -38,5 +38,6 @@ k_value = 3
 kth_element = quick_select(num_list, 0, len(num_list) - 1, k_value)
 result = kth_element
 """,
-        "deep_dive": "Quick Select relies on Lomuto partition scheme. It is extremely useful in big data for finding medians and percentiles because we only do work on ONE side of the pivot, dropping our average time complexity down to O(N) instead of O(N log N) sorting."
+        "deep_dive": "Quick Select relies on Lomuto partition scheme. It is extremely useful in big data for finding medians and percentiles because we only do work on ONE side of the pivot, dropping our average time complexity down to O(N) instead of O(N log N) sorting.",
+        "big_o_explanation": "**Time Complexity:** `O(N)` average, `O(N^2)` worst case.\n**Space Complexity:** `O(log N)` average.\n\n**Explanation:** Quick Select optimizes finding the K-th element compared to a naive `O(N log N)` full sort by only recursing into the partition that contains the target index. It partitions the array using a pivot in `O(N)` time. On average, the partition splits the data in half, leading to a recurrence relation of `T(N) = T(N/2) + O(N)`, which resolves to `O(N)` average time. Space complexity is `O(log N)` due to the recursive call stack on average."
     }

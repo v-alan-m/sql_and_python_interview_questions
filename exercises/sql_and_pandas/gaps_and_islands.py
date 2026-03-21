@@ -69,6 +69,7 @@ GROUP BY user_id, island_anchor
 ORDER BY user_id, streak_start;
 """,
         "deep_dive": "The Gaps and Islands problem tests advanced window function capability. The SQL 'Row Number subtraction' trick is extremely elegant for sequential integers or standard dates (assuming a daily grain). The Python approach utilizing `diff()` inside a `groupby()` and checking for thresholds before applying a `cumsum()` is highly versatile and works for varying date grains (like seconds) where sequences might be defined by custom time thresholds rather than strict +1 day increments.",
+        "big_o_explanation": "Identifying sequences broadly relies on initial sorting operations to ensure correct chronology before parsing contiguous gaps. The dominant operation is sorting by user/date yielding a **Time Complexity of O(N log N)**. Subsequent differential (`.diff()`) and cumulative grouping operations traverse the dataset linearly yielding **O(N)**. **Space Complexity resolves to O(N)** corresponding to the intermediate boolean flags, CTE groups, and integer ID arrays generated.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
             {
@@ -132,6 +133,7 @@ ORDER BY streak_start;""",
                     "streak_end": pd.to_datetime(["2023-01-03", "2023-01-07"]),
                     "streak_duration_days": [3, 2]
                 }),
+                "big_o_explanation": "**Time Complexity:** **O(N)**. Because the data originates entirely sorted sequentially, parsing sequence diffs, assigning consecutive labels, and aggregating the grouped boundaries process iteratively in a linear pipeline.\n**Space Complexity:** **O(N)** for temporarily persisting the diff gaps and island grouping identifiers prior to final reduction.",
                 "follow_up_probes": [
                     "What if the differences were calculated in hours instead of days? How would your threshold logic change?",
                     "Explain exactly how subtracting an auto-incrementing ROW_NUMBER from a sequential date outputs a constant value."
@@ -201,6 +203,7 @@ ORDER BY user_id, streak_start;""",
                     "streak_end": pd.to_datetime(["2023-01-03", "2023-01-07", "2023-01-01", "2023-01-04"]),
                     "streak_duration_days": [3, 2, 1, 2]
                 }),
+                "big_o_explanation": "**Time Complexity:** **O(N)**. Transitioning to cross-sectional partitions introduces negligible hash mapping overhead (already accounted for structurally), enabling the window boundary scans to stay bounded within an overarching linear curve natively.\n**Space Complexity:** **O(N)** as the flag/ID column tracking requirements continue traversing proportionally identically alongside raw input volumes.",
                 "follow_up_probes": [
                     "What if a user only logs in once and never again? How does your code represent a '1-day streak'?",
                     "In Python, how do groupby().diff() and groupby().cumsum() scale with millions of users?"
@@ -279,6 +282,7 @@ ORDER BY user_id, streak_start;""",
                     "streak_end": pd.to_datetime(["2023-01-03", "2023-01-07", "2023-01-01", "2023-01-04"]),
                     "streak_duration_days": [3, 2, 1, 2]
                 }),
+                "big_o_explanation": "**Time Complexity:** **O(N log N)**. Unpredictable unordered arrival strictly binds our logic to an antecedent sort sequence globally masking the execution tier characteristics of the subsequent sequence gap parsers.\n**Space Complexity:** **O(N)** for staging distinct chronological copy states during pre-window alignment routines.",
                 "follow_up_probes": [
                     "In SQL, if we didn't deduplicate first with DISTINCT, could we have used DENSE_RANK() instead of ROW_NUMBER()? What would be the trade-off or risk on the final COUNT() aggregation?"
                 ]

@@ -21,6 +21,7 @@ def get_exercise():
         "solution_python": '''\n# 1. Ensure datetime type\ndf["login_timestamp"] = pd.to_datetime(df["login_timestamp"])\n\n# 2. Sort by timestamp, then drop duplicates keeping the last one (latest)\nresult = df.sort_values("login_timestamp").drop_duplicates(subset=["user_id"], keep="last")\n''',
         "solution_sql": '''\nWITH RankedLogins AS (\n    SELECT \n        user_id, \n        login_timestamp,\n        ROW_NUMBER() OVER(PARTITION BY user_id ORDER BY login_timestamp DESC) as rank\n    FROM user_logins\n)\nSELECT \n    user_id, \n    login_timestamp \nFROM RankedLogins \nWHERE rank = 1;\n''',
         "deep_dive": "In Pandas, `drop_duplicates` is heavily optimized in C, making it incredibly fast: O(N log N) dominated by the initial sorting. In SQL, utilizing `ROW_NUMBER()` is a widely established pattern for handling Slowly Changing Dimensions (SCD Type 2) or isolating 'last-known-good' states. It outperforms explicit `GROUP BY MAX()` self-joins on larger datasets heavily favored in massive distributed databases like Snowflake.",
+        "big_o_explanation": "Time Complexity: O(N log N) in both Python and SQL. Python requires a full `.sort_values()` before dropping duplicates, which scales as O(N log N). SQL utilizes `ROW_NUMBER() OVER(PARTITION BY ... ORDER BY ...)` which also dictates an internal sort operation on the partition. Space Complexity: O(N) since sorting large datasets and maintaining the window state require holding the data in memory. This is optimized relative to O(N^2) Cartesian products that occur with naive unstructured self-joins.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
             {
@@ -62,6 +63,7 @@ ORDER BY user_id;
                         "2023-01-02 14:00:00"
                     ])
                 }),
+                "big_o_explanation": "Time Complexity: O(N). A `GROUP BY` with an aggregation function (`MAX`) performs a single linear pass over the dataset hashing the keys and tracking the highest value. Space Complexity: O(U) where U is the number of unique users, determining the size of the final output. This leverages SQL/Pandas highly optimized hash maps instead of sorting, offering exceptional performance when contextual columns (like 'device_type') are not needed.",
                 "follow_up_probes": [
                     "What is the time complexity of this operation in Python and SQL?",
                     "If a user logged in exactly at the same time from two different devices, what does this output?"
@@ -118,6 +120,7 @@ ORDER BY user_id;
                     ]),
                     "device_type": ["Desktop", "Tablet", "Desktop"]
                 }),
+                "big_o_explanation": "Time Complexity: O(N log N). Because we need to retain an adjacent column ('device_type'), a simple linear aggregate is impossible without complex joins. We must sort the dataset first (O(N log N)) using `.sort_values()` or `ROW_NUMBER()`. Space Complexity: O(N) to hold the sorted partitions. This is a crucial trade-off: we sacrifice O(N) speed for O(N log N) speed to guarantee the integrity of full-row extraction context.",
                 "follow_up_probes": [
                     "Why is `ROW_NUMBER()` preferred over a self-join with a subquery of max timestamps in modern data warehouses?",
                     "How does the performance of sorting compare to a hash-based group by?"
@@ -172,6 +175,7 @@ ORDER BY user_id;
                     ]),
                     "device_type": ["Mobile", "Tablet", "Desktop"]
                 }),
+                "big_o_explanation": "Time Complexity: O(N log N). Adding an additional column (`device_type`) to the sorting directive mathematically increases the number of evaluations the sorting algorithm must make, but it doesn't change the asymptotic O(N log N) bounds. Space Complexity: O(N). Consolidating all tie-breaking deterministic rules into the single initial sorting pass remains vastly superior to running multiple filtering query waves.",
                 "follow_up_probes": [
                     "Are sorting operations stable in Pandas / SQL by default?",
                     "What if there are 3 fully identical rows with the exact same timestamp and device_type, does your solution still work perfectly?"

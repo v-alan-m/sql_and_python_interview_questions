@@ -40,6 +40,7 @@ result = df
 """,
         "solution_sql": "Not applicable",
         "deep_dive": "This is the classic Stack algorithmic problem. Because we process each character exactly once and stack operations (append/pop) are O(1), the time complexity is strictly linear O(N). Space complexity is O(N) in the worst case where the string is composed entirely of opening brackets e.g. '((((((', leading to all characters being pushed to the stack.",
+        "big_o_explanation": "### ⏱️ Optimal Big O Notation\n**Time Complexity:** `O(N)` where N is the length of the string. We process each character in the string exactly once. Stack push and pop operations are `O(1)`.\n**Space Complexity:** `O(N)`. In the worst-case scenario (e.g., all opening brackets like `((((((( `), we will push every single character onto the stack, resulting in space proportional to the input size.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
             {
@@ -82,7 +83,8 @@ result = df
                     "Why does ')(' fail even though it has equal numbers of '(' and ')'? → The closing bracket appears before any opening bracket, so count goes to -1.",
                     "What is the time and space complexity? → O(N) time, O(1) space — no stack needed.",
                     "Why is a counter sufficient here but won't work when we add more bracket types?"
-                ]
+                ],
+                "big_o_explanation": "#### Stage 1: Single Bracket Type (Counter Approach)\n**Time Complexity:** `O(N)`. We iterate over the characters of the string a single time, performing `O(1)` arithmetic operations inside the loop.\n**Space Complexity:** `O(1)`. We only use a single integer counter variable, regardless of the size of the input string."
             },
             {
                 "stage_number": 2,
@@ -128,7 +130,8 @@ result = df
                     "Walk through '([)]' step by step with the stack. → Push '(', push '[', see ')' → pop '[' → '[' ≠ '(' → return False.",
                     "Why is a dictionary the right data structure for the mapping? → O(1) lookup, clean code, easy to extend.",
                     "How much code changed from Stage 1? → The counter was replaced with a stack and mapping. The iteration structure stayed the same."
-                ]
+                ],
+                "big_o_explanation": "#### Stage 2: Mixed Bracket Types (Stack + Mapping)\n**Time Complexity:** `O(N)`. We evaluate each character in the string once. Dictionary lookups and stack `append`/`pop` operations all execute in `O(1)` average time.\n**Space Complexity:** `O(N)`. We initialize a stack that can grow up to the length of the string `N` in the worst-case if the string contains only opening brackets."
             },
             {
                 "stage_number": 3,
@@ -176,7 +179,8 @@ result = df
                     "How many lines of code did you change from Stage 2? → Ideally zero. A well-designed stack solution handles all these cases inherently.",
                     "What is the worst-case space complexity? → O(N) when the entire string is opening brackets, e.g., '((((('.",
                     "Could you solve this with recursion instead of a stack? What are the trade-offs? → Yes, but recursion adds call-stack overhead and risks stack overflow on deeply nested inputs."
-                ]
+                ],
+                "big_o_explanation": "#### Stage 3: Deep Nesting, Empty Strings & Edge Cases\n**Time Complexity:** `O(N)`. The operations within the loop remain identical to Stage 2 (`O(1)` operations per character).\n**Space Complexity:** `O(N)`. Deep nesting will cause the stack to grow relative to the depth of the nesting, which in the worst-case can be proportional to `N`."
             },
             {
                 "stage_number": 4,
@@ -225,7 +229,8 @@ result = df
                     "How much code changed from Stage 3? → Only one line: else: continue. Core logic is identical.",
                     "In a real-world linter or code formatter, what additional considerations would you need? → String literals, comments, and escaped characters should be excluded from bracket matching.",
                     "Could you solve this problem without a stack using regex? → You could use iterative regex substitution (remove innermost valid pairs until none remain), but it's O(N²) vs O(N) with a stack."
-                ]
+                ],
+                "big_o_explanation": "#### Stage 4: Non-Bracket Characters Interspersed\n**Time Complexity:** `O(N)`. We still just process each character exactly once. The only difference is skipping characters via an `else: continue` statement, which is an `O(1)` operation.\n**Space Complexity:** `O(m)` where `m` is strictly the number of opening brackets. Non-bracket characters are not added to the stack, so the space complexity relies solely on the depth of the bracket nesting."
             }
         ]
     }

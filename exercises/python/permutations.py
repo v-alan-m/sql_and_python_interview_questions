@@ -35,6 +35,7 @@ result = df
 """,
         "solution_sql": "Not applicable",
         "deep_dive": "Generating permutations is computationally heavy. For a string of length N, there are N! (N factorial) permutations. Therefore, both the time and space complexity are O(N * N!), as we must generate N! combinations and each combination takes O(N) space. `itertools.permutations` is implemented in C and is significantly faster than purely manual recursive approaches in Python.",
+        "big_o_explanation": "Time Complexity: O(N * N!) where N is the length of the string. There are N! permutations, and creating each permutation (joining the characters) takes O(N) time. Space Complexity: O(N * N!) to store all the generated permutations in the final list. Using Python's built-in `itertools.permutations` is highly optimized in C and avoids the overhead of manual recursion.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
             {
@@ -70,6 +71,7 @@ result = df
                         ['a']
                     ]
                 }),
+                "big_o_explanation": "Time Complexity: O(N * N!) to generate and join all permutations, plus O((N!) log(N!)) to sort them lexicographically. Space Complexity: O(N * N!) to store the resulting list of strings. Providing a deterministic (sorted) output increases the time complexity but does not increase the overall space bound.",
                 "follow_up_probes": [
                     "Time Complexity: What is the time and space complexity of generating all permutations?",
                     "Alternative approach: If `itertools` was not available, how would you implement this recursively?"
@@ -107,6 +109,7 @@ result = df
                         ['aa']
                     ]
                 }),
+                "big_o_explanation": "Time Complexity: O(N * N!) to generate all permutations, even the duplicate ones. Sorting the unique permutations takes time proportional to the number of unique variations. Space Complexity: O(N * N!) because `itertools.permutations` still generates all combinations in memory, and the `set` stores the unique ones. Generating duplicates and filtering them is computationally wasteful compared to a backtracking algorithm that skips duplicates at generation time.",
                 "follow_up_probes": [
                     "Optimisation: Removing duplicates using a set works, but it generates all N! permutations first. How could you avoid generating the duplicates entirely during the recursive step?"
                 ]
@@ -154,6 +157,7 @@ result = df
                         ['mom']
                     ]
                 }),
+                "big_o_explanation": "Time Complexity: O(N * N!) to generate and deduplicate permutations, plus an O(N) check per unique permutation to filter out adjacent identical characters. Space Complexity: O(N * N!) for initially storing all combinations before filtering. The naive 'generate then filter' approach is easy to write but highly inefficient; a backtracking algorithm that never generating invalid branches (early pruning) would be far more optimal.",
                 "follow_up_probes": [
                     "Regex Alternative: How could you solve the adjacency check using regular expressions instead of a loop?",
                     "Early Pruning: Instead of generating and then filtering, how could you integrate this condition directly into your recursive backtracking function?"

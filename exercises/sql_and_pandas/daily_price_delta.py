@@ -31,6 +31,7 @@ FROM stock_prices
 ORDER BY ticker, date ASC;
 """,
         "deep_dive": "The `LAG()` function in SQL and `.shift()` method in Pandas allow for accessing data from previous rows without needing complex joins. Both operations run in O(N) time after the required O(N log N) sorting step.",
+        "big_o_explanation": "To correctly compute closing price differences, the data must first be grouped/partitioned by ticker and then sorted by date. The sorting step dictates the overall **Time Complexity of O(N log N)**. The sliding window difference operations leveraging Pandas `.shift()` or SQL `LAG()` execute linearly in **O(N)** time. The **Space Complexity is O(N)** to store the new delta column values.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
             {
@@ -68,6 +69,7 @@ ORDER BY date ASC;
                     "close_price": [150.0, 155.0, 153.0],
                     "price_delta": [float('nan'), 5.0, -2.0]
                 }),
+                "big_o_explanation": "**Time Complexity:** **O(N)**. With the data already sorted by date, tracking the difference simply requires a single pass comparing current versus previous row elements.\n**Space Complexity:** **O(N)** to create the array/column holding the calculated deltas.",
                 "follow_up_probes": [
                     "What is the value of `price_delta` on the very first day?",
                     "What would happen if the dates were not consecutive?"
@@ -107,6 +109,7 @@ ORDER BY ticker, date ASC;
                     "close_price": [150.0, 155.0, 250.0, 255.0],
                     "price_delta": [float('nan'), 5.0, float('nan'), 5.0]
                 }),
+                "big_o_explanation": "**Time Complexity:** **O(N)**. Grouping in Pandas (`groupby`) and partitioning in SQL (`PARTITION BY`) generally use hash maps to map inputs to groups linearly. Since internal order within the groups is already properly preserved, no sorting overhead is added.\n**Space Complexity:** **O(N)** to hold the results of the window shift outputs.",
                 "follow_up_probes": [
                     "How does `groupby` combined with `.shift()` behave internally in Pandas?",
                     "Without `PARTITION BY` in SQL, what erroneous calculation would appear on row 3?"
@@ -148,6 +151,7 @@ ORDER BY ticker, date ASC;
                     "close_price": [150.0, 155.0, 153.0, 250.0, 255.0],
                     "price_delta": [float('nan'), 5.0, -2.0, float('nan'), 5.0]
                 }),
+                "big_o_explanation": "**Time Complexity:** **O(N log N)**. Real-world unsorted data mandates a sorting protocol before applying row shifts, thereby elevating the algorithmic complexity due to the sort.\n**Space Complexity:** **O(N)** to persist the sorted dataset structure alongside the new delta column.",
                 "follow_up_probes": [
                     "What is the time complexity of your sorting step?",
                     "If we had millions of stocks, how would sorting impact memory and performance?"

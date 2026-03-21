@@ -35,6 +35,7 @@ df["title_cased"] = df["string"].apply(manual_title_case)
 result = df
 """,
         "solution_sql": "Not applicable",
+        "big_o_explanation": "Time Complexity: O(N) where N is the length of the string, evaluating each character exactly once sequentially against conditions. Space Complexity: O(N) maintaining distinct string results via dynamically scoped array lists preventing iterative string appending degradation.",
         "deep_dive": "Python's built-in `.title()` performs poorly on words starting with numbers or apostrophes (e.g., 'they\\'re' -> 'They\\'Re'). A manual implementation gives precise control over tokenization boundaries. The loop runs exactly N times yielding an O(N) time complexity. Using list appending instead of string concatenation ensures O(N) performance rather than decaying into O(N^2).",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
@@ -74,6 +75,7 @@ result = df
                     "string": ["hello world", "python", "data engineering"],
                     "title_cased": ["Hello World", "Python", "Data Engineering"]
                 }),
+                "big_o_explanation": "Time Complexity: O(N) navigating directly through loop elements token by token. Checking state variables is perfectly efficient O(1) mapping logic evaluating boolean toggles natively. Space Complexity: O(N) bounding array building loops tightly against expected token matching.",
                 "follow_up_probes": [
                     "Performance: Why do we append to a list and use `\"\".join(result)` instead of doing `result_string += char` in the loop?"
                 ]
@@ -116,6 +118,7 @@ result = df
                     "string": ["hello world", "pYTHON", "dAtA EnGiNeErInG"],
                     "title_cased": ["Hello World", "Python", "Data Engineering"]
                 }),
+                "big_o_explanation": "Time Complexity: O(N) matching exactly prior bounds without regression. State mappings process natively `char.lower()` triggers in completely isolated O(1) sequence loops maintaining structural validation perfectly. Space Complexity: O(N).",
                 "follow_up_probes": [
                     "Edge Cases: Does your code handle an entirely empty string correctly?"
                 ]
@@ -159,6 +162,7 @@ result = df
                     "string": ["hello world", "pYTHON", "  spaces   everywhere  ", "\ttabs\nand spaces "],
                     "title_cased": ["Hello World", "Python", "  Spaces   Everywhere  ", "\tTabs\nAnd Spaces "]
                 }),
+                "big_o_explanation": "Time Complexity: O(N). Replacing manual `' '` tests against abstract `isspace()` maintains purely optimal conditional logic testing under isolated Python `str` mapping bounds. Iterative arrays rebuild into O(N) `join()` constructs smoothly. Space Complexity: O(N).",
                 "follow_up_probes": [
                     "Built-in method limits: Why are we writing this manually instead of just using Python's built-in `.title()` method?",
                     "Space complexity: Can this be done with strictly O(1) extra space outside the returned string?"

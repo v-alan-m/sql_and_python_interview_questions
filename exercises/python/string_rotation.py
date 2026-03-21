@@ -26,7 +26,8 @@ df["is_rotation"] = df.apply(lambda row: is_rotation(row["s1"], row["s2"]), axis
 result = df
 """,
         "solution_sql": "Not applicable",
-        "deep_dive": "This elegant trick reduces the problem from potentially O(N^2) manual rotation checks to a single substring search on a concatenated string. In Python, the `in` operator uses efficient substring search algorithms (like Boyer-Moore or variations), typically running in O(N+M) time, where N is `len(s1s1)` and M is `len(s2)`. Therefore, the time complexity is O(N). The space complexity is also O(N) to store the concatenated string.",
+        "big_o_explanation": "Time Complexity: O(N) where N is the length of `s1`. Creating `s1+s1` effectively evaluates string components in O(N). Running `in` executes highly efficient internal algorithms bounding average searches in roughly O(N) ranges. Space Complexity: O(N) tracking exactly `2*N` characters spanning one concatenated string token.",
+        "deep_dive": "This elegant trick reduces the problem from potentially O(N^2) manual rotation checks to a single substring search on a concatenated string. In Python, the `in` operator uses efficient substring search algorithms (like Boyer-Moore or variations), typically running in O(N+M) time, where N is `len(s1s1)` and M is `len(s2)`. Therefore, the time complexity is O(N). The space Complexity is also O(N) to store the concatenated string.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
             {
@@ -57,6 +58,7 @@ result = df
                     "s2": ["erbottlewat", "llohe", "neerdata engi", "nophty"],
                     "is_rotation": [True, True, True, False]
                 }),
+                "big_o_explanation": "Time Complexity: O(N) tracking exactly standard string operations across sequence evaluations under python `in` optimizations against generated `s1+s1` frames. Space Complexity: O(N) building dynamic allocations equivalent to concatenating duplicate variables matching bounds.",
                 "follow_up_probes": [
                     "Time Complexity: What is the time complexity of the `in` operator in Python under the hood?",
                     "Space Complexity: Generating `s1 + s1` takes O(N) space. Is there a way to do this in purely O(1) space if we manually verify characters with modulo arithmetic?"
@@ -92,6 +94,7 @@ result = df
                     "s2": ["erbottlewat", "llohe", "neerdata engi", "nophty", "water", "pleapp"],
                     "is_rotation": [True, True, True, False, False, False]
                 }),
+                "big_o_explanation": "Time Complexity: O(N). Bounding out false constraints through `len()` lookups immediately blocks mismatched tests operating sequentially via independent O(N) `in` search triggers only on proper matching sets. Space Complexity: O(N).",
                 "follow_up_probes": [
                     "Order of Evaluation: Does it matter if you check the length before or after the concatenation and substring check?"
                 ]
@@ -125,6 +128,7 @@ result = df
                     "s2": ["erbottlewat", "llohe", "neerdata engi", "nophty", "water", "pleapp", "", "a", " ", "a"],
                     "is_rotation": [True, True, True, False, False, False, False, True, True, False]
                 }),
+                "big_o_explanation": "Time Complexity: O(N). Defensive guard blocks validating exact sizes and bounding lengths process strictly in O(1) intervals before initiating standard linear `in` logic comparisons. Space Complexity: O(N). Edge-guard returns execute under strictly O(1) parameters keeping total frames tightly optimized.",
                 "follow_up_probes": [
                     "Validation Constraints: Why might an interviewer define an empty string not being a rotation of an empty string?",
                     "Reviewing Code: Is this solution complete? Is there any input you could pass that would cause a runtime error?"

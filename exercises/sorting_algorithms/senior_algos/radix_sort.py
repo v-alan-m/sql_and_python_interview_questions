@@ -44,5 +44,6 @@ num_list = df['numbers'].tolist()
 sorted_list = radix_sort(num_list)
 result = sorted_list
 """,
-        "deep_dive": "Radix sort is a non-comparative integer sorting algorithm with O(d * (n + k)) time complexity. It can be faster than O(n log n) comparison sorts for large inputs with relatively few digits."
+        "deep_dive": "Radix sort is a non-comparative integer sorting algorithm with O(d * (n + k)) time complexity. It can be faster than O(n log n) comparison sorts for large inputs with relatively few digits.",
+        "big_o_explanation": "**Time Complexity:** `O(d * (N + b))`.\n**Space Complexity:** `O(N + b)` (where `d` is max digits, `b` is base 10).\n\n**Explanation:** Radix Sort is a non-comparative algorithm that processes numbers digit by digit. Instead of direct element comparisons (bounded at `O(N log N)`), it uses a stable subroutine like Counting Sort for each of the `d` digits, taking `O(N + b)` time per pass. This provides linear-comparable `O(N)` time when `d` is small, optimizing performance for large datasets of numbers. It requires `O(N + b)` space for output and count arrays."
     }

@@ -41,6 +41,7 @@ GROUP BY word
 ORDER BY frequency DESC;
 """,
         "deep_dive": "Python is exceptionally well-suited for taking unstructured text and structuring it (splitting and counting). The `Counter` object makes this an O(N) operation where N is the number of characters/words. Relational databases require pivoting columns into rows (un-nesting) before they can perform their highly optimized `GROUP BY` aggregations.",
+        "big_o_explanation": "Time Complexity: O(N) where N is the total number of characters across all words. Python's `string.split()` plus `collections.Counter` iterates over the string linearly to tokenize and hash. Sorting the final unique vocabulary takes O(V log V) where V is the number of unique words. Space Complexity: O(V) to store the vocabulary frequencies in the dictionary. Hashing string chunks continuously is the primary optimization rather than nested loop searching for word occurrences.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
             {
@@ -82,6 +83,7 @@ ORDER BY frequency DESC, word ASC;
                     "word": ["apple", "banana"],
                     "frequency": [2, 1]
                 }),
+                "big_o_explanation": "Time Complexity: O(N + V log V). Splitting and traversing the string is O(N) for string length N. Counting is O(N). Sorting the resulting V unique words is O(V log V). Space Complexity: O(V) for the frequency dictionary structure. Using built-in hash maps like Python's `Counter` directly optimizes the frequency aggregation over manual list counting.",
                 "follow_up_probes": [
                     "What is the time complexity of your solution?",
                     "How does `Counter` work under the hood in Python?"
@@ -127,6 +129,7 @@ ORDER BY frequency DESC, word ASC;
                     "word": ["day", "is", "sunny", "the", "and", "good"],
                     "frequency": [2, 2, 2, 2, 1, 1]
                 }),
+                "big_o_explanation": "Time Complexity: O(N + V log V). Concatenating all text first takes O(N). Hashing is O(N). SQL handles this similarly by scanning each un-nested row and aggregating them via a hash/sort group by. Space Complexity: O(N) for creating the concatenated string in Python, plus O(V) for unique word counts. Concatenation allows a single continuous chunking action instead of looping repeatedly per document.",
                 "follow_up_probes": [
                     "If we had a billion rows, would concatenating everything in memory be a good idea?",
                     "How would you optimize the Python solution for a very large dataset?"
@@ -172,6 +175,7 @@ ORDER BY frequency DESC, word ASC;
                     "word": ["day", "is", "sunny", "the", "and", "good"],
                     "frequency": [2, 2, 2, 2, 1, 1]
                 }),
+                "big_o_explanation": "Time Complexity: O(N + V log V). Applying `.dropna()` and `.str.lower()` adds O(N) linear passes over the characters to standardize them before counting. Space Complexity: O(N) for the cleaned string copies in memory. While we do an extra pass over the data, linear passes scale excellently, and cleaning standardizes the dictionary hash space, likely reducing V (unique words).",
                 "follow_up_probes": [
                     "What happens if there are Leading or Trailing spaces before/after missing data handling?",
                     "How would this change if we needed to preserve case for display but count them together?"
@@ -230,6 +234,7 @@ ORDER BY frequency DESC, word ASC;
                     "word": ["day", "is", "sunny", "the", "and", "extra", "good", "spaces"],
                     "frequency": [2, 2, 2, 2, 1, 1, 1, 1]
                 }),
+                "big_o_explanation": "Time Complexity: O(N + V log V). Regular Expression substitutions add a heavy constant factor to the O(N) traversal for string cleanup, scanning each character for punctuation matches. Overall complexity remains linear with respect to text length. Space Complexity: O(N) to hold string copies during text mutation. Batching transformations (lower-casing, regex replacement) iteratively keeps memory bounds linear instead of blowing up memory with Cartesian character matches.",
                 "follow_up_probes": [
                     "What kind of performance impact does the regex replacement introduce?",
                     "How would you handle word variations like 'run', 'running', 'ran' (stemming/lemmatization) if requested later?"

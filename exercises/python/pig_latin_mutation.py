@@ -29,6 +29,7 @@ result = df
 """,
         "solution_sql": "Not applicable",
         "deep_dive": "Pandas' `.apply()` method is highly versatile but fundamentally acts as a Python-level loop over the data. The time complexity for the string mutation is O(N * M) where N is the number of rows and M is the average word length. For very large datasets, using vectorized string methods (e.g., regex via `df['word'].str.extract()`) could be slightly faster, but custom string manipulation often relies on `.apply() ` for readability.",
+        "big_o_explanation": "Time Complexity: O(N * M) where N is the number of rows (words) in the dataset and M is the average length of a word. `.apply()` runs the function sequentially on each row. Searching for vowels takes O(M) time per word in the worst case. Space Complexity: O(N * M) to allocate the new 'pig_latin' column in the Pandas DataFrame.",
 
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
@@ -60,6 +61,7 @@ print(result)""",
                     "word": ["apple", "idea", "orange"],
                     "pig_latin": ["appleyay", "ideayay", "orangeyay"]
                 }),
+                "big_o_explanation": "Time Complexity: O(N * M) where N is the number of words and M is the word length. Pandas `.apply()` executes the Python logic row-by-row. Space Complexity: O(N * M) to create and store the new strings in the DataFrame column. String concatenation `+` for small strings is heavily optimized in Python.",
                 "follow_up_probes": [
                     "Why did you choose .apply() over a list comprehension here?",
                     "What's the time complexity of this approach? → O(N), one pass over rows."
@@ -113,6 +115,7 @@ print(result)""",
                     "phrase": ["Hello World", "apple Pie", "Strong Coffee", "Open idea"],
                     "pig_latin": ["Ellohay Orldway", "appleyay Iepay", "Ongstray Offeecay", "Openyay ideayay"]
                 }),
+                "big_o_explanation": "Time Complexity: O(N * M) overall, because splitting the phrase, iterating characters to find a vowel, and slicing strings all operate proportionally to the phrase length M. Space Complexity: O(N * M) for the newly constructed strings and intermediate lists created by `.split()`. Converting to lowercase first prevents repeated `.lower()` calls and simplifies the condition checks.",
                 "follow_up_probes": [
                     "Walk through 'apple Pie' step by step. → 'apple' starts lowercase + vowel → 'appleyay'. 'Pie' is capitalised + consonant → 'ie' + 'p' + 'ay' = 'iepay' → capitalise → 'Iepay'.",
                     "What if a word is ALL CAPS like 'NASA'? → Tests whether the candidate would extend to a full-caps branch.",
@@ -182,6 +185,7 @@ print(result)""",
                     "phrase": ["Hello, World!", "Strong Rhythm", "Open idea", "", "apple Pie."],
                     "pig_latin": ["Ellohay, Orldway!", "Ongstray Ythmrhay", "Openyay ideayay", "", "appleyay Iepay."]
                 }),
+                "big_o_explanation": "Time Complexity: O(N * M). The additional while-loop to strip punctuation also runs in O(M) time, keeping the asymptotic time bound the same. Space Complexity: O(N * M). The heavy memory allocation is mostly from the DataFrame. While cleanly factored, `.apply()` on millions of rows is slow because it cannot vectorize these custom Python operations; for massive data, Regex replacement or parallelization tools like Dask would be required.",
                 "follow_up_probes": [
                     "How much code changed from Stage 2? → Only the punctuation handling wrapper and the empty-string guard. Core logic stayed intact.",
                     "Time complexity? → O(N × M) where N = rows, M = avg word length.",

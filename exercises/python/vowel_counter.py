@@ -22,6 +22,7 @@ result = df
 """,
         "solution_sql": "Not applicable",
         "deep_dive": "Checking membership `in` a Python `set` is an O(1) operation on average. Traversing the string takes O(N) time. The overall time complexity is therefore O(N). Space complexity is O(1) beyond the input itself, or O(N) depending on whether the `.lower()` function is executed on the entire string at once or if character-by-character conversion is leveraged.",
+        "big_o_explanation": "### ⏱️ Optimal Big O Notation\n**Time Complexity:** `O(N)` where `N` is the length of the string. We iterate over the string once, and looking up a character inside a Python `set` has an average `O(1)` time complexity.\n**Space Complexity:** `O(1)` auxiliary space because the size of the set containing vowels is constant (`5` characters) and does not scale with the input string. (Note: explicitly calling `s.lower()` on the entire string first allocates a new `O(N)` string buffer).",
 
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
@@ -57,7 +58,8 @@ result = df""",
                     "Why use a set instead of a string for the vowel lookup? → O(1) average-case membership test vs O(N) for a string/list.",
                     "What is the time complexity? → O(N × M) where N = rows, M = average string length.",
                     "Could you solve this without a loop using sum() and a generator expression? → Yes, which is exactly what this solution does."
-                ]
+                ],
+                "big_o_explanation": "#### Stage 1: Basic Lowercase Counting\n**Time Complexity:** `O(N)` where `N` is the length of the string. Checking membership in a hash set is an `O(1)` operation. Across all rows, it becomes `O(R * N)` where `R` is the number of rows.\n**Space Complexity:** `O(1)` auxiliary space (excluding the output Pandas column) because the size of the vowel set is fixed at 5 characters."
             },
             {
                 "stage_number": 2,
@@ -91,7 +93,8 @@ result = df""",
                     "How much code changed from Stage 1? → Only one addition: .lower() on the input string. Everything else is identical.",
                     "What's the alternative to .lower() — could you use a larger vowel set instead? → Yes, set('aeiouAEIOU'), which avoids creating a new lowercase copy of the string.",
                     "Which approach is more memory-efficient for very long strings? → The larger vowel set avoids the .lower() copy, but the difference is negligible for typical inputs."
-                ]
+                ],
+                "big_o_explanation": "#### Stage 2: Mixed Case & Multi-Word Strings\n**Time Complexity:** `O(N)`. We still check every character. The `s.lower()` method sweeps the string once taking `O(N)` time, and the generator expression sweeps it again taking `O(N)` time. `2N` simplifies to `O(N)`.\n**Space Complexity:** `O(N)` because `s.lower()` allocates and returns an entirely new lowercase string of length `N` in memory before the generator iteration begins. (Using `set('aeiouAEIOU')` instead without `.lower()` would keep it at `O(1)` space)."
             },
             {
                 "stage_number": 3,
@@ -125,7 +128,8 @@ result = df""",
                     "Did you need to change any code from Stage 2? → Ideally zero changes. A well-written vowel set check handles non-alpha characters automatically.",
                     "Walk through '@e_m@il.com' character by character. Which characters match? → 'e', 'i', and 'o' — the @, _, . are ignored by the set lookup.",
                     "What if the interviewer asked you to also count 'y' as a vowel in certain contexts? How would you modify the code? → Add 'y' to the vowel set, or implement conditional logic based on position."
-                ]
+                ],
+                "big_o_explanation": "#### Stage 3: Non-Alpha Characters & Numeric Strings\n**Time Complexity:** `O(N)`. The presence of non-alpha characters does not alter how many characters we iterate through.\n**Space Complexity:** `O(N)` due to the `s.lower()` call, or `O(1)` if a case-insensitive set was used. Special characters do not affect the space scaling."
             },
             {
                 "stage_number": 4,
@@ -161,7 +165,8 @@ result = df""",
                     "How much code changed from Stage 3? → Only the addition of str(s) to guard against potential non-string types. Core logic is unchanged.",
                     "What's the worst-case time complexity for a single string? → O(M) where M is the string length. Every character is checked exactly once.",
                     "At 10 million rows of data, how would you optimise beyond .apply()? → Vectorised approach: df['string'].str.lower().str.count(r'[aeiou]') avoids the Python-level loop entirely."
-                ]
+                ],
+                "big_o_explanation": "#### Stage 4: Empty Strings, No Vowels & Stress Cases\n**Time Complexity:** `O(N)`.\n**Space Complexity:** `O(N)`. There are no major architectural shifts; handling stress cases properly with Python generators is inherently safe and stable on memory."
             }
         ]
     }

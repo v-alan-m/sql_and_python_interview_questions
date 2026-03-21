@@ -29,6 +29,7 @@ result = df
 """,
         "solution_sql": "Not applicable",
         "deep_dive": "Creating the cleaned list of characters takes O(N) time and O(N) space. Reversing the list and comparing it also takes O(N) time and requires another O(N) space. For extreme memory constraints, a two-pointer approach (one pointer at the start, one at the end, iterating inward and skipping non-alphanumeric chars) can achieve O(N) time and O(1) extra space.",
+        "big_o_explanation": "Time Complexity: O(N) where N is the length of the string. Creating the cleaned list and reversing it both require a full pass over the characters. Space Complexity: O(N) since we allocate a new list `cleaned` and a sliced reversed list `cleaned[::-1]`. A two-pointer approach could reduce the space complexity to O(1) by skipping non-alphanumeric characters in-place.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
             {
@@ -64,6 +65,7 @@ result = df
                     ],
                     "is_palindrome": [True, False, True, False]
                 }),
+                "big_o_explanation": "Time Complexity: O(N) to traverse the string of length N for reversing and checking equality. Space Complexity: O(N) because the slice `[::-1]` allocates a completely new string in memory. While computationally efficient, this is not optimal for extreme memory constraints compared to an in-place two-pointer approach.",
                 "follow_up_probes": [
                     "Time Complexity: What is the time and space complexity of string slicing in Python? (O(N) time and O(N) space to create the new string).",
                     "Alternative Approaches: How would you do this without slicing or creating a new string, using only O(1) extra space? (Using two pointers from opposite ends)."
@@ -104,6 +106,7 @@ result = df
                     ],
                     "is_palindrome": [True, False, True, False]
                 }),
+                "big_o_explanation": "Time Complexity: O(N) where N is the length of the string. The list comprehension iterates through all N characters, and reversing/comparing the list also takes O(N) time. Space Complexity: O(N) because we build a new list `cleaned` to store the valid lowercase characters, plus another O(N) for the reversed list. Using `.lower()` on each character individually inside the loop is slightly slower than lowering the entire string upfront but still O(N).",
                 "follow_up_probes": [
                     "String Construction vs Lists: Why build a list of characters and compare those, rather than using string concatenation (`+=`)? (Strings are immutable so `+=` rebuilds the string every iteration taking O(N^2) time, whereas a list comprehension is O(N))."
                 ]
@@ -149,6 +152,7 @@ result = df
                     ],
                     "is_palindrome": [True, False, True, True, True, True]
                 }),
+                "big_o_explanation": "Time Complexity: O(N) because we evaluate `.isalnum()` and `.lower()` for each character, followed by a reverse and compare operation. Space Complexity: O(N) due to the list comprehension creating the `cleaned` character list. While optimal time-wise, the extra memory allocation can be avoided entirely in memory-constrained environments by using a two-pointer approach that evaluates `.isalnum()` on the fly from the ends inward.",
                 "follow_up_probes": [
                     "Empty Spaces Context: Look at the row containing `\" \"`. The cleaned structure became empty `[]`, yet the output is `True`. Why does an empty string/list equal a reversed empty list?",
                     "Two Pointers Complexity: If you converted this logic to a two-pointer approach, what happens when a pointer lands on punctuation? (You increment/decrement that pointer until it hits an alphanumeric char, keeping memory strictly O(1))."

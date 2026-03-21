@@ -33,6 +33,7 @@ df["integer_value"] = df["roman"].apply(roman_to_int)
 result = df
 """,
         "solution_sql": "Not applicable",
+        "big_o_explanation": "Time Complexity: O(N) where N is the length of the string. The mapping dictionary ensures lookups take O(1) time. Space Complexity: O(1) because the hash map's size is fixed at 7 characters and the algorithm only needs a few isolated integer variables (`total`, `value`) to run.",
         "deep_dive": "Dictionary lookups in Python are O(1). The algorithm iterates through the string exactly once, giving an O(N) time complexity where N is the length of the string. The space complexity is O(1) because the mapping dictionary is a constant size (7 characters) regardless of the input.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
@@ -64,6 +65,7 @@ result = df
                     "roman": ["III", "VI", "LX", "MD"],
                     "integer_value": [3, 6, 60, 1500]
                 }),
+                "big_o_explanation": "Time Complexity: O(N) due to iterating through every character in the Roman string once. Space Complexity: O(1) strictly speaking, as our constant 7-item dictionary acts as the sole memory anchor independent of input volume.",
                 "follow_up_probes": [
                     "Complexity: What is the Time and Space complexity of your solution?",
                     "Dictionary Creation: Does creating the dictionary inside the function affect performance? Where else could you place it?"
@@ -105,6 +107,7 @@ result = df
                     "roman": ["III", "IV", "IX", "LVIII", "MCMXCIV"],
                     "integer_value": [3, 4, 9, 58, 1994]
                 }),
+                "big_o_explanation": "Time Complexity: O(N) as each character requires 1 mapping lookup and max 1 lookahead comparison check — both strictly O(1) per iteration step. Space Complexity: O(1) matching our previous stage.",
                 "follow_up_probes": [
                     "Loop Optimization: How does calculating `len(s)` once outside the loop compare to doing it inside the `range()` call?",
                     "Alternative Approaches: Could you do this by replacing substrings first (e.g., `s.replace('IV', 'IIII')`)? What are the tradeoffs?"
@@ -160,6 +163,7 @@ result = df
                     "roman": ["MCMXCIV", "IV", "A", "IIB", " ", None, 123],
                     "integer_value": [1994, 4, 0, 0, 0, 0, 0]
                 }),
+                "big_o_explanation": "Time Complexity: O(N). String casting forces a single linear iteration before loop checking even begins, but O(2N) reduces effectively back to O(N). Validation steps against the map hash are O(1). Space Complexity: O(N) since we allocate a new copied string during the `.strip()` & type casting phase inside Python memory.",
                 "follow_up_probes": [
                     "Validation Design: Do you think silently returning `0` is better than raising an exception here? Why or why not in a data pipeline context?",
                     "Strictness: This code allows invalid combinations like 'IIII' or 'VX'. How much harder would it be to validate strict standard Roman numeral syntax?"

@@ -41,6 +41,7 @@ result = df
 """,
         "solution_sql": "Not applicable",
         "deep_dive": "This algorithm uses dual-tracking to ensure a true bi-directional (1-to-1) mapping. Iterating characters simultaneously via `zip()` is O(N) where N is string length. Dictionary checks and insertions are amortized O(1). Thus, the time complexity is linear O(N). Space complexity is O(C) where C is the size of the character set (e.g., 26 for lowercase alphabet), making it effectively O(1).",
+        "big_o_explanation": "This algorithm simultaneously tracks characters using a dictionary and a set. Iterating simultaneously via `zip()` is exactly `O(N)` Time. The dictionary inserts and set validations are amortized `O(1)`. Overall Time Complexity is **O(N)**. Space Complexity is bounded by the size of the alphabet `O(C)` which is constant, meaning it is effectively **O(1)** memory footprint.",
         
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
@@ -82,7 +83,8 @@ result = df
                 "follow_up_probes": [
                     "Why does `ab` -> `aa` return `True` here?",
                     "If the strings can be different lengths, what should the function return immediately?"
-                ]
+                ],
+                "big_o_explanation": "In Python, `zip(s, t)` streams characters linearly without building huge arrays. Evaluating each pair takes `O(1)` Time via the dictionary. Thus, the loop finishes in **O(N) Time**. The dictionary tracks at most 256 unique ASCII characters, keeping Space strictly bounded inside **O(1)** Space."
             },
             {
                 "stage_number": 2,
@@ -126,7 +128,8 @@ result = df
                 "follow_up_probes": [
                     "What is the time and space complexity of adding the set?",
                     "If we know the alphabet is limited to ASCII (256 characters), how does that impact the theoretical space complexity?"
-                ]
+                ],
+                "big_o_explanation": "Checking inclusion dynamically in a Python `set()` is incredibly fast natively, executing in `O(1)` amortized time via hashing formulas. Thus, securing a strict bi-directional restriction preserves our highly optimal **O(N) Time Complexity** and constant **O(1) Space Complexity** bounds."
             },
             {
                 "stage_number": 3,
@@ -171,9 +174,10 @@ result = df
                     "isomorphic": [True, False, False, False, True]
                 }),
                 "follow_up_probes": [
-                    """`s.replace(" ", "")` creates a new string in memory. If the strings were 10GB text files, why would this data cleaning approach be problematic?""",
+                    "`s.replace(\" \", \"\")` creates a new string in memory. If the strings were 10GB text files, why would this data cleaning approach be problematic?",
                     "How could you achieve the space-ignoring behavior using pointers/indexes without creating a new string?"
-                ]
+                ],
+                "big_o_explanation": "String methods like `.replace()` and `.lower()` return brand new copies of the entire string in memory. This bumps the memory utilization overhead entirely linearly to correspond with the size of N, generating an **O(N) Space Complexity**. Iterating over the new strings takes **O(N) Time**."
             },
             {
                 "stage_number": 4,
@@ -224,7 +228,8 @@ result = df
                 "follow_up_probes": [
                     "How does your algorithm handle two strings identical in length but with different space counts? Ex: `ab c` and `x yz`.",
                     "Where might this 'structural isomorphism' check be used in real-world data engineering? (e.g. validating masking/tokenisation rules on PII data)"
-                ]
+                ],
+                "big_o_explanation": "Rather than eagerly mutating large datasets entirely, doing targeted conditional bypassing is a highly effective optimization technique. By handling exact matching rules on space literals mathematically natively, we protect our **O(N) Time Complexity** boundary with surgical accuracy, although `.lower()` itself does require **O(N) Aux Space** here unless managed with pointer offsets on exact ASCII values."
             }
         ]
     }

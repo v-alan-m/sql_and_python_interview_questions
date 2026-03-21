@@ -69,6 +69,7 @@ GROUP BY g.group_id
 ORDER BY g.group_id;
 """,
         "deep_dive": "In Pandas/Python, sorting the array of strings first takes O(N log N * M) time where M is max string length. But it simplifies the problem to only comparing the bounds (first and last strings), making the final check O(M). Total time is dominated by the sort. Pure SQL struggles with this problem type because SQL sets are inherently unordered and string manipulation across sets isn't a native paradigm like aggregations are.",
+        "big_o_explanation": "Time Complexity: Python approach takes O(N log N * M) where N is the number of strings and M is the max string length, dominated by sorting. SQL recursive CTE is O(N * M) because it processes each character position sequence-by-sequence. Space Complexity: O(N * M) in Python to hold data structures in memory. Sorting the strings is the critical optimization here because it allows us to bypass checking all string pairs by strictly comparing the alphabetically first and last strings. Any common prefix among the group must be present in both boundary strings.",
         
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
@@ -99,6 +100,7 @@ ORDER BY group_id;
                     "group_id": [1, 2],
                     "longest_prefix": ["car", "banana"]
                 }),
+                "big_o_explanation": "Time Complexity: O(N) where N is the total number of rows across all groups. Python's `groupby().first()` and SQL's `MIN()` both require a single pass through the data. Space Complexity: O(G) where G is the number of unique groups, needed to store the grouped results. This is highly optimized because we avoid character-by-character comparisons completely.",
                 "follow_up_probes": [
                     "Why did you use `first()` vs `max()`? Does one have a performance benefit?"
                 ]
@@ -139,6 +141,7 @@ ORDER BY group_id;
                     "group_id": [1, 2, 3],
                     "longest_prefix": ["a", "", "b"]
                 }),
+                "big_o_explanation": "Time Complexity: O(N). We iterate through each string taking only the first character, or in SQL apply the `SUBSTRING` function to each row once. The `MIN()` and `MAX()` evaluations run in linear time per group. Space Complexity: O(G) for the output dataframe. This is very efficient as it avoids generating multiple substrings or sorting.",
                 "follow_up_probes": [
                     "Is an explicit loop needed in Python here, or could you use Series operations?",
                     "What are the edge cases with `SUBSTRING` or indexing if strings are empty?"
@@ -186,6 +189,7 @@ ORDER BY group_id;
                     "group_id": [1, 2, 3, 4],
                     "longest_prefix": ["fl", "", "apple", "sma"]
                 }),
+                "big_o_explanation": "Time Complexity: O(N * L) where N is number of strings and L is the bounded max length (5). In Python, generating length-L prefixes down to 1 scales linearly with L. In SQL, evaluating up to 5 `CASE` statements per group is similarly O(N * L). Space Complexity: O(N) in Python to store the set of prefixes temporarily, and O(G) for final output. Constraining the problem size bounds the worst-case performance.",
                 "follow_up_probes": [
                     "Why iterate backwards from 5 down to 1 instead of 1 up to 5?",
                     "What happens if a string is shorter than the substring index in Python vs SQL?"
@@ -262,6 +266,7 @@ ORDER BY g.group_id;
                     "group_id": [1, 2, 3, 4, 5],
                     "longest_prefix": ["inter", "", "same", "prefix", ""]
                 }),
+                "big_o_explanation": "Time Complexity: O(N log N * M) in Python due to the `.sorted()` operation on strings of max length M. Comparing only the first and last takes O(M). In SQL, the recursive CTE scales to O(N * M) as it builds character rows. Space Complexity: O(N * M) in memory to store the strings/lists. Sorting optimizes the comparisons by reducing them from testing every string against every other string (O(N * M)) to just checking the two bounds.",
                 "follow_up_probes": [
                     "In Python, what is the time complexity of sorting vs checking character by character?",
                     "In SQL, why do we need to compare `total_count` to the original `group_size`? (To ensure all strings actually contributed to a prefix of length n)."

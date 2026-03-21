@@ -38,6 +38,7 @@ FROM user_logins
 GROUP BY user_id;
 """,
         "deep_dive": "Deduplication via Hash Aggregation (`GROUP BY` and `MIN`) processes in O(N) time complexity, making it highly efficient. Sorting the data and dropping duplicates takes O(N log N) time due to the sorting overhead. However, sorting is sometimes required if we need to retrieve the entire row associated with the minimum date rather than just the minimum value itself.",
+        "big_o_explanation": "When deduplicating using hash grouping (`GROUP BY` + `MIN`), the operation evaluates each row linearly, resulting in an optimal **Time Complexity of O(N)**. If entire rows must be retrieved requiring a sort, it degrades to **O(N log N)**. **Space Complexity is O(U)** (where U is the number of unique users) to store the final deduplicated results.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
             {
@@ -81,6 +82,7 @@ ORDER BY user_id;
                         "2023-01-01 10:00:00"
                     ])
                 }),
+                "big_o_explanation": "**Time Complexity:** **O(N)**. Grouping rows by user and tracking the minimum value works via hash maps and only requires a single pass over the dataframe.\n**Space Complexity:** **O(U)** where *U* is the number of unique users returned in the output.",
                 "follow_up_probes": [
                     "What is the time complexity of this approach? (Expect O(N) since hashes are used for grouping).",
                     "What if the table was already sorted by user_id and login_time?"
@@ -135,6 +137,7 @@ ORDER BY user_id;
                     ]),
                     "device_id": ["web_1", "mob_2", "web_3"]
                 }),
+                "big_o_explanation": "**Time Complexity:** **O(N log N)**. By needing the entire row, we abandon hash aggregation in favor of sorting all rows chronologically before keeping the first instance per user. The sort operation inherently shifts the cost bound upwards.\n**Space Complexity:** **O(N)** due to maintaining the intermediate sorted blocks and window states.",
                 "follow_up_probes": [
                     "Why is ROW_NUMBER() often preferred over joining back to the original table with the MIN date?",
                     "What is the new time and space complexity in Pandas due to sorting? (O(N log N))."
@@ -190,6 +193,7 @@ ORDER BY user_id;
                     ]),
                     "device_id": ["web_1", "mob_2", "web_3"]
                 }),
+                "big_o_explanation": "**Time Complexity:** **O(N log N)**. Adding a secondary criteria (device_id) to the multi-column sort doesn't alter the core algorithmic class, heavily dictated by the initial N log N sorting constraint.\n**Space Complexity:** **O(N)** to build the fully sorted intermediate representations.",
                 "follow_up_probes": [
                     "What would happen if we used `RANK()` instead of `ROW_NUMBER()` and there was a complete duplicate row?",
                     "Can you think of any scenarios where an alphabetical tie-breaker wouldn't be appropriate?"
@@ -250,6 +254,7 @@ ORDER BY user_id;
                     "device_id": ["web_1", "mob_2", "web_3"],
                     "status": ["success", "success", "success"]
                 }),
+                "big_o_explanation": "**Time Complexity:** **O(N + S log S)** where *N* is the total rows and *S* is the number of successful logins. The linear O(N) pre-filter eliminates irrelevant records before the heavier O(S log S) sorting runs. This is realistically faster than sorting the entire un-filtered table first.\n**Space Complexity:** **O(S)** limiting memory usage to the much smaller subset of successful rows.",
                 "follow_up_probes": [
                     "If we removed the `WHERE status = 'success'` filter but partitioned by `user_id` and `status`, how would that change the result?",
                     "Does performing the filter *before* the sort have a significant implication on performance?"

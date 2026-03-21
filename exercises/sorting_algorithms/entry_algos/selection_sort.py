@@ -22,5 +22,6 @@ num_list = df['numbers'].tolist()
 sorted_list = selection_sort(num_list)
 result = sorted_list
 """,
-        "deep_dive": "Selection sort has an O(n^2) time complexity in all cases. It performs well on small lists and makes exactly O(n) swaps."
+        "deep_dive": "Selection sort has an O(n^2) time complexity in all cases. It performs well on small lists and makes exactly O(n) swaps.",
+        "big_o_explanation": "### Time & Space Complexity\n\n- **Time Complexity:** **O(N²)** in all cases (best, average, worst). This is because regardless of whether the array is initially sorted or scrambled, we must scan the entire remaining unsorted portion to find the true minimum element.\n- **Space Complexity:** **O(1)**. The algorithm performs all operations directly on the input array (in-place) and only stores a tiny amount of state (the `min_idx` pointer).\n\n### Optimization Context\n\nWhile Selection Sort is inherently slow for large datasets due to its quadratic time profile, it has one major redeeming quality: it performs a maximum of **O(N)** swaps. If writing to memory is an extremely slow or costly operation in your system architecture, Selection Sort mitigates the overhead better than Bubble Sort."
     }

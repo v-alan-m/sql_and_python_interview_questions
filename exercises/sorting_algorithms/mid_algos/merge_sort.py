@@ -43,5 +43,6 @@ num_list = df['numbers'].tolist()
 sorted_list = merge_sort(num_list)
 result = sorted_list
 """,
-        "deep_dive": "Merge sort is a divide-and-conquer algorithm with a guaranteed time complexity of O(n log n). It is a stable sort but requires O(n) extra space."
+        "deep_dive": "Merge sort is a divide-and-conquer algorithm with a guaranteed time complexity of O(n log n). It is a stable sort but requires O(n) extra space.",
+        "big_o_explanation": "### Time & Space Complexity\n\n- **Time Complexity:** **O(N log N)** in all cases (best, worst, average). The array is constantly bisected in half until 1-element lengths are reached (which spans $O(\\log N)$ levels). Traversing the branches to merge the components together takes $O(N)$ iterations at every nested level.\n- **Space Complexity:** **O(N)** auxiliary space. Unlike in-place algorithms (like Insertion/Selection Sort), Merge Sort mathematically requires temporary subarrays (`L` and `R`) to weave values together correctly. Additionally, the Call Stack consumes $O(\\log N)$ memory frames due to the recursive nature.\n\n### Optimization Context\n\nMerge Sort fundamentally trades memory allocation for massive efficiency gains on processing speed. It is significantly faster than quadratic $O(N²)$ operations and acts as the conceptual backbone for large-scale distributed computations in frameworks like Apache Spark (where data nodes literally map and merge sorted data)."
     }

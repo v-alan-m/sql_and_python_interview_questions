@@ -26,6 +26,7 @@ df["reversed"] = df["sentence"].apply(reverse_sentence)
 result = df
 """,
         "solution_sql": "Not applicable",
+        "big_o_explanation": "Time Complexity: O(N) where N is the length of the string, as `split()` and `join()` both iterate through the entire string once. Space Complexity: O(N) primarily because we must allocate memory for the intermediate list of words and the newly constructed string.",
         "deep_dive": "String splitting and joining in Python happens in O(N) time complexity, where N is the length of the string. The list reversal `words[::-1]` also operates in O(K) where K is the number of words. The space complexity is O(N) to store the intermediate list of words and the new string.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
@@ -67,6 +68,7 @@ result = df
                         "dogs and cats"
                     ]
                 }),
+                "big_o_explanation": "Time Complexity: O(N) where N is the number of characters. `.split(\" \")` takes O(N) time, reversing takes O(N/M) time (where M is average word length), and `.join()` takes O(N) time. Overall it's O(N). Space Complexity: O(N) to maintain the list of substrings and the rebuilt string.",
                 "follow_up_probes": [
                     "Time Complexity: What's the Big-O time complexity of your approach?",
                     "Space Complexity: How much extra memory does creating the list of words take?"
@@ -113,6 +115,7 @@ result = df
                         "prep Engineering Data"
                     ]
                 }),
+                "big_o_explanation": "Time Complexity: O(N). The `.split()` method internally trims trailing/leading spaces and handles multiple spaces, but it still parses the string in a single O(N) pass, effectively matching our prior solution's time complexity. Space Complexity: O(N) because the size of the intermediate array is still proportional to the number of words generated.",
                 "follow_up_probes": [
                     "Regex Alternative: If `.split()` didn't have this behavior built-in, how would you approach this using the `re` module?",
                     "Trailing Spaces: Does your current logic leave trailing spaces at the start or end of the reversed string?"
@@ -166,6 +169,7 @@ result = df
                         "12345"
                     ]
                 }),
+                "big_o_explanation": "Time Complexity: O(N). Converting primitive values using `str()` takes linear time proportional to the value's length. The remainder of the string parsing `split` and `join` maintains O(N) time complexity. Space Complexity: O(N) to handle the new typed intermediate string representations alongside the arrays.",
                 "follow_up_probes": [
                     "Null Handling: Your solution casts to string, making `None` become `\"None\"`. Is there a scenario where you'd prefer to return `None` or an empty string instead? How would you implement that check?",
                     "In-place Reversal Challenge: In a lower-level language like C or C++, how would you perform this reversal in-place without allocating O(N) memory? (Hint: Reverse the entire string, then reverse each individual word)."

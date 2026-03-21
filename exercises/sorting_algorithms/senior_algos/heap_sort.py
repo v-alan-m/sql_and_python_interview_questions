@@ -38,5 +38,6 @@ num_list = df['numbers'].tolist()
 sorted_list = heap_sort(num_list)
 result = sorted_list
 """,
-        "deep_dive": "Heap sort is an in-place algorithm with O(n log n) time complexity. It is not a stable sort, but its strictly bounded memory footprint makes it useful in certain system scenarios."
+        "deep_dive": "Heap sort is an in-place algorithm with O(n log n) time complexity. It is not a stable sort, but its strictly bounded memory footprint makes it useful in certain system scenarios.",
+        "big_o_explanation": "**Time Complexity:** `O(N log N)` across all cases.\n**Space Complexity:** `O(1)` auxiliary space.\n\n**Explanation:** Heap Sort optimizes comparison-based sorting by taking advantage of a binary heap structure. It builds a max-heap in `O(N)` time, then repeatedly extracts the maximum and restores the heap property in `O(log N)` time for each of the `N` elements. This strict `O(N log N)` bound makes it incredibly predictable compared to Quick Sort's worst case. Since elements are swapped in place without creating copies, space is optimized to an absolute minimum of `O(1)`."
     }

@@ -38,6 +38,7 @@ result = df
 """,
         "solution_sql": "Not applicable",
         "deep_dive": "This approach simulates the ZigZag traversal directly. By keeping track of the current row and direction, we iterate through the sequence of characters exactly once. Time complexity is O(N) where N is the length of the string. Space complexity is O(N) because the result string and intermediate row array store no more than N total characters.",
+        "big_o_explanation": "### ⏱️ Optimal Big O Notation\n**Time Complexity:** `O(N)` where N is the length of the string. We look at every character exactly one time.\n**Space Complexity:** `O(N)`. We build a string (or array of rows) that stores exactly N characters. The array containing the rows is limited to `min(numRows, N)` which scales at worst case exactly to `O(N)`.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
             {
@@ -72,7 +73,8 @@ result = df""",
                 "follow_up_probes": [
                     "What is the time and space complexity of your approach?",
                     "Can you write this using python slice notation `s[::2] + s[1::2]` instead of a loop?"
-                ]
+                ],
+                "big_o_explanation": "#### Stage 1: Two-Row Alternation\n**Time Complexity:** `O(N)`. We iterate through the string once, performing constant `O(1)` string concatenation steps.\n**Space Complexity:** `O(N)`. We create two separate string buffers whose combined lengths equal the original string `N`."
             },
             {
                 "stage_number": 2,
@@ -112,7 +114,8 @@ result = df""",
                 "follow_up_probes": [
                     "Why is creating an array of strings better than evaluating the math behind the string indices?",
                     "What bug might happen if `numRows` is 1? Walk through your loop logic."
-                ]
+                ],
+                "big_o_explanation": "#### Stage 2: Full ZigZag Pattern\n**Time Complexity:** `O(N)`. Still a single pass through the sequence of characters.\n**Space Complexity:** `O(N)`. We create an array of `numRows` elements, but collectively they only store `N` characters."
             },
             {
                 "stage_number": 3,
@@ -155,7 +158,8 @@ result = df""",
                 "follow_up_probes": [
                     "Why do we check `numRows >= len(s)` in the guard clause? What does it save us?",
                     "What is the final space and time complexity for the optimal solution?"
-                ]
+                ],
+                "big_o_explanation": "#### Stage 3: Handling Edge Cases\n**Time Complexity:** `O(N)`. If a case gets caught early by the guard clause, it bypasses computation but does not fundamentally alter the worst-case `N` loop.\n**Space Complexity:** `O(N)`. The guard clauses efficiently prevent out of bounds memory allocation errors."
             }
         ]
     }

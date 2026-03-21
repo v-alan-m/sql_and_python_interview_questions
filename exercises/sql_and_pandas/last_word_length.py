@@ -43,6 +43,7 @@ SELECT
 FROM text_data;
 """,
         "deep_dive": "Python makes tokenization incredibly easy; `.split()` is an internal O(N) C-implementation that perfectly handles variable length whitespace natively. Doing string parsing backwards conceptually (without creating an array of strings first) is standard in SQL or lower-level languages like C to avoid massive memory allocations or when arrays aren't natively supported.",
+        "big_o_explanation": "Regardless of dialect, characters must be inspected sequentially equating to a linear bounds process. **Time Complexity natively hits O(N)** since `.split()` maps the string or `REVERSE()` inverts all individual bytes structurally. **Space Complexity remains O(N)** bounded respectively to string or split array instantiations.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
             {
@@ -73,6 +74,7 @@ FROM text_data;
                     "string": ["Hello", "world", "Python"],
                     "last_word_length": [5, 5, 6]
                 }),
+                "big_o_explanation": "**Time Complexity:** **O(N)** or **O(1)**. Python's `len()` accesses pre-calculated lengths instantly yielding *O(1)*. A strictly compliant SQL iteration executes linearly scanning terminators inherently reflecting *O(N)* scaling natively.\n**Space Complexity:** **O(1)** assessing pure length references without new string generation dynamically avoids extra byte memory allocation.",
                 "follow_up_probes": [
                     "What is the time complexity of the length function in Python?"
                 ]
@@ -111,6 +113,7 @@ FROM text_data;
                     "string": ["Hello World", "Data Engineering", "SQL and Python", "Python"],
                     "last_word_length": [5, 11, 6, 6]
                 }),
+                "big_o_explanation": "**Time Complexity:** **O(N)**. Splicing text blocks commands inspecting each underlying character guaranteeing deterministic linear processing execution constraints.\n**Space Complexity:** **O(N)** scaling directly proportionally since Python conceptually generates entirely fresh fragmented word tuples, while SQL enforces creating comprehensive reverse copied memory copies internally.",
                 "follow_up_probes": [
                     "How does splitting the entire string affect memory usage if the string is extremely large?"
                 ]
@@ -149,6 +152,7 @@ FROM text_data;
                     "string": ["Hello World", "   fly me   to   the moon  ", "luffy is still joyboy", "   a   "],
                     "last_word_length": [5, 4, 6, 1]
                 }),
+                "big_o_explanation": "**Time Complexity:** **O(N)**. Advancing whitespace management (e.g. `strip()` trimming sequences or sequential delimitation iterations) scales uniformly relative to total foundational text sizes strictly mirroring structural *O(N)* performance curves.\n**Space Complexity:** **O(N)** ensuring parsing logic extracts tokens natively to independently isolated block elements securely separated from earlier text structures.",
                 "follow_up_probes": [
                     "Can you solve this in Python without creating a new list of words?",
                     "What is the time complexity of reversing the string in SQL and is there an alternative?"

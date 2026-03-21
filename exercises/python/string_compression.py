@@ -37,6 +37,7 @@ df["compressed"] = df["string"].apply(compress_string)
 result = df
 """,
         "solution_sql": "Not applicable",
+        "big_o_explanation": "Time Complexity: O(N) where N is the length of the string, tracking state via loop. List iteration and `\"\".join()` logic prevents O(N^2) breakdown in Python string manipulation. Space Complexity: O(N) to explicitly store both the dynamically constructed list tokens and the final string equivalent.",
         "deep_dive": "String concatenation in Python creates a new string each time, which can take O(N^2) time if done repeatedly. By appending to a list and then using `''.join()`, the algorithm runs in O(N) time complexity where N is the length of the string. The space complexity is also O(N) to store the compressed representation.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
@@ -76,6 +77,7 @@ result = df
                     "string": ["aaabbc", "zzzzzz", "aaxyz"],
                     "compressed": ["a3b2c1", "z6", "a2x1y1z1"]
                 }),
+                "big_o_explanation": "Time Complexity: O(N). Iterating through every character natively executes linearly, while accessing `s[i - 1]` resolves memory in O(1) blocks. Space Complexity: O(N). If character variances are high (e.g. \"abcdef\"), the list scales to O(2N) size temporarily returning an O(N) envelope overall.",
                 "follow_up_probes": [
                     "What is the time complexity of your approach? Why did you choose a list instead of concatenating strings directly?",
                     "What happens if we pass an empty string to your function right now?",
@@ -119,6 +121,7 @@ result = df
                     "string": ["aabcccccaaa", "abcdef", "aabb", "aaabbc"],
                     "compressed": ["a2b1c5a3", "abcdef", "aabb", "aaabbc"]
                 }),
+                "big_o_explanation": "Time Complexity: O(N) primarily executing the loop iteration framework. Checking length `len(compressed_str)` relies on pre-tracked counts internally via Python taking only O(1) logic. Space Complexity: O(N) tracking list blocks and rendering final string comparison constraints out.",
                 "follow_up_probes": [
                     "If we are comparing lengths, do we still need to process the entire string all the way to the end? (Optimization discussion)",
                     "How could you optimize the space complexity if we expect many inputs to be longer when 'compressed'?"
@@ -163,6 +166,7 @@ result = df
                     "string": ["", "aabcccccaaa", "abcdef", "aaa   bb222"],
                     "compressed": ["", "a2b1c5a3", "abcdef", "a3 3b223"]
                 }),
+                "big_o_explanation": "Time Complexity: O(N). The guard evaluation block terminates execution completely in O(1) minimizing effort, maintaining N looping operations identically against pure standard strings vs spacing/numbers structure variables. Space Complexity: O(N) logic preserves identically against memory blocks required.",
                 "follow_up_probes": [
                     "If `s` is None instead of an empty string, does your guard clause catch it safely?",
                     "How would this function need to change if we wanted it to be completely case-insensitive?"

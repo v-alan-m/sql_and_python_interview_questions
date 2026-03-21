@@ -22,5 +22,6 @@ num_list = df['numbers'].tolist()
 sorted_list = insertion_sort(num_list)
 result = sorted_list
 """,
-        "deep_dive": "Insertion sort is highly efficient for small data sets or partially sorted arrays, with an adaptive time complexity of O(n) in the best case."
+        "deep_dive": "Insertion sort is highly efficient for small data sets or partially sorted arrays, with an adaptive time complexity of O(n) in the best case.",
+        "big_o_explanation": "### Time & Space Complexity\n\n- **Time Complexity:** **O(N²)** in the worst and average cases, where $N$ is the length of the array. This happens because for each element, we might need to compare and shift it past all previously sorted elements. However, in the **best case** (when the array is already sorted), it's **O(N)** since we only check the precedent element once per iteration.\n- **Space Complexity:** **O(1)**. The algorithm sorts the array entirely in-place and only requires a few variable pointers (like `key` and `j`), minimizing memory overhead.\n\n### Optimization Context\n\nUnlike Selection Sort, Insertion Sort allows for early termination of the inner loop when the correct position is found, making it extremely fast (`O(N)`) for partially sorted or nearly sorted datasets."
     }

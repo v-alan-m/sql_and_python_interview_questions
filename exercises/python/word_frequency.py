@@ -18,6 +18,7 @@ def get_exercise():
         "solution_python": '''\nfrom collections import Counter\n\ndef get_total_word_frequencies(df_series):\n    # 1. Join all strings with a space\n    all_text = " ".join(df_series)\n    \n    # 2. Lowercase and split into words\n    words = all_text.lower().split()\n    \n    # 3. Use Counter to get frequencies\n    return dict(Counter(words))\n\nword_freqs = get_total_word_frequencies(df["sentence"])\nresult = word_freqs\n''',
         "solution_sql": "",
         "deep_dive": "Joining the entire column into a single string heavily allocates memory, but allows Python's `.split()` to parse all tokens in one pass via C. The `collections.Counter()` is a specialized dictionary designed precisely for multiset counting, hashing each word in O(1) time. Overall time complexity is linear O(N) relative to the total number of characters across all rows.",
+        "big_o_explanation": "### ⏱️ Optimal Big O Notation\n**Time Complexity:** `O(N)` where N is the total number of characters across all text. Splitting, lowercasing, and counting all take linear time.\n**Space Complexity:** `O(N + U)` where `N` is the string size (to store the string copies and the split list of words) and `U` is the number of unique words returned in the Counter hash map.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
             {
@@ -38,7 +39,8 @@ result = dict(Counter(text.split()))""",
                 "follow_up_probes": [
                     "What is the time complexity of your solution?",
                     "If we couldn't use `collections.Counter`, how would you implement the frequency counting manually using a standard dictionary?"
-                ]
+                ],
+                "big_o_explanation": "#### Stage 1: Single Sentence\n**Time Complexity:** `O(N)` where `N` is the characters in the string. Iterating via `.split()` takes `O(N)`, and hashing into `Counter` takes `O(N)`.\n**Space Complexity:** `O(W)` where `W` is the number of words. The `.split()` method creates a new list containing all `W` words, and `Counter` creates a dictionary mapping the unique words to integers."
             },
             {
                 "stage_number": 2,
@@ -64,7 +66,8 @@ result = dict(Counter(all_text.split()))""",
                 "follow_up_probes": [
                     "Are there alternative ways to solve this besides joining all strings first? (e.g., iterating over rows and updating a counter).",
                     "What are the memory implications of joining all sentences into one massive string versus processing row-by-row?"
-                ]
+                ],
+                "big_o_explanation": "#### Stage 2: Multiple Sentences\n**Time Complexity:** `O(N)`. Joining the strings is `O(N)`, and then splitting and counting remains `O(N)` relative to total character count.\n**Space Complexity:** `O(N)`. `\" \".join()` creates a brand-new string in memory containing all the text, which doubles the immediate memory footprint before the word list is even built."
             },
             {
                 "stage_number": 3,
@@ -89,7 +92,8 @@ result = dict(Counter(words))""",
                 "expected_output": {'apple': 2, 'orange': 2, 'banana': 1},
                 "follow_up_probes": [
                     "Why is it better to call `.lower()` on the combined string rather than on each word individually after splitting?"
-                ]
+                ],
+                "big_o_explanation": "#### Stage 3: Case Insensitivity\n**Time Complexity:** `O(N)`. `.lower()` adds another full string traversal but overall it remains `O(N)`.\n**Space Complexity:** `O(N)`. Because strings in Python are immutable, calling `.lower()` instantiates another completely new, full-length string in memory."
             },
             {
                 "stage_number": 4,
@@ -117,7 +121,8 @@ result = dict(Counter(valid_words))""",
                 "follow_up_probes": [
                     "Why should `stop_words` be defined as a set rather than a list? How does this affect time complexity?",
                     "How would your code handle punctuation attached to a stop word, e.g., `\"the,\"`? (Note: It's fine if it doesn't currently, just explain what would happen)."
-                ]
+                ],
+                "big_o_explanation": "#### Stage 4: Stop Words Filter\n**Time Complexity:** `O(N)`. Checking membership in the `stop_words` set is `O(1)`, so applying it as a filter across the list of words adds no significant algorithmic overhead.\n**Space Complexity:** `O(N + K)` where `K` is the small constant size of the stop words set."
             }
         ]
     }

@@ -31,6 +31,7 @@ result = df_filtered
 """,
         "solution_sql": "Not applicable",
         "deep_dive": "Converting a word to a Set takes O(W) time where W is word length. Checking `subset <= row_set` also takes O(W) operations sequentially. Sets provide highly efficient subset and intersection calculations compared to iterating through arrays manually. Overall time complexity across N words of average length W is O(N * W).",
+        "big_o_explanation": "Converting each exact word literal string to a Python `set` internally invokes an `O(W)` pass where W is the word's length. Evaluating dynamic subsets mathematically natively via `<= ` is also sequentially bound at `O(W)`. With `N` total strings being fed inside the dataset, it generates an overarching **O(N * W) Time Complexity**. Constructing sets produces an exact copy matching characters natively yielding roughly **O(N * W)** total Space representation footprint within memory.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
             {
@@ -55,7 +56,8 @@ result = df[df["word"].apply(is_top_row)].reset_index(drop=True)""",
                 "follow_up_probes": [
                     "What is the time complexity of converting a string to a set?",
                     "Are there any edge cases with an empty string here?"
-                ]
+                ],
+                "big_o_explanation": "Set creation is optimized deeply natively inside the Python interpreter core runtime. Extracting uniqueness iteratively inherently carries exactly `O(W)` time internally alongside `O(W)` auxiliary array mapping allocations. Total Time scaling across N words evaluates to precisely **O(N * W) Time Complexity** with very minimal footprint space."
             },
             {
                 "stage_number": 2,
@@ -81,7 +83,8 @@ result = df[df["word"].apply(check_single_row)].reset_index(drop=True)""",
                 "follow_up_probes": [
                     "Is there a more dynamic way to check against the rows instead of hardcoding three `or` statements?",
                     "Would checking the rows in a specific order (e.g., top row first because it has the most vowels) improve the average performance?"
-                ]
+                ],
+                "big_o_explanation": "While it requires evaluating exactly three rigid subset iterations conditionally independently in succession dynamically (e.g. `c <= row_1 OR c <= row_2 ...`), fixed constant limits of evaluating up to exactly 3 iterations behaves algorithmically constantly. So iterating across sets still stays squarely clamped underneath an **O(N * W) Time Complexity** boundary alongside identical identical string mapping Space Complexities securely."
             },
             {
                 "stage_number": 3,
@@ -117,7 +120,8 @@ result = df[df["word"].apply(check_single_row)].reset_index(drop=True)""",
                     "How does `str(None)` behave, and why does your logic correctly discard it?",
                     "What's the overall time complexity of this filtered approach?",
                     "If we wanted to return a list of validity booleans instead of filtering the dataframe, how would you change it?"
-                ]
+                ],
+                "big_o_explanation": "Performing safety string type coercions and dynamically standardizing case parameters eagerly by enforcing strict `.lower()` execution adds duplicate literal string copies simultaneously into Python runtime memory mappings, inflating explicit Space Complexities mathematically across entirely huge dataframe bounds securely. Yet algorithmically, resolving this dynamically continues generating absolutely exact **O(N * W) Time Complexity** outputs accurately smoothly."
             }
         ]
     }

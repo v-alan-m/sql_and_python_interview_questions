@@ -19,6 +19,7 @@ def get_exercise():
         "solution_python": '''\ndef remove_consecutive_duplicates(text):\n    if not text:\n        return text\n        \n    result = [text[0]]\n    \n    for i in range(1, len(text)):\n        # Only append if it's different from the most recently added char\n        if text[i] != result[-1]:\n            result.append(text[i])\n            \n    return "".join(result)\n\ndf["deduped_text"] = df["text"].apply(remove_consecutive_duplicates)\nresult = df\n''',
         "solution_sql": "",
         "deep_dive": "This is a simple state-tracking algorithm. By using the end of the `result` list `result[-1]` as our state tracker, we avoid needing a separate variable to keep track of the 'previous' character. The time complexity is exactly O(N) because we iterate through the sequence precisely once, and list appends in Python are amortized O(1).",
+        "big_o_explanation": "Time Complexity: O(N) where N is the length of the string. We iterate exactly once through the characters. Space Complexity: O(N) to build the `result` list. Checking `result[-1]` acts as an implicit state tracker in O(1) time without requiring a dedicated 'previous char' variable.",
         # --- MULTI-STAGE INTERVIEW DATA ---
         "interview_stages": [
             {
@@ -55,6 +56,7 @@ result = df
                     "text": ["aabbcc", "mississippi", "hello world", "a"],
                     "deduped_text": ["abc", "misisipi", "helo world", "a"]
                 }),
+                "big_o_explanation": "Time Complexity: O(N) because we perform a single linear scan of the string of length N. Space Complexity: O(N) because in the worst-case (no duplicates), we store all characters in the `result` list. Appending to a list and calling `.join()` is an efficient O(N) operation, whereas using `+=` string concatenation inside a loop would degrade to O(N^2).",
                 "follow_up_probes": [
                     "Time/Space Complexity: What is the time and space complexity of your solution?",
                     "String Immutability: Why did you use a list and `join()` instead of just doing `result_str += text[i]`?"
@@ -93,6 +95,7 @@ result = df
                     "text": ["aAabbcc", "HeEllo World", "mississippi"],
                     "deduped_text": ["abc", "Helo World", "misisipi"]
                 }),
+                "big_o_explanation": "Time Complexity: O(N) since we still only do one logical pass. Calling `.lower()` on each iteration scales linearly but adds a constant overhead. Space Complexity: O(N) for holding the list of deduplicated characters. Passing over the characters while keeping track of the previous state is inherently optimal for sequential deduplication.",
                 "follow_up_probes": [
                     "Two Pointers: Could this be done in-place if strings were mutable in our language (like C++)? How would the two-pointer approach work?"
                 ]
@@ -135,6 +138,7 @@ result = df
                     "text": ["hello... world!!!", "HeEllo World!!", "aAabbcc..."],
                     "deduped_text": ["helo... world!!!", "Helo World!!", "abc..."]
                 }),
+                "big_o_explanation": "Time Complexity: O(N) to traverse the string. The `.isalpha()` checks and `.lower()` comparisons execute in O(1) time per character. Space Complexity: O(N). Complex conditional checks inside the loop slow down the constant factor of the algorithm but do not change the linear O(N) scaling. A Regex-based approach like `re.sub(r'([A-Za-z])\\\\1+', ...)` could achieve similar logic potentially faster due to C optimizations.",
                 "follow_up_probes": [
                     "Regular Expressions: If we wanted to solve this whole problem (Stage 3) using standard Regex substitution instead of a loop, what pattern would we use?"
                 ]
