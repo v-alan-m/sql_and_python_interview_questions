@@ -37,7 +37,8 @@ st.sidebar.header("🎯 Training Menu")
 category_options = {
     "Pandas (Python)": "python",
     "SQL and Pandas": "sql_and_pandas",
-    "Sorting Algorithms": "sorting_algorithms"
+    "Sorting Algorithms": "sorting_algorithms",
+    "Real-World Scenarios": "real_world_scenarios"
 }
 selected_category = st.sidebar.selectbox("Select Category:", list(category_options.keys()))
 folder_prefix = f"{category_options[selected_category]} > "
@@ -185,6 +186,41 @@ if selected_key:
             with st.expander("💬 Follow-Up Probes"):
                 for j, probe in enumerate(active_followups, 1):
                     st.markdown(f"{j}. *{probe}*")
+
+        # --- Conceptual Questions (MCQ) Section ---
+        mcq_questions = ex.get("mcq_questions", [])
+        if mcq_questions and has_stages:
+            # Filter MCQs for current stage or all previous stages
+            relevant_mcqs = [q for q in mcq_questions if q["stage_number"] <= current_stage_idx]
+            if relevant_mcqs:
+                st.markdown("### 🧠 Conceptual Questions")
+                for i, mcq in enumerate(relevant_mcqs):
+                    mcq_col1, mcq_col2 = st.columns([20, 1])
+                    with mcq_col1:
+                        st.markdown(f"**Q{i+1}.** {mcq['question']}")
+                    with mcq_col2:
+                        with st.popover("❓"):
+                            st.markdown(mcq["explanation"])
+
+                    # Radio buttons for options
+                    options = [f"{opt['label']}) {opt['text']}" for opt in mcq["options"]]
+                    answer_key = f"mcq_{selected_key}_{i}"
+                    selected = st.radio(
+                        "Select your answer:",
+                        options,
+                        key=answer_key,
+                        label_visibility="collapsed"
+                    )
+
+                    # Check answer on selection
+                    if selected:
+                        selected_label = selected[0]  # Get "A", "B", "C", or "D"
+                        correct_opt = next(o for o in mcq["options"] if o["is_correct"])
+                        if selected_label == correct_opt["label"]:
+                            st.success(f"✅ Correct! {correct_opt['label']}) {correct_opt['text']}")
+                        else:
+                            st.error(f"❌ Incorrect. The correct answer is {correct_opt['label']}) {correct_opt['text']}")
+                    st.markdown("---")
                     
         # Big O Notation & Optimization (Cumulative)
         if current_stage_idx > 0 or "big_o_explanation" in ex:
