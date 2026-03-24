@@ -36,7 +36,7 @@ When the user says **"next"**, you process the **next unprocessed exercise** fro
 
 ### Initial Setup (Completed)
 
-When all exercises are done, inform the user.
+When each exercise is done, update [task.md](task.md) and inform the user and await the 'next' string prompt before proceeding to the next exercise.
 
 ---
 
