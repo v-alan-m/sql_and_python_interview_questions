@@ -26,10 +26,10 @@ The scenario designs (business context, data schemas, stage progressions, MCQ ba
 
 When the user says **"next"**, you process the **next unprocessed exercise** from the tracking list below. For each exercise you:
 
-1. **Read `real_world_examples.md`** to find the corresponding scenario design (business context, data schema, stage progression, MCQ bank).
-2. **Read existing exercises** that the scenario reuses patterns from (listed in the scenario design) to understand the coding patterns.
-3. **Create the `.py` exercise file** in `exercises/real_world_scenarios/` following the Exercise Structure below.
-4. **Create a `*_scenario_stages.md` reference document** in `exercises/real_world_scenarios/docs/` with all stage content and MCQ questions.
+1. **Read the corresponding plan document** in `exercises/real_world_scenarios/docs/` (e.g., `ecommerce_order_pipeline_stages.md`). These artifacts contain the deep logic, SQL, Python code, and MCQs designed for the exercise.
+2. **Read `real_world_examples.md`** if you need additional context about the business scenario or schemas.
+3. **Read existing exercises** that the scenario reuses patterns from (listed in the scenario design) to understand the coding patterns.
+4. **Create the `.py` exercise file** in `exercises/real_world_scenarios/` following the Exercise Structure below, pulling the logic and data directly from the plan document.
 5. **Run `python test_all_exercises.py`** from the project root. Ensure all tests pass. If a stage fails, fix the logic or data until it passes.
 6. **Mark the exercise as processed** in the tracking list below by changing `[ ]` to `[x]`.
 7. **Update the tracking section of THIS file** (this system prompt `.md` file at the project root) so the next chat session knows where we left off.
@@ -154,14 +154,14 @@ Study these to understand coding style, data construction, and `expected_output`
 ## Processing Workflow Per Exercise
 
 ```
-1. Read real_world_examples.md for the scenario design
-2. Read any referenced existing exercise files for pattern reuse
-3. Design stage-specific data + solutions matching the scenario
-4. Create the .py file in exercises/real_world_scenarios/
-5. Create the *_scenario_stages.md reference document in `exercises/real_world_scenarios/docs/`
-6. Run test_all_exercises.py (must pass all)
-7. Mark exercise as [x] in the tracking list below
-8. Update THIS system prompt file with the [x] change
+1. Read the corresponding *_stages.md plan document in exercises/real_world_scenarios/docs/
+2. Read real_world_examples.md if additional business context is needed
+3. Read any referenced existing exercise files for pattern reuse
+4. Create the .py file in exercises/real_world_scenarios/ using the logic from the plan document
+5. Run test_all_exercises.py (must pass all)
+6. Mark exercise as [x] in the tracking list below
+7. Update THIS system prompt file with the [x] change
+8. Update task.md marking the scenario as complete
 9. Wait for user to say "next"
 ```
 
