@@ -172,7 +172,7 @@ Study these to understand coding style, data construction, and `expected_output`
 ### `exercises/real_world_scenarios/`
 
 - [x] user_growth_analytics.py
-- [ ] ecommerce_order_pipeline.py
+- [x] ecommerce_order_pipeline.py
 - [ ] platform_engagement_streaks.py
 - [ ] data_quality_monitoring.py
 - [ ] star_schema_revenue.py
