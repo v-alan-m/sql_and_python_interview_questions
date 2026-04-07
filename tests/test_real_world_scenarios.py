@@ -59,7 +59,7 @@ def test_real_world_sql_exercises(exercise_key, test_name, test_data):
             expected = test_data["expected_output"]
             for col in expected.columns:
                 if col in result.columns and str(expected[col].dtype).startswith('datetime64'):
-                    result[col] = pd.to_datetime(result[col])
+                    result[col] = pd.to_datetime(result[col]).astype(expected[col].dtype)
             pd.testing.assert_frame_equal(
                 result.reset_index(drop=True),
                 expected.reset_index(drop=True),

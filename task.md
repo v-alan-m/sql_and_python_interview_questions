@@ -15,7 +15,7 @@
 - [x] Scenario 2: Create `ecommerce_order_pipeline.py` and test
 - [x] Scenario 3: Create `platform_engagement_streaks.py` and test
 - [x] Scenario 4: Create `data_quality_monitoring.py` and test
-- [ ] Scenario 5: Create `star_schema_revenue.py` and test
+- [x] Scenario 5: Create `star_schema_revenue.py` and test
 
 ## Final Verification
 - [ ] Run full test suite

@@ -175,5 +175,5 @@ Study these to understand coding style, data construction, and `expected_output`
 - [x] ecommerce_order_pipeline.py
 - [x] platform_engagement_streaks.py
 - [x] data_quality_monitoring.py
-- [ ] star_schema_revenue.py
+- [x] star_schema_revenue.py
 
