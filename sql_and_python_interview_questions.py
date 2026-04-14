@@ -62,7 +62,11 @@ else:
         st.sidebar.warning(f"No exercises found for {selected_category}!")
         selected_key = None
     else:
-        selected_key = st.sidebar.selectbox("Select Exercise:", sorted(list(filtered_exercises.keys())))
+        selected_key = st.sidebar.selectbox(
+            "Select Exercise:", 
+            sorted(list(filtered_exercises.keys())),
+            format_func=lambda x: x.split(" > ")[-1]
+        )
         ex = filtered_exercises[selected_key]
 
 # Timer
