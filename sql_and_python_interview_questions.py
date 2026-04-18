@@ -35,6 +35,7 @@ exercises = load_exercises()
 st.sidebar.header("Training Menu")
 
 category_options = {
+    "Python": "python_core",
     "Pandas (Python)": "python",
     "SQL and Pandas": "sql_and_pandas",
     "Sorting Algorithms": "sorting_algorithms",
@@ -52,6 +53,14 @@ if selected_category == "Sorting Algorithms":
     }
     selected_level = st.sidebar.selectbox("Select Level:", list(level_options.keys()))
     folder_prefix = f"sorting_algorithms > {level_options[selected_level]} > "
+
+if selected_category == "Python":
+    sub_options = {
+        "System": "python_system",
+        "Coding": "python_coding"
+    }
+    selected_sub = st.sidebar.selectbox("Select Topic:", list(sub_options.keys()))
+    folder_prefix = f"python_core > {sub_options[selected_sub]} > "
 
 if not exercises:
     st.sidebar.warning("No exercises found in /exercises folder!")
@@ -188,7 +197,10 @@ if selected_key:
         # Expected Output (stage only)
         if active_expected_output is not None:
             with st.expander("Expected Output"):
-                st.dataframe(active_expected_output, use_container_width=True)
+                if isinstance(active_expected_output, pd.DataFrame):
+                    st.dataframe(active_expected_output, use_container_width=True)
+                else:
+                    st.write(active_expected_output)
 
         # Follow-Up Probes (stage only)
         if active_followups:
@@ -197,40 +209,8 @@ if selected_key:
                     st.markdown(f"{j}. *{probe}*")
 
         # --- Conceptual Questions (MCQ) Section ---
-        mcq_questions = ex.get("mcq_questions", [])
-        if mcq_questions and has_stages:
-            # Filter MCQs for current stage or all previous stages
-            relevant_mcqs = [q for q in mcq_questions if q["stage_number"] <= current_stage_idx]
-            if relevant_mcqs:
-                st.markdown("### Conceptual Questions")
-                for i, mcq in enumerate(relevant_mcqs):
-                    mcq_col1, mcq_col2 = st.columns([20, 1])
-                    with mcq_col1:
-                        st.markdown(f"**Q{i+1}.** {mcq['question']}")
-                    with mcq_col2:
-                        with st.popover("?"):
-                            st.markdown(mcq["explanation"])
+        pass
 
-                    # Radio buttons for options
-                    options = [f"{opt['label']}) {opt['text']}" for opt in mcq["options"]]
-                    answer_key = f"mcq_{selected_key}_{i}"
-                    selected = st.radio(
-                        "Select your answer:",
-                        options,
-                        key=answer_key,
-                        label_visibility="collapsed"
-                    )
-
-                    # Check answer on selection
-                    if selected:
-                        selected_label = selected[0]  # Get "A", "B", "C", or "D"
-                        correct_opt = next(o for o in mcq["options"] if o["is_correct"])
-                        if selected_label == correct_opt["label"]:
-                            st.success(f"Correct! {correct_opt['label']}) {correct_opt['text']}")
-                        else:
-                            st.error(f"Incorrect. The correct answer is {correct_opt['label']}) {correct_opt['text']}")
-                    st.markdown("---")
-                    
         # Big O Notation & Optimization (Cumulative)
         if current_stage_idx > 0 or "big_o_explanation" in ex:
             # We want to show base exercise explanation if no stages, or cumulative up to current stage
@@ -253,30 +233,106 @@ if selected_key:
                         st.markdown("---")
 
     with col2:
-        st.write("### Workspace")
-        mode = st.radio("Language:", ex.get('allowed_modes', ["SQL", "Python"]), horizontal=True, key=mode_key)
-        user_code = st.text_area(f"Write your {mode} code here:", height=300, placeholder="Assign your final result to a variable named 'result'...")
+        is_python_mcq = selected_category == "Python" and ex.get("mcq_questions")
+        run_clicked = False
 
-        # --- Run Code + Stage Navigation Buttons ---
-        if has_stages:
-            btn_cols = st.columns([2, 1, 1, 1])
-            with btn_cols[0]:
-                run_clicked = st.button("Run Code")
-            with btn_cols[1]:
-                stage_label = f"Stage {current_stage_idx}/{total_stages}" if current_stage_idx > 0 else "Original"
-                st.markdown(f"<div style='text-align:center; padding-top:6px; font-weight:600; color:#6c757d;'>{stage_label}</div>", unsafe_allow_html=True)
-            with btn_cols[2]:
-                prev_disabled = current_stage_idx <= 1
-                if st.button("Prev", disabled=prev_disabled):
-                    st.session_state[stage_key] = current_stage_idx - 1
-                    st.rerun()
-            with btn_cols[3]:
-                next_disabled = current_stage_idx >= total_stages
-                if st.button("Next", disabled=next_disabled):
-                    st.session_state[stage_key] = current_stage_idx + 1
-                    st.rerun()
+        if is_python_mcq:
+            st.write("### Conceptual Questions")
+            
+            # Add volumetric CSS specifically for the MCQ radio buttons
+            st.markdown("""
+            <style>
+            div.row-widget.stRadio > div { flex-direction: column; }
+            div.row-widget.stRadio > div > label {
+                padding: 12px 18px;
+                border: 1px solid rgba(128, 128, 128, 0.3);
+                border-radius: 8px;
+                margin-bottom: 5px;
+                transition: 0.3s ease;
+                background-color: rgba(128, 128, 128, 0.05);
+                width: 100%;
+                cursor: pointer;
+            }
+            div.row-widget.stRadio > div > label:hover {
+                border-color: #ff4b4b;
+                background-color: rgba(255, 75, 75, 0.05);
+            }
+            </style>
+            """, unsafe_allow_html=True)
+            
+            mcq_questions = ex.get("mcq_questions", [])
+            relevant_mcqs = [q for q in mcq_questions if q["stage_number"] <= current_stage_idx] if has_stages else mcq_questions
+            
+            for i, mcq in enumerate(relevant_mcqs):
+                mcq_col1, mcq_col2 = st.columns([20, 1])
+                with mcq_col1:
+                    st.markdown(f"**Q{i+1}.** {mcq['question']}")
+                with mcq_col2:
+                    with st.popover("?"):
+                        st.markdown(mcq["explanation"])
+
+                # Radio buttons for options
+                options = [f"{opt['label']}) {opt['text']}" for opt in mcq["options"]]
+                answer_key = f"mcq_{selected_key}_{i}"
+                selected = st.radio(
+                    "Select your answer:",
+                    options,
+                    key=answer_key,
+                    index=None,
+                    label_visibility="collapsed"
+                )
+
+                # Check answer on selection
+                if selected:
+                    selected_label = selected[0]  # Get "A", "B", "C", or "D"
+                    correct_opt = next(o for o in mcq["options"] if o["is_correct"])
+                    if selected_label == correct_opt["label"]:
+                        st.success(f"Correct! {correct_opt['label']}) {correct_opt['text']}")
+                    else:
+                        st.error(f"Incorrect. The correct answer is {correct_opt['label']}) {correct_opt['text']}")
+                st.markdown("---")
+
+            # --- Stage Navigation Buttons ---
+            if has_stages:
+                btn_cols = st.columns([2, 1, 1, 1])
+                with btn_cols[1]:
+                    stage_label = f"Stage {current_stage_idx}/{total_stages}" if current_stage_idx > 0 else "Original"
+                    st.markdown(f"<div style='text-align:center; padding-top:6px; font-weight:600; color:#6c757d;'>{stage_label}</div>", unsafe_allow_html=True)
+                with btn_cols[2]:
+                    prev_disabled = current_stage_idx <= 1
+                    if st.button("Prev", disabled=prev_disabled):
+                        st.session_state[stage_key] = current_stage_idx - 1
+                        st.rerun()
+                with btn_cols[3]:
+                    next_disabled = current_stage_idx >= total_stages
+                    if st.button("Next", disabled=next_disabled):
+                        st.session_state[stage_key] = current_stage_idx + 1
+                        st.rerun()
         else:
-            run_clicked = st.button("Run Code")
+            st.write("### Workspace")
+            mode = st.radio("Language:", ex.get('allowed_modes', ["SQL", "Python"]), horizontal=True, key=mode_key)
+            user_code = st.text_area(f"Write your {mode} code here:", height=300, placeholder="Assign your final result to a variable named 'result'...")
+
+            # --- Run Code + Stage Navigation Buttons ---
+            if has_stages:
+                btn_cols = st.columns([2, 1, 1, 1])
+                with btn_cols[0]:
+                    run_clicked = st.button("Run Code")
+                with btn_cols[1]:
+                    stage_label = f"Stage {current_stage_idx}/{total_stages}" if current_stage_idx > 0 else "Original"
+                    st.markdown(f"<div style='text-align:center; padding-top:6px; font-weight:600; color:#6c757d;'>{stage_label}</div>", unsafe_allow_html=True)
+                with btn_cols[2]:
+                    prev_disabled = current_stage_idx <= 1
+                    if st.button("Prev", disabled=prev_disabled):
+                        st.session_state[stage_key] = current_stage_idx - 1
+                        st.rerun()
+                with btn_cols[3]:
+                    next_disabled = current_stage_idx >= total_stages
+                    if st.button("Next", disabled=next_disabled):
+                        st.session_state[stage_key] = current_stage_idx + 1
+                        st.rerun()
+            else:
+                run_clicked = st.button("Run Code")
 
         if run_clicked:
             try:
@@ -332,7 +388,10 @@ if selected_key:
                 if is_correct:
                     st.success("Correct! Your code produced the expected output.")
                     st.write("### Your Output")
-                    st.dataframe(result, use_container_width=True)
+                    if isinstance(result, pd.DataFrame):
+                        st.dataframe(result, use_container_width=True)
+                    else:
+                        st.write(result)
                 else:
                     st.error("Incorrect. Your output did not match the expected result.")
                     st.write("### Your Output")
