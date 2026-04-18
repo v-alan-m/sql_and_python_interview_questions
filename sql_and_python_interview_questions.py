@@ -32,7 +32,7 @@ def load_exercises(base_folder="exercises"):
 exercises = load_exercises()
 
 # --- SIDEBAR ---
-st.sidebar.header("🎯 Training Menu")
+st.sidebar.header("Training Menu")
 
 category_options = {
     "Pandas (Python)": "python",
@@ -72,10 +72,15 @@ else:
 # Timer
 if 'start_time' not in st.session_state:
     st.session_state.start_time = time.time()
-timer_placeholder = st.sidebar.empty()
-elapsed = int(time.time() - st.session_state.start_time)
-remaining = max(0, 1200 - elapsed)
-timer_placeholder.metric("Session Timer", f"{remaining // 60}:{remaining % 60:02d}")
+
+@st.fragment(run_every="1s")
+def display_timer():
+    elapsed = int(time.time() - st.session_state.start_time)
+    remaining = max(0, 1200 - elapsed)
+    st.metric("Session Timer", f"{remaining // 60}:{remaining % 60:02d}")
+
+with st.sidebar:
+    display_timer()
 
 if st.sidebar.button("Reset Timer"):
     st.session_state.start_time = time.time()
@@ -136,7 +141,7 @@ if selected_key:
         st.title(f"Problem: {ex['title']}")
         if "subtitle" in ex:
             st.caption(f"**Concepts:** {ex['subtitle']}")
-        st.caption(f"🎤 **{active_title}**")
+        st.caption(f"**{active_title}**")
     else:
         st.title(f"Problem: {ex['title']}")
         if "subtitle" in ex:
@@ -147,21 +152,21 @@ if selected_key:
     with col1:
         # Objective / Scenario
         if active_title:
-            st.markdown(f"### 🎯 Scenario\n{active_scenario}")
+            st.markdown(f"### Scenario\n{active_scenario}")
         else:
-            st.markdown(f"### 📋 Objective\n{active_scenario}")
+            st.markdown(f"### Objective\n{active_scenario}")
 
         # Data
-        st.write("### 📥 Sample Data" if active_title else "### 📥 Input Data")
+        st.write("### Sample Data" if active_title else "### Input Data")
         df = active_data
         st.dataframe(df, use_container_width=True)
 
         # Hint
-        with st.expander("💡 View Hint"):
+        with st.expander("View Hint"):
             st.info(active_hint)
 
         # Reference Solution
-        with st.expander("✅ View Reference Solution"):
+        with st.expander("View Reference Solution"):
             if active_title:
                 lang = "sql" if current_mode == "SQL" else "python"
                 st.code(active_solution, language=lang)
@@ -171,23 +176,23 @@ if selected_key:
                 st.code(ex.get(sol_key, "Solution not yet added."), language='python' if mode_choice == "Python" else "sql")
 
             if 'deep_dive' in ex:
-                st.markdown("#### 🧠 The 'Why' behind this logic")
+                st.markdown("#### The 'Why' behind this logic")
                 st.success(ex['deep_dive'])
 
         # Evaluation Criteria (stage only)
         if active_evaluation:
-            with st.expander("🔍 What the Interviewer Evaluates"):
+            with st.expander("What the Interviewer Evaluates"):
                 for criterion in active_evaluation:
                     st.markdown(f"- {criterion}")
 
         # Expected Output (stage only)
         if active_expected_output is not None:
-            with st.expander("📤 Expected Output"):
+            with st.expander("Expected Output"):
                 st.dataframe(active_expected_output, use_container_width=True)
 
         # Follow-Up Probes (stage only)
         if active_followups:
-            with st.expander("💬 Follow-Up Probes"):
+            with st.expander("Follow-Up Probes"):
                 for j, probe in enumerate(active_followups, 1):
                     st.markdown(f"{j}. *{probe}*")
 
@@ -197,13 +202,13 @@ if selected_key:
             # Filter MCQs for current stage or all previous stages
             relevant_mcqs = [q for q in mcq_questions if q["stage_number"] <= current_stage_idx]
             if relevant_mcqs:
-                st.markdown("### 🧠 Conceptual Questions")
+                st.markdown("### Conceptual Questions")
                 for i, mcq in enumerate(relevant_mcqs):
                     mcq_col1, mcq_col2 = st.columns([20, 1])
                     with mcq_col1:
                         st.markdown(f"**Q{i+1}.** {mcq['question']}")
                     with mcq_col2:
-                        with st.popover("❓"):
+                        with st.popover("?"):
                             st.markdown(mcq["explanation"])
 
                     # Radio buttons for options
@@ -221,9 +226,9 @@ if selected_key:
                         selected_label = selected[0]  # Get "A", "B", "C", or "D"
                         correct_opt = next(o for o in mcq["options"] if o["is_correct"])
                         if selected_label == correct_opt["label"]:
-                            st.success(f"✅ Correct! {correct_opt['label']}) {correct_opt['text']}")
+                            st.success(f"Correct! {correct_opt['label']}) {correct_opt['text']}")
                         else:
-                            st.error(f"❌ Incorrect. The correct answer is {correct_opt['label']}) {correct_opt['text']}")
+                            st.error(f"Incorrect. The correct answer is {correct_opt['label']}) {correct_opt['text']}")
                     st.markdown("---")
                     
         # Big O Notation & Optimization (Cumulative)
@@ -241,14 +246,14 @@ if selected_key:
                         explanations.append((f"Stage {i+1} : {title}", stage_dict["big_o_explanation"]))
                         
             if explanations:
-                with st.expander("⏱️ Big O Notation & Optimization"):
+                with st.expander("Big O Notation & Optimization"):
                     for title, exp in explanations:
                         st.markdown(f"#### {title}")
                         st.markdown(exp)
                         st.markdown("---")
 
     with col2:
-        st.write("### 💻 Workspace")
+        st.write("### Workspace")
         mode = st.radio("Language:", ex.get('allowed_modes', ["SQL", "Python"]), horizontal=True, key=mode_key)
         user_code = st.text_area(f"Write your {mode} code here:", height=300, placeholder="Assign your final result to a variable named 'result'...")
 
@@ -256,22 +261,22 @@ if selected_key:
         if has_stages:
             btn_cols = st.columns([2, 1, 1, 1])
             with btn_cols[0]:
-                run_clicked = st.button("🚀 Run Code")
+                run_clicked = st.button("Run Code")
             with btn_cols[1]:
                 stage_label = f"Stage {current_stage_idx}/{total_stages}" if current_stage_idx > 0 else "Original"
                 st.markdown(f"<div style='text-align:center; padding-top:6px; font-weight:600; color:#6c757d;'>{stage_label}</div>", unsafe_allow_html=True)
             with btn_cols[2]:
                 prev_disabled = current_stage_idx <= 1
-                if st.button("◀ Prev", disabled=prev_disabled):
+                if st.button("Prev", disabled=prev_disabled):
                     st.session_state[stage_key] = current_stage_idx - 1
                     st.rerun()
             with btn_cols[3]:
                 next_disabled = current_stage_idx >= total_stages
-                if st.button("Next ▶", disabled=next_disabled):
+                if st.button("Next", disabled=next_disabled):
                     st.session_state[stage_key] = current_stage_idx + 1
                     st.rerun()
         else:
-            run_clicked = st.button("🚀 Run Code")
+            run_clicked = st.button("Run Code")
 
         if run_clicked:
             try:
@@ -325,25 +330,25 @@ if selected_key:
 
                 # 4. Display results
                 if is_correct:
-                    st.success("✅ Correct! Your code produced the expected output.")
-                    st.write("### 📤 Your Output")
+                    st.success("Correct! Your code produced the expected output.")
+                    st.write("### Your Output")
                     st.dataframe(result, use_container_width=True)
                 else:
-                    st.error("❌ Incorrect. Your output did not match the expected result.")
-                    st.write("### 📤 Your Output")
+                    st.error("Incorrect. Your output did not match the expected result.")
+                    st.write("### Your Output")
                     if isinstance(result, pd.DataFrame):
                         st.dataframe(result, use_container_width=True)
                     else:
                         st.write(result)
 
-                    st.write("### ✅ Reference Solution")
+                    st.write("### Reference Solution")
                     if active_title:
                         st.code(active_solution, language="python")
                     else:
                         st.code(ex.get(sol_key, "No reference solution available."), language='python' if mode == "Python" else "sql")
 
                     if expected_result is not None:
-                        st.write("### 🎯 Expected Output")
+                        st.write("### Expected Output")
                         st.dataframe(expected_result, use_container_width=True)
 
             except Exception as e:
