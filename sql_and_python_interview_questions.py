@@ -35,7 +35,7 @@ exercises = load_exercises()
 st.sidebar.header("Training Menu")
 
 category_options = {
-    "Python": "python_core",
+    "Python (Core)": "python_core",
     "Pandas (Python)": "python",
     "SQL and Pandas": "sql_and_pandas",
     "Sorting Algorithms": "sorting_algorithms",
@@ -54,7 +54,7 @@ if selected_category == "Sorting Algorithms":
     selected_level = st.sidebar.selectbox("Select Level:", list(level_options.keys()))
     folder_prefix = f"sorting_algorithms > {level_options[selected_level]} > "
 
-if selected_category == "Python":
+if selected_category == "Python (Core)":
     sub_options = {
         "System": "python_system",
         "Coding": "python_coding"
@@ -85,7 +85,7 @@ if 'start_time' not in st.session_state:
 @st.fragment(run_every="1s")
 def display_timer():
     elapsed = int(time.time() - st.session_state.start_time)
-    remaining = max(0, 1200 - elapsed)
+    remaining = max(0, 300 - elapsed)
     st.metric("Session Timer", f"{remaining // 60}:{remaining % 60:02d}")
 
 with st.sidebar:
@@ -233,7 +233,7 @@ if selected_key:
                         st.markdown("---")
 
     with col2:
-        is_python_mcq = selected_category == "Python" and ex.get("mcq_questions")
+        is_python_mcq = selected_category == "Python (Core)" and ex.get("mcq_questions")
         run_clicked = False
 
         if is_python_mcq:
