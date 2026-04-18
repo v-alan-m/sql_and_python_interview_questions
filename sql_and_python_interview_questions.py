@@ -8,6 +8,30 @@ import time
 # --- APP CONFIG ---
 st.set_page_config(page_title="DE Interview Lab Pro", layout="wide")
 
+# Global CSS Tweaks
+st.markdown("""
+<style>
+/* Default state (closed): Perfectly transparent border */
+div[data-testid="stExpander"] details {
+    border: 1px solid transparent !important;
+    border-radius: 8px !important;
+    transition: border 0.3s ease, background-color 0.3s ease;
+}
+
+/* Visible state (open): The border reveals itself when the user clicks/expands */
+div[data-testid="stExpander"] details[open] {
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Strips the default Streamlit container border/shadow to clear the visual clutter */
+div[data-testid="stExpander"] {
+    border: none !important;
+    box-shadow: none !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # --- DYNAMIC EXERCISE LOADER ---
 def load_exercises(base_folder="exercises"):
     exercises = {}
