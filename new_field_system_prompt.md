@@ -36,6 +36,7 @@ if selected_category == "Python (Core)":
 
 ### Task 2: Parse and Map Anki Cards
 Anki cards provide the core concept. You must elevate that concept into a fully-fledged Streamlit exercise with Multiple Choice Questions.
+- **Robust Parsing Rule**: Anki exports often contain multi-line strings with internal newlines (e.g. inside markdown or `<br>` tags). When generating parsing scripts or processing data, explicitly split flashcards by identifying exactly which lines start with the bracketed tag `[` rather than blindly splitting by `\n` or `\\n`, to avoid swallowing subsequent cards into the first card's explanation block. 
 - **HTML tags**: Convert any Anki HTML tags (`<br>`, `<hr>`, `<pre><code>`) into appropriate Python formatting (newlines `\n`, markdown code blocks).
 - **Tag**: This value MUST be used as the dropdown text for selecting the exercise. (The user will specify directly whether the file belongs in `python_system/` or `python_coding/`).
 - **Front (Question)**: Use the main scenario content as the base Scenario / Description (`description`). The remaining text in the Anki front section determines the number of multiple-choice questions; you MUST parse it into the exact number of Multiple Choice Questions (`mcq_questions`) provided.
