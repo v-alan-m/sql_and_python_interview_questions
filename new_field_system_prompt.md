@@ -25,7 +25,7 @@ When the user provides an **Anki import string** (formatted as `tag|front|back`)
 If the user requests a completely NEW category (something other than Python or SQL), you must first edit `sql_and_python_interview_questions.py` to add mapping to `category_options`. 
 Example of sub-category routing logic:
 ```python
-if selected_category == "Python":
+if selected_category == "Python (Core)":
     sub_options = {
         "System": "python_system",
         "Coding": "python_coding"
