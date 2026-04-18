@@ -263,23 +263,41 @@ if selected_key:
         if is_python_mcq:
             st.write("### Conceptual Questions")
             
-            # Add volumetric CSS specifically for the MCQ radio buttons
+            # Modern CSS for MCQ Premium cards
             st.markdown("""
             <style>
-            div.row-widget.stRadio > div { flex-direction: column; }
-            div.row-widget.stRadio > div > label {
-                padding: 12px 18px;
-                border: 1px solid rgba(128, 128, 128, 0.3);
-                border-radius: 8px;
-                margin-bottom: 5px;
-                transition: 0.3s ease;
-                background-color: rgba(128, 128, 128, 0.05);
-                width: 100%;
-                cursor: pointer;
+            /* Container styling (matching the expander aesthetic) */
+            div[data-testid="stVerticalBlockBorderWrapper"] {
+                border-radius: 12px !important;
             }
-            div.row-widget.stRadio > div > label:hover {
-                border-color: #ff4b4b;
-                background-color: rgba(255, 75, 75, 0.05);
+
+            /* Targeting radio buttons to look like cards */
+            div[data-testid="stRadio"] [role="radiogroup"] {
+                gap: 10px;
+                padding-top: 10px;
+            }
+
+            div[data-testid="stRadio"] [role="radiogroup"] label {
+                padding: 14px 20px !important;
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                border-radius: 10px !important;
+                background-color: rgba(255, 255, 255, 0.02) !important;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                cursor: pointer !important;
+                width: 100%;
+            }
+
+            div[data-testid="stRadio"] [role="radiogroup"] label:hover {
+                border-color: rgba(255, 75, 75, 0.5) !important;
+                background-color: rgba(255, 75, 75, 0.08) !important;
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            }
+            
+            /* Highlighting selected option (Simplified approach for Streamlit) */
+            div[data-testid="stRadio"] [role="radiogroup"] label[data-selected="true"] {
+                border-color: #ff4b4b !important;
+                background-color: rgba(255, 75, 75, 0.1) !important;
             }
             </style>
             """, unsafe_allow_html=True)
@@ -288,33 +306,35 @@ if selected_key:
             relevant_mcqs = [q for q in mcq_questions if q["stage_number"] <= current_stage_idx] if has_stages else mcq_questions
             
             for i, mcq in enumerate(relevant_mcqs):
-                mcq_col1, mcq_col2 = st.columns([20, 1])
-                with mcq_col1:
-                    st.markdown(f"**Q{i+1}.** {mcq['question']}")
-                with mcq_col2:
-                    with st.popover("?"):
-                        st.markdown(mcq["explanation"])
+                with st.container():
+                    mcq_col1, mcq_col2 = st.columns([20, 1])
+                    with mcq_col1:
+                        st.markdown(f"#### Q{i+1}. {mcq['question']}")
+                    with mcq_col2:
+                        with st.popover("?", help="Click for explanation"):
+                            st.markdown("### Explanation")
+                            st.info(mcq["explanation"])
 
-                # Radio buttons for options
-                options = [f"{opt['label']}) {opt['text']}" for opt in mcq["options"]]
-                answer_key = f"mcq_{selected_key}_{i}"
-                selected = st.radio(
-                    "Select your answer:",
-                    options,
-                    key=answer_key,
-                    index=None,
-                    label_visibility="collapsed"
-                )
+                    # Radio buttons for options
+                    options = [f"{opt['label']}) {opt['text']}" for opt in mcq["options"]]
+                    answer_key = f"mcq_{selected_key}_{i}"
+                    
+                    selected = st.radio(
+                        "Select your answer:",
+                        options,
+                        key=answer_key,
+                        index=None,
+                        label_visibility="collapsed"
+                    )
 
-                # Check answer on selection
-                if selected:
-                    selected_label = selected[0]  # Get "A", "B", "C", or "D"
-                    correct_opt = next(o for o in mcq["options"] if o["is_correct"])
-                    if selected_label == correct_opt["label"]:
-                        st.success(f"Correct! {correct_opt['label']}) {correct_opt['text']}")
-                    else:
-                        st.error(f"Incorrect. The correct answer is {correct_opt['label']}) {correct_opt['text']}")
-                st.markdown("---")
+                    # Check answer on selection
+                    if selected:
+                        selected_label = selected[0]  # Get "A", "B", "C", or "D"
+                        correct_opt = next(o for o in mcq["options"] if o["is_correct"])
+                        if selected_label == correct_opt["label"]:
+                            st.success(f"**Correct!** {correct_opt['label']}) {correct_opt['text']}")
+                        else:
+                            st.error(f"**Incorrect.** The correct answer is {correct_opt['label']}) {correct_opt['text']}")
 
             # --- Stage Navigation Buttons ---
             if has_stages:
