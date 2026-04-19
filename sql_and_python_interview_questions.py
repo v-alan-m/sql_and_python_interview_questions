@@ -11,6 +11,11 @@ st.set_page_config(page_title="DE Interview Lab Pro", layout="wide")
 # Global CSS Tweaks
 st.markdown("""
 <style>
+/* Global soft white text for a premium look */
+.stApp {
+    opacity: 0.95;
+}
+
 /* Default state (closed): Perfectly transparent border */
 div[data-testid="stExpander"] details {
     border: 1px solid transparent !important;
@@ -28,6 +33,13 @@ div[data-testid="stExpander"] details[open] {
 div[data-testid="stExpander"] {
     border: none !important;
     box-shadow: none !important;
+}
+ 
+ /* Ensures Scenario/Objective descriptions are not bold but keep H4 size */
+ .scenario-text h4 {
+    font-weight: 400 !important;
+    font-size: 1.15rem !important;
+    line-height: 1.6;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -185,14 +197,19 @@ if selected_key:
     with col1:
         # Objective / Scenario
         if active_title:
-            st.markdown(f"### Scenario\n{active_scenario}")
+            st.markdown(f"## Scenario\n<div class='scenario-text'>\n\n#### {active_scenario}\n\n</div>", unsafe_allow_html=True)
         else:
-            st.markdown(f"### Objective\n{active_scenario}")
+            st.markdown(f"## Objective\n<div class='scenario-text'>\n\n#### {active_scenario}\n\n</div>", unsafe_allow_html=True)
 
         # Data
-        st.write("### Sample Data" if active_title else "### Input Data")
+        st.write("## Sample Data" if active_title else "### Input Data")
         df = active_data
-        st.dataframe(df, use_container_width=True)
+        if isinstance(df, pd.DataFrame):
+            st.dataframe(df, use_container_width=True)
+        elif isinstance(df, str):
+            st.code(df, language="python")
+        else:
+            st.write(df)
 
         # Hint
         with st.expander("View Hint"):
@@ -261,7 +278,7 @@ if selected_key:
         run_clicked = False
 
         if is_python_mcq:
-            st.write("### Conceptual Questions")
+            # st.write("### Conceptual Questions")
             
             # Modern CSS for MCQ Premium cards
             st.markdown("""
@@ -309,7 +326,9 @@ if selected_key:
                 with st.container():
                     mcq_col1, mcq_col2 = st.columns([20, 1])
                     with mcq_col1:
-                        st.markdown(f"#### Q{i+1}. {mcq['question']}")
+                        if len(relevant_mcqs) > 1:
+                            st.markdown(f"#### Q{i+1}")
+                        # st.markdown(f"#### Q{i+1}. {mcq['question']}")
                     with mcq_col2:
                         with st.popover("?", help="Click for explanation"):
                             st.markdown("### Explanation")
@@ -353,7 +372,7 @@ if selected_key:
                         st.session_state[stage_key] = current_stage_idx + 1
                         st.rerun()
         else:
-            st.write("### Workspace")
+            st.write("## Workspace")
             mode = st.radio("Language:", ex.get('allowed_modes', ["SQL", "Python"]), horizontal=True, key=mode_key)
             user_code = st.text_area(f"Write your {mode} code here:", height=300, placeholder="Assign your final result to a variable named 'result'...")
 
@@ -386,7 +405,11 @@ if selected_key:
                     duckdb.register(table_name, df)
                     result = duckdb.query(user_code).to_df()
                 else:
-                    ldict = {'df': df.copy(), 'pd': pd}
+                    ldict = {'pd': pd}
+                    if isinstance(df, pd.DataFrame):
+                        ldict['df'] = df.copy()
+                    elif isinstance(df, str):
+                        ldict['data_snippet'] = df
                     exec(user_code, ldict, ldict)
                     result = ldict.get('result', "Error: Please assign output to 'result' variable.")
 
@@ -403,7 +426,11 @@ if selected_key:
                             duckdb.register(table_name, df)
                             expected_result = duckdb.query(ex[sol_key]).to_df()
                         else:
-                            sol_dict = {'df': df.copy(), 'pd': pd}
+                            sol_dict = {'pd': pd}
+                            if isinstance(df, pd.DataFrame):
+                                sol_dict['df'] = df.copy()
+                            elif isinstance(df, str):
+                                sol_dict['data_snippet'] = df
                             exec(ex[sol_key], sol_dict, sol_dict)
                             expected_result = sol_dict.get('result')
 
