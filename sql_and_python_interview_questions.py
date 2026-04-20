@@ -13,7 +13,7 @@ st.markdown("""
 <style>
 /* Global soft white text for a premium look */
 .stApp {
-    opacity: 0.95;
+    opacity: 0.75;
 }
 
 /* Default state (closed): Perfectly transparent border */
@@ -38,7 +38,7 @@ div[data-testid="stExpander"] {
  /* Ensures Scenario/Objective descriptions are not bold but keep H4 size */
  .scenario-text h4 {
     font-weight: 400 !important;
-    font-size: 1.15rem !important;
+    font-size: 1.3rem !important;
     line-height: 1.6;
 }
 </style>
@@ -211,67 +211,8 @@ if selected_key:
         else:
             st.write(df)
 
-        # Hint
-        with st.expander("View Hint"):
-            st.info(active_hint)
-
-        # Reference Solution
-        with st.expander("View Reference Solution"):
-            if active_title:
-                lang = "sql" if current_mode == "SQL" else "python"
-                st.code(active_solution, language=lang)
-            else:
-                mode_choice = st.selectbox("Solution for:", ex.get('allowed_modes', ["SQL", "Python"]))
-                sol_key = f"solution_{mode_choice.lower()}"
-                st.code(ex.get(sol_key, "Solution not yet added."), language='python' if mode_choice == "Python" else "sql")
-
-            if 'deep_dive' in ex:
-                st.markdown("#### The 'Why' behind this logic")
-                st.success(ex['deep_dive'])
-
-        # Evaluation Criteria (stage only)
-        if active_evaluation:
-            with st.expander("What the Interviewer Evaluates"):
-                for criterion in active_evaluation:
-                    st.markdown(f"- {criterion}")
-
-        # Expected Output (stage only)
-        if active_expected_output is not None:
-            with st.expander("Expected Output"):
-                if isinstance(active_expected_output, pd.DataFrame):
-                    st.dataframe(active_expected_output, use_container_width=True)
-                else:
-                    st.write(active_expected_output)
-
-        # Follow-Up Probes (stage only)
-        if active_followups:
-            with st.expander("Follow-Up Probes"):
-                for j, probe in enumerate(active_followups, 1):
-                    st.markdown(f"{j}. *{probe}*")
-
         # --- Conceptual Questions (MCQ) Section ---
         pass
-
-        # Big O Notation & Optimization (Cumulative)
-        if current_stage_idx > 0 or "big_o_explanation" in ex:
-            # We want to show base exercise explanation if no stages, or cumulative up to current stage
-            explanations = []
-            if "big_o_explanation" in ex:
-                explanations.append(("Base Approach", ex["big_o_explanation"]))
-            
-            if has_stages and current_stage_idx > 0:
-                for i in range(current_stage_idx):
-                    stage_dict = stages[i]
-                    if "big_o_explanation" in stage_dict:
-                        title = stage_dict.get('title', f"Stage {i+1}")
-                        explanations.append((f"Stage {i+1} : {title}", stage_dict["big_o_explanation"]))
-                        
-            if explanations:
-                with st.expander("Big O Notation & Optimization"):
-                    for title, exp in explanations:
-                        st.markdown(f"#### {title}")
-                        st.markdown(exp)
-                        st.markdown("---")
 
     with col2:
         is_python_mcq = selected_category == "Python (Core)" and ex.get("mcq_questions")
@@ -305,16 +246,16 @@ if selected_key:
             }
 
             div[data-testid="stRadio"] [role="radiogroup"] label:hover {
-                border-color: rgba(255, 75, 75, 0.5) !important;
-                background-color: rgba(255, 75, 75, 0.08) !important;
+                border-color: rgba(30, 144, 255, 0.5) !important;
+                background-color: rgba(30, 144, 255, 0.08) !important;
                 transform: translateY(-1px);
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             }
             
             /* Highlighting selected option (Simplified approach for Streamlit) */
             div[data-testid="stRadio"] [role="radiogroup"] label[data-selected="true"] {
-                border-color: #ff4b4b !important;
-                background-color: rgba(255, 75, 75, 0.1) !important;
+                border-color: #1E90FF !important;
+                background-color: rgba(30, 144, 255, 0.1) !important;
             }
             </style>
             """, unsafe_allow_html=True)
@@ -357,18 +298,18 @@ if selected_key:
 
             # --- Stage Navigation Buttons ---
             if has_stages:
-                btn_cols = st.columns([2, 1, 1, 1])
+                btn_cols = st.columns([5, 1.2, 1, 1])
                 with btn_cols[1]:
                     stage_label = f"Stage {current_stage_idx}/{total_stages}" if current_stage_idx > 0 else "Original"
                     st.markdown(f"<div style='text-align:center; padding-top:6px; font-weight:600; color:#6c757d;'>{stage_label}</div>", unsafe_allow_html=True)
                 with btn_cols[2]:
                     prev_disabled = current_stage_idx <= 1
-                    if st.button("Prev", disabled=prev_disabled):
+                    if st.button("Prev", disabled=prev_disabled, use_container_width=True):
                         st.session_state[stage_key] = current_stage_idx - 1
                         st.rerun()
                 with btn_cols[3]:
                     next_disabled = current_stage_idx >= total_stages
-                    if st.button("Next", disabled=next_disabled):
+                    if st.button("Next", disabled=next_disabled, use_container_width=True):
                         st.session_state[stage_key] = current_stage_idx + 1
                         st.rerun()
         else:
@@ -378,20 +319,20 @@ if selected_key:
 
             # --- Run Code + Stage Navigation Buttons ---
             if has_stages:
-                btn_cols = st.columns([2, 1, 1, 1])
+                btn_cols = st.columns([2, 3, 1.2, 1, 1])
                 with btn_cols[0]:
-                    run_clicked = st.button("Run Code")
-                with btn_cols[1]:
+                    run_clicked = st.button("Run Code", use_container_width=True)
+                with btn_cols[2]:
                     stage_label = f"Stage {current_stage_idx}/{total_stages}" if current_stage_idx > 0 else "Original"
                     st.markdown(f"<div style='text-align:center; padding-top:6px; font-weight:600; color:#6c757d;'>{stage_label}</div>", unsafe_allow_html=True)
-                with btn_cols[2]:
+                with btn_cols[3]:
                     prev_disabled = current_stage_idx <= 1
-                    if st.button("Prev", disabled=prev_disabled):
+                    if st.button("Prev", disabled=prev_disabled, use_container_width=True):
                         st.session_state[stage_key] = current_stage_idx - 1
                         st.rerun()
-                with btn_cols[3]:
+                with btn_cols[4]:
                     next_disabled = current_stage_idx >= total_stages
-                    if st.button("Next", disabled=next_disabled):
+                    if st.button("Next", disabled=next_disabled, use_container_width=True):
                         st.session_state[stage_key] = current_stage_idx + 1
                         st.rerun()
             else:
@@ -483,3 +424,66 @@ if selected_key:
 
             except Exception as e:
                 st.error(f"Execution Error: {e}")
+
+    # --- Reference Area (Below the fold) ---
+    st.divider()
+    
+    ref_col1, ref_col2 = st.columns([1, 1])
+    with ref_col1:
+        # Hint
+        with st.expander("View Hint"):
+            st.info(active_hint)
+
+        # Reference Solution
+        with st.expander("View Reference Solution"):
+            if active_title:
+                lang = "sql" if current_mode == "SQL" else "python"
+                st.code(active_solution, language=lang)
+            else:
+                mode_choice = st.selectbox("Solution for:", ex.get('allowed_modes', ["SQL", "Python"]))
+                sol_key = f"solution_{mode_choice.lower()}"
+                st.code(ex.get(sol_key, "Solution not yet added."), language='python' if mode_choice == "Python" else "sql")
+
+            if 'deep_dive' in ex:
+                st.markdown("#### The 'Why' behind this logic")
+                st.success(ex['deep_dive'])
+
+        # Evaluation Criteria (stage only)
+        if active_evaluation:
+            with st.expander("What the Interviewer Evaluates"):
+                for criterion in active_evaluation:
+                    st.markdown(f"- {criterion}")
+
+        # Expected Output (stage only)
+        if active_expected_output is not None:
+            with st.expander("Expected Output"):
+                if isinstance(active_expected_output, pd.DataFrame):
+                    st.dataframe(active_expected_output, use_container_width=True)
+                else:
+                    st.write(active_expected_output)
+
+        # Follow-Up Probes (stage only)
+        if active_followups:
+            with st.expander("Follow-Up Probes"):
+                for j, probe in enumerate(active_followups, 1):
+                    st.markdown(f"{j}. *{probe}*")
+
+        # Big O Notation & Optimization (Cumulative)
+        if current_stage_idx > 0 or "big_o_explanation" in ex:
+            explanations = []
+            if "big_o_explanation" in ex:
+                explanations.append(("Base Approach", ex["big_o_explanation"]))
+            
+            if has_stages and current_stage_idx > 0:
+                for i in range(current_stage_idx):
+                    stage_dict = stages[i]
+                    if "big_o_explanation" in stage_dict:
+                        title = stage_dict.get('title', f"Stage {i+1}")
+                        explanations.append((f"Stage {i+1} : {title}", stage_dict["big_o_explanation"]))
+                        
+            if explanations:
+                with st.expander("Big O Notation & Optimization"):
+                    for title, exp in explanations:
+                        st.markdown(f"#### {title}")
+                        st.markdown(exp)
+                        st.markdown("---")
