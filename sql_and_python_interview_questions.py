@@ -16,6 +16,12 @@ st.markdown("""
     opacity: 0.75;
 }
 
+/* Reduce top padding of the main container */
+.block-container {
+    padding-top: 2.6rem !important;
+    padding-bottom: 0rem !important;
+}
+
 /* Default state (closed): Perfectly transparent border */
 div[data-testid="stExpander"] details {
     border: 1px solid transparent !important;
@@ -29,6 +35,14 @@ div[data-testid="stExpander"] details[open] {
     background-color: rgba(255, 255, 255, 0.02);
 }
 
+/* Reduced padding for the divider line and matched it to the MCQ highlight blue */
+hr {
+    margin-top: 1.7rem !important;
+    margin-bottom: 1.7rem !important;
+    border: none !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
 /* Strips the default Streamlit container border/shadow to clear the visual clutter */
 div[data-testid="stExpander"] {
     border: none !important;
@@ -40,6 +54,22 @@ div[data-testid="stExpander"] {
     font-weight: 400 !important;
     font-size: 1.3rem !important;
     line-height: 1.6;
+}
+
+/* Premium Typography for Concepts & Stages */
+.concepts-subtitle {
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-size: 1.3rem !important;
+    letter-spacing: 0.03rem !important;
+    font-weight: 400 !important;
+}
+
+.stage-indicator {
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-size: 1.3rem !important;
+    font-weight: 400 !important;
+    margin-top: 4px !important;
+    margin-bottom: 12px !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -160,7 +190,7 @@ if selected_key:
     # Determine active content based on stage
     if has_stages and current_stage_idx > 0:
         active_stage = stages[current_stage_idx - 1]
-        active_title = f"Stage {active_stage['stage_number']} — {active_stage['title']}"
+        active_title = f"Stage {active_stage['stage_number']} - {active_stage['title']}"
         active_scenario = active_stage["scenario"]
         active_data = active_stage["data"]
         active_hint = active_stage.get("hint", "No hint available.")
@@ -185,21 +215,21 @@ if selected_key:
     if active_title:
         st.title(f"Problem: {ex['title']}")
         if "subtitle" in ex:
-            st.caption(f"**Concepts:** {ex['subtitle']}")
-        st.caption(f"**{active_title}**")
+            st.markdown(f"<div class='concepts-subtitle'>Concepts: {ex['subtitle']}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='stage-indicator'>{active_title}</div>", unsafe_allow_html=True)
     else:
         st.title(f"Problem: {ex['title']}")
         if "subtitle" in ex:
-            st.caption(f"**Concepts:** {ex['subtitle']}")
+            st.markdown(f"<div class='concepts-subtitle'>Concepts: {ex['subtitle']}</div>", unsafe_allow_html=True)
 
-    col1, col2 = st.columns([1, 1])
+    col1, col2 = st.columns([0.8, 0.99], gap="large")
 
     with col1:
         # Objective / Scenario
         if active_title:
-            st.markdown(f"## Scenario\n<div class='scenario-text'>\n\n#### {active_scenario}\n\n</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='margin-top: 1.5rem;'>\n\n\n\n## Scenario\n<div class='scenario-text'>\n\n#### {active_scenario}\n\n</div>\n</div>", unsafe_allow_html=True)
         else:
-            st.markdown(f"## Objective\n<div class='scenario-text'>\n\n#### {active_scenario}\n\n</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='margin-top: 1.5rem;'>\n\n\n\n## Objective\n<div class='scenario-text'>\n\n#### {active_scenario}\n\n</div>\n</div>", unsafe_allow_html=True)
 
         # Data
         st.write("## Sample Data" if active_title else "### Input Data")
