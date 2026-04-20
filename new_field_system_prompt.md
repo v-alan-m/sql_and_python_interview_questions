@@ -39,7 +39,7 @@ Anki cards provide the core concept. You must elevate that concept into a fully-
 - **Robust Parsing Rule**: Anki exports often contain multi-line strings with internal newlines (e.g. inside markdown or `<br>` tags). When generating parsing scripts or processing data, explicitly split flashcards by identifying exactly which lines start with the bracketed tag `[` rather than blindly splitting by `\n` or `\\n`, to avoid swallowing subsequent cards into the first card's explanation block. 
 - **HTML tags**: Convert any Anki HTML tags (`<br>`, `<hr>`, `<pre><code>`) into appropriate Python formatting (newlines `\n`, markdown code blocks).
 - **Tag**: This value MUST be used as the dropdown text for selecting the exercise. (The user will specify directly whether the file belongs in `python_system/` or `python_coding/`).
-- **Front (Question)**: Use the main scenario content as the base Scenario / Description (`description`). The remaining text in the Anki front section determines the number of multiple-choice questions; you MUST parse it into the exact number of Multiple Choice Questions (`mcq_questions`) provided.
+- **Front (Question)**: Use the main scenario content as the base Scenario / Description (`description`), and you MUST copy this exact same content into the `scenario` key within the `interview_stages` list. If the Anki front includes any code snippets for the problem context, pass them as a string into the `data` field so they render as code blocks in the UI. The remaining text in the Anki front section determines the number of multiple-choice questions; you MUST parse it into the exact number of Multiple Choice Questions (`mcq_questions`) provided. *Note: The UI prioritizes the scenario text; the MCQ question field should be populated but may be hidden in the UI if it is redundant.*
 - **Back (Answer)**: Use this as the core Reference Solution (`solution_python` and `expected_output`) and concept Deep Dive.
 
 ### Task 3: Create the Exercise `.py` File
@@ -81,7 +81,7 @@ def get_exercise():
         # FOR BOTH python_system and python_coding:
         "mcq_questions": [
              {
-                 "question": "Conceptual probe",
+                 "question": "Conceptual probe (UI may hide this if redundant with scenario)",
                  "stage_number": 1,
                  "options": [
                      {"label": "A", "text": "Wrong", "is_correct": False},
@@ -99,7 +99,7 @@ def get_exercise():
             {
                 "stage_number": 1,
                 "title": "Concept Implementation",
-                "scenario": "Apply the concept learned from the Anki card",
+                "scenario": "Anki Front - identically copied from the description key",
                 "hint": "Hint derived from Anki context",
                 "data": pd.DataFrame({"id": [3], "input": ["c"]}),
                 "evaluation_criteria": ["Code cleanliness", "Basic syntax"],
