@@ -62,6 +62,7 @@ div[data-testid="stExpander"] {
     font-size: 1.3rem !important;
     letter-spacing: 0.03rem !important;
     font-weight: 400 !important;
+    text-align: center !important;
 }
 
 .stage-indicator {
@@ -70,6 +71,15 @@ div[data-testid="stExpander"] {
     font-weight: 400 !important;
     margin-top: 4px !important;
     margin-bottom: 12px !important;
+    text-align: center !important;
+}
+
+h1 {
+    text-align: center !important;
+}
+
+.header-spacing {
+    margin-top: 2.2rem !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -227,9 +237,9 @@ if selected_key:
     with col1:
         # Objective / Scenario
         if active_title:
-            st.markdown(f"<div style='margin-top: 1.5rem;'>\n\n\n\n## Scenario\n<div class='scenario-text'>\n\n#### {active_scenario}\n\n</div>\n</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='header-spacing'>\n\n## Scenario\n<div class='scenario-text'>\n\n#### {active_scenario}\n\n</div>\n</div>", unsafe_allow_html=True)
         else:
-            st.markdown(f"<div style='margin-top: 1.5rem;'>\n\n\n\n## Objective\n<div class='scenario-text'>\n\n#### {active_scenario}\n\n</div>\n</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='header-spacing'>\n\n## Objective\n<div class='scenario-text'>\n\n#### {active_scenario}\n\n</div>\n</div>", unsafe_allow_html=True)
 
         # Data
         st.write("## Sample Data" if active_title else "### Input Data")
@@ -249,6 +259,8 @@ if selected_key:
         run_clicked = False
 
         if is_python_mcq:
+            # Add top margin to align with Scenario
+            st.markdown("<div class='header-spacing'></div>", unsafe_allow_html=True)
             # st.write("### Conceptual Questions")
             
             # Modern CSS for MCQ Premium cards
@@ -343,7 +355,7 @@ if selected_key:
                         st.session_state[stage_key] = current_stage_idx + 1
                         st.rerun()
         else:
-            st.write("## Workspace")
+            st.markdown("<div class='header-spacing'>\n\n## Workspace\n\n</div>", unsafe_allow_html=True)
             mode = st.radio("Language:", ex.get('allowed_modes', ["SQL", "Python"]), horizontal=True, key=mode_key)
             user_code = st.text_area(f"Write your {mode} code here:", height=300, placeholder="Assign your final result to a variable named 'result'...")
 
