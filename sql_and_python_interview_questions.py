@@ -81,6 +81,29 @@ h1 {
 .header-spacing {
     margin-top: 2.2rem !important;
 }
+
+/* Premium Center Metric in Sidebar */
+[data-testid="stSidebar"] [data-testid="stMetric"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.03);
+    padding: 0.4rem !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    margin-bottom: 0.4rem !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stMetricLabel"] > div {
+    justify-content: center !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stMetricValue"] > div {
+    justify-content: center !important;
+    font-weight: 700 !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -339,7 +362,7 @@ if selected_key:
 
             # --- Stage Navigation Buttons ---
             if has_stages:
-                btn_cols = st.columns([5, 1.2, 1, 1])
+                btn_cols = st.columns([1, 1.2, 1, 1, 1])
                 with btn_cols[1]:
                     stage_label = f"Stage {current_stage_idx}/{total_stages}" if current_stage_idx > 0 else "Original"
                     st.markdown(f"<div style='text-align:center; padding-top:6px; font-weight:600; color:#6c757d;'>{stage_label}</div>", unsafe_allow_html=True)
@@ -360,7 +383,7 @@ if selected_key:
 
             # --- Run Code + Stage Navigation Buttons ---
             if has_stages:
-                btn_cols = st.columns([2, 3, 1.2, 1, 1])
+                btn_cols = st.columns([2, 0.5, 1.2, 1, 1, 0.5])
                 with btn_cols[0]:
                     run_clicked = st.button("Run Code", use_container_width=True)
                 with btn_cols[2]:
