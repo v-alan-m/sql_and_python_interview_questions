@@ -10,8 +10,17 @@ def get_exercise():
         "data": "No specific code setup required for this conceptual problem.",
         "allowed_modes": ["Python"],
         "hint_python": "Review the concept detailed in the multiple choice section.",
-        "solution_python": 'result = True # Concept exercise placeholder',
-        "deep_dive": """Sets are implemented using hash tables, allowing Python to calculate a hash and immediately jump to the memory bucket for an average O(1) constant time lookup. Lists require an O(n) linear scan on average. Sets actually consume more memory than lists due to hash table overhead.""",
+        "solution_python": 'result = "Sets use hash tables, providing average O(1) time for membership testing."',
+        "deep_dive": """**Why this is correct (Lead Engineer Perspective):**
+This question strikes at the core of understanding Python's underlying data structures and their algorithmic complexities. For a Lead Python Engineer, algorithmic efficiency is paramount when processing large datasets.
+
+Here is the technical breakdown of why this is correct:
+
+* **The Underlying Data Structure:** Python's `set` is implemented using a hash table (similar to the keys in a `dict`). When you check for membership using the `in` operator (`if item in my_set`), Python calculates the hash of the item and immediately jumps to the corresponding bucket in memory. 
+* **Time Complexity:** Because of this hashing mechanism, the average time complexity for a lookup in a set is $O(1)$ (constant time). Regardless of whether the set has 10 elements or 10 million elements, the lookup time remains roughly the same.
+* **Contrast with Lists:** A `list` is a dynamic array. To determine if an item exists in an unsorted list, Python must perform a linear scan, checking each element one by one. The average and worst-case time complexity for this is $O(n)$, where $n$ is the number of elements. 
+
+While sets consume slightly more memory due to hash table overhead (sparse arrays to minimize collisions), the exponential speedup in lookups makes them indispensable for deduplication and membership checking.""",
         "big_o_explanation": "O(1) - Concept exploration",
 
         "mcq_questions": [
@@ -38,31 +47,8 @@ def get_exercise():
                 "hint": "Think about how Python sets are implemented under the hood. Do they rely on contiguous memory arrays, or something else?",
                 "data": "No specific code setup required for this conceptual problem.",
                 "evaluation_criteria": ["Knowledge of internal memory structures (Hash Tables vs Arrays)", "Time complexity analysis capabilities", "Trade-off evaluation (Time vs Memory)"],
-                "solution_code": """\
-result = \"\"\"Correct Answer: Sets use hash tables, providing average O(1) time for membership testing.
-
-**Why this is correct (Lead Engineer Perspective):**
-This question strikes at the core of understanding Python's underlying data structures and their algorithmic complexities. For a Lead Python Engineer, algorithmic efficiency is paramount when processing large datasets.
-
-Here is the technical breakdown of why this is correct:
-
-* **The Underlying Data Structure:** Python's `set` is implemented using a hash table (similar to the keys in a `dict`). When you check for membership using the `in` operator (`if item in my_set`), Python calculates the hash of the item and immediately jumps to the corresponding bucket in memory. 
-* **Time Complexity:** Because of this hashing mechanism, the average time complexity for a lookup in a set is $O(1)$ (constant time). Regardless of whether the set has 10 elements or 10 million elements, the lookup time remains roughly the same.
-* **Contrast with Lists:** A `list` is a dynamic array. To determine if an item exists in an unsorted list, Python must perform a linear scan, checking each element one by one. The average and worst-case time complexity for this is $O(n)$, where $n$ is the number of elements. 
-
-While sets consume slightly more memory due to hash table overhead (sparse arrays to minimize collisions), the exponential speedup in lookups makes them indispensable for deduplication and membership checking.\"\"\"""",
-                "expected_output": """Correct Answer: Sets use hash tables, providing average O(1) time for membership testing.
-
-**Why this is correct (Lead Engineer Perspective):**
-This question strikes at the core of understanding Python's underlying data structures and their algorithmic complexities. For a Lead Python Engineer, algorithmic efficiency is paramount when processing large datasets.
-
-Here is the technical breakdown of why this is correct:
-
-* **The Underlying Data Structure:** Python's `set` is implemented using a hash table (similar to the keys in a `dict`). When you check for membership using the `in` operator (`if item in my_set`), Python calculates the hash of the item and immediately jumps to the corresponding bucket in memory. 
-* **Time Complexity:** Because of this hashing mechanism, the average time complexity for a lookup in a set is $O(1)$ (constant time). Regardless of whether the set has 10 elements or 10 million elements, the lookup time remains roughly the same.
-* **Contrast with Lists:** A `list` is a dynamic array. To determine if an item exists in an unsorted list, Python must perform a linear scan, checking each element one by one. The average and worst-case time complexity for this is $O(n)$, where $n$ is the number of elements. 
-
-While sets consume slightly more memory due to hash table overhead (sparse arrays to minimize collisions), the exponential speedup in lookups makes them indispensable for deduplication and membership checking.""",
+                "solution_code": 'result = "Sets use hash tables, providing average O(1) time for membership testing."',
+                "expected_output": "Sets use hash tables, providing average O(1) time for membership testing.",
                 "big_o_explanation": "O(1) Time on average for lookups. O(N) Space due to the underlying hash table allocation.",
                 "follow_up_probes": ["What happens to the O(1) time complexity if there are massive hash collisions?", "Why can't you put a dictionary inside a set?"]
             }

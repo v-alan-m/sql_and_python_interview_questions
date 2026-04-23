@@ -75,8 +75,8 @@ def get_exercise():
         "data": pd.DataFrame({"id": [1,2], "input": ["a", "b"]}), # Base sample data
         "allowed_modes": ["Python"],
         "hint_python": "Base hint",
-        "solution_python": 'result = "Base Solution derived from Anki Back"',
-        "deep_dive": "Detailed explanation of the concept from the Anki Back",
+        "solution_python": 'result = "python-is-fun!"', # The actual code solution or value of the expected answer
+        "deep_dive": "**Why this is correct (Lead Engineer Perspective):**\\nDetailed explanation of the concept from the Anki Back",
         "big_o_explanation": "Base O(N) complexity analysis",
 
         # --- MULTICHOICE CONCEPTUAL QUESTIONS ---
@@ -106,8 +106,8 @@ def get_exercise():
                 "hint": "Thoughtful, conceptual hint pointing to the underlying mechanism",
                 "data": pd.DataFrame({"id": [3], "input": ["c"]}),
                 "evaluation_criteria": ["Lead Engineer Concept 1", "Deep understanding of X"],
-                "solution_code": 'result = \"\"\"Correct Answer: [Answer]\\n\\n**Why this is correct (Lead Engineer Perspective):**\\n[Detailed explanation...]\"\"\"',
-                "expected_output": 'Correct Answer: [Answer]\\n\\n**Why this is correct (Lead Engineer Perspective):**\\n[Detailed explanation...]',
+                "solution_code": 'result = "python-is-fun!"',
+                "expected_output": 'python-is-fun!',
                 "big_o_explanation": "O(1) - [Specific reasoning]",
                 "follow_up_probes": ["Advanced question 1?", "Advanced question 2?"]
             }
@@ -116,12 +116,10 @@ def get_exercise():
 ```
 
 ### Example: Lead Engineer "Why" Content
-To ensure the `solution_code` and `expected_output` fields maintain a high standard of quality, use the following examples as a reference for the tone, depth, and formatting required for the "Lead Engineer Perspective":
+To ensure the `deep_dive` field maintains a high standard of quality, use the following examples as a reference for the tone, depth, and formatting required for the "Lead Engineer Perspective":
 
 **Example 1 (Built-Ins / Standard Library):**
-```python
-\"\"\"Correct Answer: python-is-fun!
-
+```markdown
 **Why this is correct (Lead Engineer Perspective):**
 This question tests your understanding of the keyword arguments available within Python's built-in `print()` function. As a lead engineer, it's crucial to be intimately familiar with the standard library signatures to avoid writing unnecessary boilerplate string concatenation.
 
@@ -131,13 +129,11 @@ Here is the breakdown of the function call `print('python', 'is', 'fun', sep='-'
 * **The `sep` Argument:** By default, `print()` separates multiple objects with a single space (`' '`). By explicitly setting `sep='-'`, you are instructing Python to join the positional arguments using a hyphen. This evaluates the core string to `python-is-fun`.
 * **The `end` Argument:** By default, `print()` appends a newline character (`'\\n'`) at the end of the output. By setting `end='!'`, you override this behavior, telling Python to append an exclamation mark instead of moving to a new line. Notice there are no spaces in the `end` string provided.
 
-Combining these behaviors, the items are joined by hyphens, and the exclamation mark is immediately appended at the end without any trailing spaces, resulting precisely in `python-is-fun!`.\"\"\"
+Combining these behaviors, the items are joined by hyphens, and the exclamation mark is immediately appended at the end without any trailing spaces, resulting precisely in `python-is-fun!`.
 ```
 
 **Example 2 (Concurrency / Architecture):**
-```python
-\"\"\"Correct Answer: 150000
-
+```markdown
 **Why this is correct (Lead Engineer Perspective):**
 This question is designed to test your knowledge of **race conditions** and the limits of Python's GIL. Here is the architectural breakdown of why the counter will likely "lose" updates and land somewhere around 150,000 instead of a perfect 200,000:
 
@@ -149,7 +145,7 @@ This question is designed to test your knowledge of **race conditions** and the 
     4.  `STORE_GLOBAL` (write the new value back to memory)
 * **The Context Switch (Race Condition):** The GIL forces threads to take turns executing these bytecodes. A thread context switch can easily happen right in the middle of these steps. Both threads might read `100`, add `1`, and independently store `101`, resulting in one lost update.
 
-Because this code runs 100,000 times concurrently without a `threading.Lock()` to synchronize the `counter += 1` operation, thousands of these updates will inevitably collide and be lost.\"\"\"
+Because this code runs 100,000 times concurrently without a `threading.Lock()` to synchronize the `counter += 1` operation, thousands of these updates will inevitably collide and be lost.
 ```
 
 ### Critical Data & UI Constraints:

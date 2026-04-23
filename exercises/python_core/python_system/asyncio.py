@@ -10,8 +10,16 @@ def get_exercise():
         "data": "No specific code setup required for this conceptual problem.",
         "allowed_modes": ["Python"],
         "hint_python": "Review the concept detailed in the multiple choice section.",
-        "solution_python": 'result = True # Concept exercise placeholder',
-        "deep_dive": """asyncio uses cooperative multitasking within a single thread. The await keyword acts similarly to a yield point. It pauses the coroutine, preserves its execution state, and hands control back to the event loop. This enables the single thread to remain active, executing other tasks while waiting for non-blocking I/O operations to complete.""",
+        "solution_python": """result = "The function yields control back to the event loop, suspending its state and allowing the event loop to run other scheduled coroutines while waiting for the I/O to finish." """,
+        "deep_dive": """**Why this is correct (Lead Engineer Perspective):**
+This question tests your architectural understanding of Python's asynchronous I/O model. As a lead engineer, choosing between multi-threading, multi-processing, or asyncio dictates the scalability of your entire backend.
+
+1. **Cooperative Multitasking:** Unlike OS-level threads where the operating system forcibly pauses threads (preemptive multitasking), `asyncio` uses *cooperative* multitasking. The coroutines themselves must explicitly declare when they are ready to pause.
+2. **The Yield Point:** The `await` keyword is that declaration. It acts similarly to a `yield` in a generator. When the interpreter hits `await fetch_data()`, the current coroutine is suspended, its local state is preserved, and control is explicitly handed back to the central Event Loop.
+3. **Concurrency on a Single Thread:** Because control was returned, the single OS thread is not blocked waiting for the network response. The Event Loop immediately switches to executing other queued coroutines. 
+4. **Resumption:** Once the OS signals that the I/O for `fetch_data()` is ready, the Event Loop schedules the original coroutine to resume exactly where it left off.
+
+This model allows a single Python thread to handle tens of thousands of concurrent network connections, massively outperforming standard threading for I/O bound workloads.""",
         "big_o_explanation": "O(1) - Concept exploration",
 
         "mcq_questions": [
@@ -38,29 +46,8 @@ def get_exercise():
                 "hint": "Asyncio runs on a single thread. How does it manage to handle multiple network requests concurrently without blocking?",
                 "data": "No specific code setup required for this conceptual problem.",
                 "evaluation_criteria": ["Deep understanding of Event Loops and Cooperative Multitasking", "Differentiating Asyncio from Multithreading", "Scalability architecture"],
-                "solution_code": """\
-result = \"\"\"Correct Answer: The function yields control back to the event loop, suspending its state and allowing the event loop to run other scheduled coroutines while waiting for the I/O to finish.
-
-**Why this is correct (Lead Engineer Perspective):**
-This question tests your architectural understanding of Python's asynchronous I/O model. As a lead engineer, choosing between multi-threading, multi-processing, or asyncio dictates the scalability of your entire backend.
-
-1. **Cooperative Multitasking:** Unlike OS-level threads where the operating system forcibly pauses threads (preemptive multitasking), `asyncio` uses *cooperative* multitasking. The coroutines themselves must explicitly declare when they are ready to pause.
-2. **The Yield Point:** The `await` keyword is that declaration. It acts similarly to a `yield` in a generator. When the interpreter hits `await fetch_data()`, the current coroutine is suspended, its local state is preserved, and control is explicitly handed back to the central Event Loop.
-3. **Concurrency on a Single Thread:** Because control was returned, the single OS thread is not blocked waiting for the network response. The Event Loop immediately switches to executing other queued coroutines. 
-4. **Resumption:** Once the OS signals that the I/O for `fetch_data()` is ready, the Event Loop schedules the original coroutine to resume exactly where it left off.
-
-This model allows a single Python thread to handle tens of thousands of concurrent network connections, massively outperforming standard threading for I/O bound workloads.\"\"\"""",
-                "expected_output": """Correct Answer: The function yields control back to the event loop, suspending its state and allowing the event loop to run other scheduled coroutines while waiting for the I/O to finish.
-
-**Why this is correct (Lead Engineer Perspective):**
-This question tests your architectural understanding of Python's asynchronous I/O model. As a lead engineer, choosing between multi-threading, multi-processing, or asyncio dictates the scalability of your entire backend.
-
-1. **Cooperative Multitasking:** Unlike OS-level threads where the operating system forcibly pauses threads (preemptive multitasking), `asyncio` uses *cooperative* multitasking. The coroutines themselves must explicitly declare when they are ready to pause.
-2. **The Yield Point:** The `await` keyword is that declaration. It acts similarly to a `yield` in a generator. When the interpreter hits `await fetch_data()`, the current coroutine is suspended, its local state is preserved, and control is explicitly handed back to the central Event Loop.
-3. **Concurrency on a Single Thread:** Because control was returned, the single OS thread is not blocked waiting for the network response. The Event Loop immediately switches to executing other queued coroutines. 
-4. **Resumption:** Once the OS signals that the I/O for `fetch_data()` is ready, the Event Loop schedules the original coroutine to resume exactly where it left off.
-
-This model allows a single Python thread to handle tens of thousands of concurrent network connections, massively outperforming standard threading for I/O bound workloads.""",
+                "solution_code": """result = "The function yields control back to the event loop, suspending its state and allowing the event loop to run other scheduled coroutines while waiting for the I/O to finish." """,
+                "expected_output": "The function yields control back to the event loop, suspending its state and allowing the event loop to run other scheduled coroutines while waiting for the I/O to finish.",
                 "big_o_explanation": "O(1) Context Switch Time. Switching between coroutines is vastly cheaper than switching OS-level threads.",
                 "follow_up_probes": ["What happens if you run a heavy CPU-bound calculation (like computing primes) inside an async function?", "How do you safely mix synchronous legacy code with asyncio?"]
             }
