@@ -49,7 +49,7 @@ db2 = Database()""",
 What is the underlying mechanism that ensures `db1 is db2` evaluates to True?
 
 """,
-                "hint": "Return True to pass the concept check.",
+                "hint": "Examine the __call__ method in the metaclass. When does a metaclass's __call__ fire relative to a standard class's __init__?",
                 "data": """\
 class SingletonMeta(type):
     _instances = {}
@@ -63,12 +63,34 @@ class Database(metaclass=SingletonMeta):
 
 db1 = Database()
 db2 = Database()""",
-                "evaluation_criteria": ["Understanding of concept"],
+                "evaluation_criteria": ["Advanced OOP comprehension", "Understanding of the class instantiation lifecycle", "Familiarity with the Singleton pattern"],
                 "solution_code": """\
-result = True""",
-                "expected_output": True,
-                "big_o_explanation": "Constant time implementation.",
-                "follow_up_probes": ["Can you explain the limitations?"]
+result = \"\"\"Correct Answer: The metaclass overrides __call__, intercepting the instantiation process of the Database class so it only allocates memory and initializes an instance if one does not already exist.
+
+**Why this is correct (Lead Engineer Perspective):**
+This question evaluates your understanding of Python's class creation mechanics and the Singleton design pattern. As a lead engineer, you must understand how instantiation works at the interpreter level to design robust system architectures.
+
+Here is the step-by-step architectural breakdown:
+1. **The Role of __call__:** In Python, putting parentheses after an object (like `Database()`) invokes its `__call__` method. Since `Database` is an instance of `SingletonMeta`, `Database()` triggers `SingletonMeta.__call__`.
+2. **Interception:** Before Python's default memory allocator (`__new__`) or initializer (`__init__`) runs for the `Database` class, the metaclass steps in.
+3. **The State Dictionary:** The metaclass checks its own `_instances` dictionary. If `Database` is not in there, it calls `super().__call__` to actually allocate memory and initialize the object, storing the result in the dictionary.
+4. **Returning the Singleton:** When `db2 = Database()` is executed, the metaclass sees that the instance already exists in the dictionary and simply returns the cached reference. Thus, `db1 is db2` evaluates to True.
+
+Understanding metaclasses allows leads to write highly abstracted framework-level code (like Django models or ORMs) that handle boilerplate logic automatically.\"\"\"""",
+                "expected_output": """Correct Answer: The metaclass overrides __call__, intercepting the instantiation process of the Database class so it only allocates memory and initializes an instance if one does not already exist.
+
+**Why this is correct (Lead Engineer Perspective):**
+This question evaluates your understanding of Python's class creation mechanics and the Singleton design pattern. As a lead engineer, you must understand how instantiation works at the interpreter level to design robust system architectures.
+
+Here is the step-by-step architectural breakdown:
+1. **The Role of __call__:** In Python, putting parentheses after an object (like `Database()`) invokes its `__call__` method. Since `Database` is an instance of `SingletonMeta`, `Database()` triggers `SingletonMeta.__call__`.
+2. **Interception:** Before Python's default memory allocator (`__new__`) or initializer (`__init__`) runs for the `Database` class, the metaclass steps in.
+3. **The State Dictionary:** The metaclass checks its own `_instances` dictionary. If `Database` is not in there, it calls `super().__call__` to actually allocate memory and initialize the object, storing the result in the dictionary.
+4. **Returning the Singleton:** When `db2 = Database()` is executed, the metaclass sees that the instance already exists in the dictionary and simply returns the cached reference. Thus, `db1 is db2` evaluates to True.
+
+Understanding metaclasses allows leads to write highly abstracted framework-level code (like Django models or ORMs) that handle boilerplate logic automatically.""",
+                "big_o_explanation": "O(1) Time and Space for subsequent instantiations, due to dictionary lookups.",
+                "follow_up_probes": ["Is this Singleton implementation thread-safe? How would you make it so?", "Why use a metaclass here instead of a simple class decorator?"]
             }
         ]
     }

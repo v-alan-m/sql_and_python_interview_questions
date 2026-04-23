@@ -35,14 +35,32 @@ def get_exercise():
                 "scenario": """In Python, standard memory management relies heavily on reference counting. However, which of the following scenarios specifically requires Python's generational cyclic garbage collector to intervene to prevent memory leaks?
 
 """,
-                "hint": "Return True to pass the concept check.",
+                "hint": "Standard reference counting fails when objects hold references to each other but are disconnected from the main program scope.",
                 "data": "No specific code setup required for this conceptual problem.",
-                "evaluation_criteria": ["Understanding of concept"],
+                "evaluation_criteria": ["Deep understanding of Python memory management", "Ability to diagnose memory leaks", "Knowledge of Reference Counting vs Generational GC"],
                 "solution_code": """\
-result = True""",
-                "expected_output": True,
-                "big_o_explanation": "Constant time implementation.",
-                "follow_up_probes": ["Can you explain the limitations?"]
+result = \"\"\"Correct Answer: Two custom object instances that maintain attributes pointing to each other, creating an isolated island after their original variables are deleted.
+
+**Why this is correct (Lead Engineer Perspective):**
+This question tests your knowledge of Python's dual-strategy memory management. As a lead engineer, diagnosing memory leaks in long-running services requires understanding how cyclic references occur and how they are resolved.
+
+1. **Primary Strategy (Reference Counting):** Python primarily manages memory by keeping a count of how many references point to an object. When you delete a variable (`del x`), the count drops. If it hits zero, the memory is instantly freed.
+2. **The Cyclic Flaw:** If `Object A` has an attribute pointing to `Object B`, and `Object B` has an attribute pointing to `Object A`, their internal reference counts are `1`. If you delete the global variables pointing to A and B, their counts remain at `1`. Standard reference counting will *never* free them because the count never reaches zero. They form an unreachable "island" in memory.
+3. **The Fallback Strategy (Generational GC):** To solve this, Python utilizes a background Generational Garbage Collector. It periodically sweeps through objects in memory to detect these isolated cycles and safely tear them down.
+
+While recursive calls cause a stack overflow and file connections leak file descriptors, only the cyclic reference specifically triggers the intervention of the generational cyclic GC.\"\"\"""",
+                "expected_output": """Correct Answer: Two custom object instances that maintain attributes pointing to each other, creating an isolated island after their original variables are deleted.
+
+**Why this is correct (Lead Engineer Perspective):**
+This question tests your knowledge of Python's dual-strategy memory management. As a lead engineer, diagnosing memory leaks in long-running services requires understanding how cyclic references occur and how they are resolved.
+
+1. **Primary Strategy (Reference Counting):** Python primarily manages memory by keeping a count of how many references point to an object. When you delete a variable (`del x`), the count drops. If it hits zero, the memory is instantly freed.
+2. **The Cyclic Flaw:** If `Object A` has an attribute pointing to `Object B`, and `Object B` has an attribute pointing to `Object A`, their internal reference counts are `1`. If you delete the global variables pointing to A and B, their counts remain at `1`. Standard reference counting will *never* free them because the count never reaches zero. They form an unreachable "island" in memory.
+3. **The Fallback Strategy (Generational GC):** To solve this, Python utilizes a background Generational Garbage Collector. It periodically sweeps through objects in memory to detect these isolated cycles and safely tear them down.
+
+While recursive calls cause a stack overflow and file connections leak file descriptors, only the cyclic reference specifically triggers the intervention of the generational cyclic GC.""",
+                "big_o_explanation": "O(1) concept. However, running the cyclic GC is computationally expensive and runs asynchronously.",
+                "follow_up_probes": ["How can you manually trigger or disable the cyclic garbage collector?", "What is the weakref module and how does it prevent this issue?"]
             }
         ]
     }

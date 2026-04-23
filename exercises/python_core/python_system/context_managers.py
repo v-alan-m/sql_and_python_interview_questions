@@ -49,7 +49,7 @@ print(\"Execution continues\")""",
 What is the console output when this script runs?
 
 """,
-                "hint": "Return True to pass the concept check.",
+                "hint": "Look at the return value of the __exit__ method. How does Python handle exceptions inside a 'with' block based on that boolean?",
                 "data": """\
 class SuppressError:
     def __enter__(self):
@@ -63,12 +63,36 @@ class SuppressError:
 with SuppressError():
     int(\"Not a number\")
 print(\"Execution continues\")""",
-                "evaluation_criteria": ["Understanding of concept"],
+                "evaluation_criteria": ["Mastery of the Context Manager Protocol", "Understanding of exception propagation and suppression", "Clean code practices"],
                 "solution_code": """\
-result = True""",
-                "expected_output": True,
-                "big_o_explanation": "Constant time implementation.",
-                "follow_up_probes": ["Can you explain the limitations?"]
+result = \"\"\"Correct Answer: Execution continues
+
+**Why this is correct (Lead Engineer Perspective):**
+This question evaluates your understanding of the Context Manager protocol (`__enter__` and `__exit__`), which is fundamental for writing robust, resource-safe Python code. 
+
+Here is the exact execution flow at the interpreter level:
+1. **The Exception:** Inside the `with` block, `int("Not a number")` throws a `ValueError`.
+2. **The Hand-off:** Python immediately halts the block and passes the exception details (`exc_type`, `exc_value`, `traceback`) into the context manager's `__exit__` method.
+3. **The Interception:** Inside `__exit__`, the code checks `if exc_type is ValueError:`. This evaluates to True. It prints the suppression message and, crucially, **returns `True`**.
+4. **The Suppression:** In Python's Context Manager protocol, if the `__exit__` method returns `True`, it acts as a signal to the interpreter: *"I have successfully handled this exception, do not propagate it further."* Python gracefully suppresses the crash.
+5. **Resumption:** Execution resumes immediately *after* the `with` block, hitting the final `print("Execution continues")` statement.
+
+As a lead, leveraging custom context managers is the cleanest way to abstract away repetitive setup/teardown logic (like database transactions, lock acquisition, or API session handling).\"\"\"""",
+                "expected_output": """Correct Answer: Execution continues
+
+**Why this is correct (Lead Engineer Perspective):**
+This question evaluates your understanding of the Context Manager protocol (`__enter__` and `__exit__`), which is fundamental for writing robust, resource-safe Python code. 
+
+Here is the exact execution flow at the interpreter level:
+1. **The Exception:** Inside the `with` block, `int("Not a number")` throws a `ValueError`.
+2. **The Hand-off:** Python immediately halts the block and passes the exception details (`exc_type`, `exc_value`, `traceback`) into the context manager's `__exit__` method.
+3. **The Interception:** Inside `__exit__`, the code checks `if exc_type is ValueError:`. This evaluates to True. It prints the suppression message and, crucially, **returns `True`**.
+4. **The Suppression:** In Python's Context Manager protocol, if the `__exit__` method returns `True`, it acts as a signal to the interpreter: *"I have successfully handled this exception, do not propagate it further."* Python gracefully suppresses the crash.
+5. **Resumption:** Execution resumes immediately *after* the `with` block, hitting the final `print("Execution continues")` statement.
+
+As a lead, leveraging custom context managers is the cleanest way to abstract away repetitive setup/teardown logic (like database transactions, lock acquisition, or API session handling).""",
+                "big_o_explanation": "O(1) Time/Space overhead for the context management block.",
+                "follow_up_probes": ["How would you write this exact same context manager using the @contextlib.contextmanager decorator?", "What happens if __exit__ returns None instead of False?"]
             }
         ]
     }

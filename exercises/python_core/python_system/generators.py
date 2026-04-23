@@ -44,7 +44,7 @@ print(next(counter))""",
                 "scenario": """What is the output of the following script that uses a generator function?
 
 """,
-                "hint": "Return True to pass the concept check.",
+                "hint": "Evaluate how the 'yield' keyword suspends a function's execution state, and how 'next()' resumes it.",
                 "data": """\
 def count_up_to(max):
     count = 1
@@ -55,12 +55,38 @@ def count_up_to(max):
 counter = count_up_to(3)
 next(counter)
 print(next(counter))""",
-                "evaluation_criteria": ["Understanding of concept"],
+                "evaluation_criteria": ["Understanding of lazy evaluation", "Knowledge of generator state retention", "Memory optimization principles"],
                 "solution_code": """\
-result = True""",
-                "expected_output": True,
-                "big_o_explanation": "Constant time implementation.",
-                "follow_up_probes": ["Can you explain the limitations?"]
+result = \"\"\"Correct Answer: 2
+
+**Why this is correct (Lead Engineer Perspective):**
+This question tests your understanding of Python generators, specifically how they manage state and implement lazy evaluation using the `yield` keyword. As a Lead Engineer, understanding how to leverage generators for memory-efficient data processing is essential.
+
+Here is the step-by-step execution breakdown:
+
+* **Generator Initialization:** `counter = count_up_to(3)` does *not* execute the function body. Instead, it creates a generator object and assigns it to the variable `counter`.
+* **First `next()` Call:** The standalone `next(counter)` statement triggers the execution of the generator body. It yields `1`, and the generator's state is now suspended at this exact line. The yielded value `1` is discarded because it wasn't assigned or printed.
+* **Second `next()` Call:** The statement `print(next(counter))` evaluates the inner `next(counter)` first. 
+    * The generator resumes execution immediately *after* the previous `yield` statement.
+    * It updates the local variable to `2`.
+    * The function hits `yield` again, yielding `2`, and suspends its state once more.
+* **The Output:** The value `2` returned by the second `next()` call is passed directly to the `print()` function, outputting `2` to the console.\"\"\"""",
+                "expected_output": """Correct Answer: 2
+
+**Why this is correct (Lead Engineer Perspective):**
+This question tests your understanding of Python generators, specifically how they manage state and implement lazy evaluation using the `yield` keyword. As a Lead Engineer, understanding how to leverage generators for memory-efficient data processing is essential.
+
+Here is the step-by-step execution breakdown:
+
+* **Generator Initialization:** `counter = count_up_to(3)` does *not* execute the function body. Instead, it creates a generator object and assigns it to the variable `counter`.
+* **First `next()` Call:** The standalone `next(counter)` statement triggers the execution of the generator body. It yields `1`, and the generator's state is now suspended at this exact line. The yielded value `1` is discarded because it wasn't assigned or printed.
+* **Second `next()` Call:** The statement `print(next(counter))` evaluates the inner `next(counter)` first. 
+    * The generator resumes execution immediately *after* the previous `yield` statement.
+    * It updates the local variable to `2`.
+    * The function hits `yield` again, yielding `2`, and suspends its state once more.
+* **The Output:** The value `2` returned by the second `next()` call is passed directly to the `print()` function, outputting `2` to the console.""",
+                "big_o_explanation": "O(1) Space Complexity. A generator yields one item at a time, preventing memory exhaustion even for infinite sequences.",
+                "follow_up_probes": ["How do generators differ from standard iterators that implement __iter__ and __next__?", "How would you chain multiple generators together for a data pipeline?"]
             }
         ]
     }
