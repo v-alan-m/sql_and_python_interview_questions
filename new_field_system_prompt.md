@@ -50,8 +50,13 @@ Both `python_system` and `python_coding` exercises under `python_core` share the
 - Ensure the `mcq_questions` are fully populated from the Anki **front** value.
 - **Interview Stages**: For BOTH `python_coding` and `python_system`, you must generate a **single interview stage** (1 stage only). The stage should act as a proof of concept to accompany the MCQ questions, as the Anki imported data only contains information for one stage. Ensure `expected_output` for the stage exactly matches what the `solution_code` outputs to the `result` variable. Provide Sample Data (`data`) as a `pandas.DataFrame`.
 
-### Task 4: Content Generation & Token Limits
-When generating the detailed "Lead Engineer Perspective" deep dives for multiple Anki cards, you may approach the output token limit, which could force a reduction in output quality. To prevent this, if you are generating multiple exercises, you MUST ask the user if they want to generate them in a single batch, or if they prefer to prompt with 'next' for each exercise sequentially to guarantee maximum quality and depth.
+### Task 4: Content Generation & Token Limits (High-Reasoning Optimization)
+When generating the detailed "Lead Engineer Perspective" deep dives for multiple Anki cards, you may approach the output token limit, which could force a reduction in output quality. Furthermore, executing numerous direct file writes via tool calls is slow.
+
+To optimize for maximum reasoning quality and execution speed:
+- **Phase 1: Generation (High Reasoning)**: Generate a single Markdown artifact (e.g., `exercises_implementation_artifact.md`) containing the complete, finalized Python code for the requested exercises. Batch size should be capped at **6 exercises per artifact** to stay safely under 94% of the maximum output token limit (~7,700 tokens). Do not execute the file writes during this phase.
+- **Phase 2: Hand-off**: Once the artifact is created, immediately stop and explicitly instruct the user: *"The high-quality code has been generated in the artifact. Please switch to Gemini Flash (or your preferred fast execution model) and prompt it to: 'Read the implementation artifact and execute the file writes.'"*
+- **Phase 3: Implementation (Fast Execution)**: The fast model will mechanically read the artifact and execute the `write_to_file` tool calls, saving significant time with zero loss in Lead Engineer reasoning quality.
 
 ### Task 5: Run Tests
 After creating the `.py` files, do NOT run tests immediately. Pause and request the user to prompt with `run tests`. Once the user gives the command, run `python test_all_exercises.py -q` (in quiet mode) to assert the generated stage logic passes unit tests against the generated `expected_output`. Fix any assertion failures.
