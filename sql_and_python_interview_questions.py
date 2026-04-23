@@ -108,6 +108,22 @@ def load_exercises(base_folder="exercises"):
 exercises = load_exercises()
 
 # --- SIDEBAR ---
+# Timer
+if 'start_time' not in st.session_state:
+    st.session_state.start_time = time.time()
+
+@st.fragment(run_every="1s")
+def display_timer():
+    elapsed = int(time.time() - st.session_state.start_time)
+    remaining = max(0, 300 - elapsed)
+    st.metric("Session Timer", f"{remaining // 60}:{remaining % 60:02d}")
+
+with st.sidebar:
+    display_timer()
+    if st.button("Reset Timer", use_container_width=True):
+        st.session_state.start_time = time.time()
+        st.rerun()
+
 st.sidebar.header("Training Menu")
 
 category_options = {
@@ -153,23 +169,6 @@ else:
             format_func=lambda x: x.split(" > ")[-1]
         )
         ex = filtered_exercises[selected_key]
-
-# Timer
-if 'start_time' not in st.session_state:
-    st.session_state.start_time = time.time()
-
-@st.fragment(run_every="1s")
-def display_timer():
-    elapsed = int(time.time() - st.session_state.start_time)
-    remaining = max(0, 300 - elapsed)
-    st.metric("Session Timer", f"{remaining // 60}:{remaining % 60:02d}")
-
-with st.sidebar:
-    display_timer()
-
-if st.sidebar.button("Reset Timer"):
-    st.session_state.start_time = time.time()
-    st.rerun()
 
 # --- MAIN UI ---
 if selected_key:
