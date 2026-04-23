@@ -61,7 +61,11 @@ Action:
    These plans are the **unalterable source of truth**.
 2. Implement ONLY the acceptance criteria for Phase [X] as defined in `Phase_Board.md`.
 3. **Pre-flight Check (Token Optimization)**: Review the Target Files in `Phase_Board.md`. If the phase requires more than 5 files or extensive logic (likely exceeding 7500-8000 output tokens), you MUST plan to split the generation into multiple logical artifacts (e.g., Data Layer, API Layer).
-4. **High-Reasoning Optimization**: Generate the Markdown artifact containing the finalized, production-ready source code. The generated code must **strictly conform** to the logic mapped out in the plans. Do NOT write the actual source files yet.
+4. **High-Reasoning Optimization**: Generate the Markdown artifact containing the finalized, production-ready source code. 
+   - **Zero-Placeholder Policy**: Every function, class, and logic block must be 100% complete. Do NOT use "TODO" or "// ... existing code" comments.
+   - **Flash-Ready Formatting**: Use clear H3 headers for each file (e.g., `### FILE: path/to/file.py`) and wrap the code in standard markdown blocks.
+   - The generated code must **strictly conform** to the logic mapped out in the plans. 
+   - Do NOT write the actual source files yet.
 5. **Handling Large Phases (Multi-Turn)**: If you determined multiple artifacts are needed in Step 3, generate ONLY the first artifact in your response, then STOP. Prompt the user: *"Part 1 generated. Please type 'Continue' to generate the next artifact."* Do NOT attempt to output multiple large artifacts in a single turn.
 6. Resolve any conceptual errors or bugs within the generated code.
 
@@ -70,7 +74,7 @@ Constraints:
 - Do NOT deviate from what the `docs/` plans prescribe.
 
 Gate: Stop execution completely upon finishing the artifact.
-Prompt User: "Phase [X] implementation artifact complete. To optimize execution speed, please switch to a fast execution model (e.g., Gemini Flash) and type 'Read the artifact and write the files'. After the files are written, type 'Verify' to begin the QA audit."
+Prompt User: "Phase [X] implementation artifact complete. This artifact contains 100% complete, placeholder-free code. To optimize execution speed, please switch to a fast execution model (e.g., Gemini Flash) and type 'Read the artifact and write the files'. After the files are written, type 'Verify' to begin the QA audit."
 
 ---
 
