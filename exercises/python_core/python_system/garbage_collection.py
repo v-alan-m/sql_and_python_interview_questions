@@ -3,7 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Garbage Collection",
-        "subtitle": "Core python concepts",
+        "subtitle": "Garbage Collection",
         "description": """In Python, standard memory management relies heavily on reference counting. However, which of the following scenarios specifically requires Python's generational cyclic garbage collector to intervene to prevent memory leaks?\n\n""",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",

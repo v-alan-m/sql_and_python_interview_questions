@@ -3,7 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Metaclasses",
-        "subtitle": "Core python concepts",
+        "subtitle": "Metaclasses",
         "description": """Consider the following code utilizing a metaclass:\n\nWhat is the underlying mechanism that ensures `db1 is db2` evaluates to True?\n\n""",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",

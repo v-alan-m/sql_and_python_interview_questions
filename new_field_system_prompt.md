@@ -68,7 +68,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Title mapped from Anki context",
-        "subtitle": "Core python concepts",
+        "subtitle": "<tag>",
         "description": "Anki Front - expanded into a business/interview scenario",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",

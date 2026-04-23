@@ -3,7 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Parameter Passing",
-        "subtitle": "Core python concepts",
+        "subtitle": "Parameter Passing",
         "description": """How are arguments passed to functions in Python?\n\n""",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",

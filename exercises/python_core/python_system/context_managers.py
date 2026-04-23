@@ -3,7 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Context Managers",
-        "subtitle": "Core python concepts",
+        "subtitle": "Context Managers",
         "description": """Analyze the custom context manager below:\n\nWhat is the console output when this script runs?\n\n""",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",

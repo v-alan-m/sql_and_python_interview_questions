@@ -3,7 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Generators",
-        "subtitle": "Core python concepts",
+        "subtitle": "Generators",
         "description": """What is the output of the following script that uses a generator function?\n\n""",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",

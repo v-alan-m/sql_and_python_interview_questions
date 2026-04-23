@@ -3,7 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Decorators",
-        "subtitle": "Core python concepts",
+        "subtitle": "Decorators",
         "description": """You are writing a logging decorator for a framework, but users complain that their function docstrings and names are disappearing. Look at the code:\n\nWhat does the print statement currently output, and how do you fix it at the system level?\n\n""",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",

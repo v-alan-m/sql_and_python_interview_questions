@@ -3,7 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Asyncio",
-        "subtitle": "Core python concepts",
+        "subtitle": "Asyncio",
         "description": """Consider an asynchronous Python script handling API requests using asyncio. When the interpreter encounters an await expression (e.g., `await fetch_data()`), what happens behind the scenes at the system level?\n\n""",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",

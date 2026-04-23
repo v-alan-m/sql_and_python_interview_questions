@@ -3,7 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Data Structures",
-        "subtitle": "Core python concepts",
+        "subtitle": "Data Structures",
         "description": """What is the primary performance benefit of using a set instead of a list to check for the existence of an item?\n\n""",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",

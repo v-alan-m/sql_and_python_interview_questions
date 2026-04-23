@@ -3,7 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Built Ins",
-        "subtitle": "Core python concepts",
+        "subtitle": "Built Ins",
         "description": """What does the following print function call output to the console?\n\n""",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",

@@ -3,7 +3,7 @@ import pandas as pd
 def get_exercise():
     return {
         "title": "Concurrency",
-        "subtitle": "Core python concepts",
+        "subtitle": "Concurrency",
         "description": """Two threads execute the worker function concurrently without a lock.\n\nWhich of the following is a possible final value for counter?\n\n""",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
