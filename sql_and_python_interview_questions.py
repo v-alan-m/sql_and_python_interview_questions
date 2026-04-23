@@ -232,7 +232,7 @@ if selected_key:
         if "subtitle" in ex:
             st.markdown(f"<div class='concepts-subtitle'>Concepts: {ex['subtitle']}</div>", unsafe_allow_html=True)
 
-    col1, col2 = st.columns([0.8, 0.99], gap="large")
+    col1, col2 = st.columns([0.88, 0.99], gap="large")
 
     with col1:
         # Objective / Scenario
