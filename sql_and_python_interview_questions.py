@@ -19,7 +19,7 @@ st.markdown("""
 /* Reduce top padding of the main container */
 .block-container {
     padding-top: 2.6rem !important;
-    padding-bottom: 0rem !important;
+    padding-bottom: 4rem !important;
 }
 
 /* Default state (closed): Perfectly transparent border */
