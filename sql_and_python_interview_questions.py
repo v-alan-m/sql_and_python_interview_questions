@@ -50,11 +50,26 @@ div[data-testid="stExpander"] {
 }
  
  /* Ensures Scenario/Objective descriptions are not bold but keep H4 size */
- .scenario-text h4 {
+ .scenario-text, .scenario-text p {
     font-weight: 400 !important;
-    font-size: 1.3rem !important;
+    font-size: 1.25rem !important;
     line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
 }
+
+/* Premium Code Highlighting (One Dark inspired) */
+code, pre {
+    font-family: 'Fira Code', 'JetBrains Mono', 'Roboto Mono', monospace !important;
+}
+
+.token.keyword, .token.selector, .token.changed { color: #c678dd !important; } /* Purple */
+.token.function, .token.attr-name { color: #61afef !important; } /* Blue */
+.token.string, .token.char, .token.attr-value { color: #98c379 !important; } /* Green */
+.token.number, .token.constant, .token.boolean { color: #d19a66 !important; } /* Orange */
+.token.operator, .token.punctuation, .token.property { color: #56b6c2 !important; } /* Cyan */
+.token.comment { color: #5c6370 !important; font-style: italic !important; } /* Grey */
+.token.class-name, .token.type, .token.builtin { color: #e5c07b !important; } /* Yellow */
+.token.regex, .token.important, .token.variable { color: #e06c75 !important; } /* Red */
 
 /* Premium Typography for Concepts & Stages */
 .concepts-subtitle {
@@ -265,9 +280,9 @@ if selected_key:
     with col1:
         # Objective / Scenario
         if active_title:
-            st.markdown(f"<div class='header-spacing'>\n\n## Scenario\n<div class='scenario-text'>\n\n#### {active_scenario}\n\n</div>\n</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='header-spacing'>\n\n## Scenario\n<div class='scenario-text'>\n\n{active_scenario}\n\n</div>\n</div>", unsafe_allow_html=True)
         else:
-            st.markdown(f"<div class='header-spacing'>\n\n## Objective\n<div class='scenario-text'>\n\n#### {active_scenario}\n\n</div>\n</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='header-spacing'>\n\n## Objective\n<div class='scenario-text'>\n\n{active_scenario}\n\n</div>\n</div>", unsafe_allow_html=True)
 
         # Data
         show_data = not ex.get("hide_data", False)
