@@ -97,6 +97,39 @@ h1 {
     margin-top: 2.2rem !important;
 }
 
+/* Bottom-alignment for MCQ navigation buttons and code blocks */
+[data-testid="stHorizontalBlock"] {
+    align-items: stretch !important;
+}
+
+[data-testid="stHorizontalBlock"] > div [data-testid="stVerticalBlock"] {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+}
+
+/* Ensure the scenario text area grows to fill space, pushing content down */
+.scenario-text {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-grow: 1 !important;
+}
+
+/* Push the internal code block (pre) to the bottom of the scenario area */
+.scenario-text pre {
+    margin-top: auto !important;
+}
+
+/* Push the last element of each column (MCQ group, Buttons, or Data) to the bottom */
+[data-testid="stHorizontalBlock"] > div [data-testid="stVerticalBlock"] > div:last-child {
+    margin-top: auto !important;
+}
+
+/* Fixed gap between MCQ questions and navigation buttons within their group */
+.mcq-nav-gap {
+    margin-top: 2.2rem !important;
+}
+
 /* Premium Center Metric in Sidebar */
 [data-testid="stSidebar"] [data-testid="stMetric"] {
     display: flex;
@@ -292,14 +325,15 @@ if selected_key:
                 show_data = False
 
         if show_data and active_data is not None:
-            st.write("## Sample Data" if active_title else "### Input Data")
-            df = active_data
-            if isinstance(df, pd.DataFrame):
-                st.dataframe(df, use_container_width=True)
-            elif isinstance(df, str):
-                st.code(df, language="python")
-            else:
-                st.write(df)
+            with st.container():
+                st.write("## Sample Data" if active_title else "### Input Data")
+                df = active_data
+                if isinstance(df, pd.DataFrame):
+                    st.dataframe(df, use_container_width=True)
+                elif isinstance(df, str):
+                    st.code(df, language="python")
+                else:
+                    st.write(df)
 
         # --- Conceptual Questions (MCQ) Section ---
         pass
@@ -309,8 +343,6 @@ if selected_key:
         run_clicked = False
 
         if is_python_mcq:
-            # Add top margin to align with Scenario
-            st.markdown("<div class='header-spacing'></div>", unsafe_allow_html=True)
             # st.write("### Conceptual Questions")
             
             # Modern CSS for MCQ Premium cards
@@ -355,55 +387,58 @@ if selected_key:
             mcq_questions = ex.get("mcq_questions", [])
             relevant_mcqs = [q for q in mcq_questions if q["stage_number"] <= current_stage_idx] if has_stages else mcq_questions
             
-            for i, mcq in enumerate(relevant_mcqs):
-                with st.container():
-                    mcq_col1, mcq_col2 = st.columns([20, 1])
-                    with mcq_col1:
-                        if len(relevant_mcqs) > 1:
-                            st.markdown(f"#### Q{i+1}")
-                        # st.markdown(f"#### Q{i+1}. {mcq['question']}")
-                    with mcq_col2:
-                        with st.popover("?", help="Click for explanation"):
-                            st.markdown("### Explanation")
-                            st.info(mcq["explanation"])
+            # Group MCQ and Navigation into a single container for bottom alignment
+            with st.container():
+                for i, mcq in enumerate(relevant_mcqs):
+                    with st.container():
+                        mcq_col1, mcq_col2 = st.columns([20, 1])
+                        with mcq_col1:
+                            if len(relevant_mcqs) > 1:
+                                st.markdown(f"#### Q{i+1}")
+                        with mcq_col2:
+                            with st.popover("?", help="Click for explanation"):
+                                st.markdown("### Explanation")
+                                st.info(mcq["explanation"])
 
-                    # Radio buttons for options
-                    options = [f"{opt['label']}) {opt['text']}" for opt in mcq["options"]]
-                    answer_key = f"mcq_{selected_key}_{i}"
-                    
-                    selected = st.radio(
-                        "Select your answer:",
-                        options,
-                        key=answer_key,
-                        index=None,
-                        label_visibility="collapsed"
-                    )
+                        # Radio buttons for options
+                        options = [f"{opt['label']}) {opt['text']}" for opt in mcq["options"]]
+                        answer_key = f"mcq_{selected_key}_{i}"
+                        
+                        selected = st.radio(
+                            "Select your answer:",
+                            options,
+                            key=answer_key,
+                            index=None,
+                            label_visibility="collapsed"
+                        )
 
-                    # Check answer on selection
-                    if selected:
-                        selected_label = selected[0]  # Get "A", "B", "C", or "D"
-                        correct_opt = next(o for o in mcq["options"] if o["is_correct"])
-                        if selected_label == correct_opt["label"]:
-                            st.success(f"**Correct!** {correct_opt['label']}) {correct_opt['text']}")
-                        else:
-                            st.error(f"**Incorrect.** The correct answer is {correct_opt['label']}) {correct_opt['text']}")
+                        # Check answer on selection
+                        if selected:
+                            selected_label = selected[0]  # Get "A", "B", "C", or "D"
+                            correct_opt = next(o for o in mcq["options"] if o["is_correct"])
+                            if selected_label == correct_opt["label"]:
+                                st.success(f"**Correct!** {correct_opt['label']}) {correct_opt['text']}")
+                            else:
+                                st.error(f"**Incorrect.** The correct answer is {correct_opt['label']}) {correct_opt['text']}")
 
-            # --- Stage Navigation Buttons ---
-            if has_stages:
-                btn_cols = st.columns([1, 1.2, 1, 1, 1])
-                with btn_cols[1]:
-                    stage_label = f"Stage {current_stage_idx}/{total_stages}" if current_stage_idx > 0 else "Original"
-                    st.markdown(f"<div style='text-align:center; padding-top:6px; font-weight:600; color:#6c757d;'>{stage_label}</div>", unsafe_allow_html=True)
-                with btn_cols[2]:
-                    prev_disabled = current_stage_idx <= 1
-                    if st.button("Prev", disabled=prev_disabled, use_container_width=True):
-                        st.session_state[stage_key] = current_stage_idx - 1
-                        st.rerun()
-                with btn_cols[3]:
-                    next_disabled = current_stage_idx >= total_stages
-                    if st.button("Next", disabled=next_disabled, use_container_width=True):
-                        st.session_state[stage_key] = current_stage_idx + 1
-                        st.rerun()
+                # --- Stage Navigation Buttons (within the same group) ---
+                if has_stages:
+                    st.markdown("<div class='mcq-nav-gap'></div>", unsafe_allow_html=True)
+                    with st.container():
+                        btn_cols = st.columns([1, 1.2, 1, 1, 1])
+                        with btn_cols[1]:
+                            stage_label = f"Stage {current_stage_idx}/{total_stages}" if current_stage_idx > 0 else "Original"
+                            st.markdown(f"<div style='text-align:center; padding-top:6px; font-weight:600; color:#6c757d;'>{stage_label}</div>", unsafe_allow_html=True)
+                        with btn_cols[2]:
+                            prev_disabled = current_stage_idx <= 1
+                            if st.button("Prev", disabled=prev_disabled, use_container_width=True):
+                                st.session_state[stage_key] = current_stage_idx - 1
+                                st.rerun()
+                        with btn_cols[3]:
+                            next_disabled = current_stage_idx >= total_stages
+                            if st.button("Next", disabled=next_disabled, use_container_width=True):
+                                st.session_state[stage_key] = current_stage_idx + 1
+                                st.rerun()
         else:
             st.markdown("<div class='header-spacing'>\n\n## Workspace\n\n</div>", unsafe_allow_html=True)
             mode = st.radio("Language:", ex.get('allowed_modes', ["SQL", "Python"]), horizontal=True, key=mode_key)
@@ -411,24 +446,26 @@ if selected_key:
 
             # --- Run Code + Stage Navigation Buttons ---
             if has_stages:
-                btn_cols = st.columns([2, 0.5, 1.2, 1, 1, 0.5])
-                with btn_cols[0]:
-                    run_clicked = st.button("Run Code", use_container_width=True)
-                with btn_cols[2]:
-                    stage_label = f"Stage {current_stage_idx}/{total_stages}" if current_stage_idx > 0 else "Original"
-                    st.markdown(f"<div style='text-align:center; padding-top:6px; font-weight:600; color:#6c757d;'>{stage_label}</div>", unsafe_allow_html=True)
-                with btn_cols[3]:
-                    prev_disabled = current_stage_idx <= 1
-                    if st.button("Prev", disabled=prev_disabled, use_container_width=True):
-                        st.session_state[stage_key] = current_stage_idx - 1
-                        st.rerun()
-                with btn_cols[4]:
-                    next_disabled = current_stage_idx >= total_stages
-                    if st.button("Next", disabled=next_disabled, use_container_width=True):
-                        st.session_state[stage_key] = current_stage_idx + 1
-                        st.rerun()
+                with st.container():
+                    btn_cols = st.columns([2, 0.5, 1.2, 1, 1, 0.5])
+                    with btn_cols[0]:
+                        run_clicked = st.button("Run Code", use_container_width=True)
+                    with btn_cols[2]:
+                        stage_label = f"Stage {current_stage_idx}/{total_stages}" if current_stage_idx > 0 else "Original"
+                        st.markdown(f"<div style='text-align:center; padding-top:6px; font-weight:600; color:#6c757d;'>{stage_label}</div>", unsafe_allow_html=True)
+                    with btn_cols[3]:
+                        prev_disabled = current_stage_idx <= 1
+                        if st.button("Prev", disabled=prev_disabled, use_container_width=True):
+                            st.session_state[stage_key] = current_stage_idx - 1
+                            st.rerun()
+                    with btn_cols[4]:
+                        next_disabled = current_stage_idx >= total_stages
+                        if st.button("Next", disabled=next_disabled, use_container_width=True):
+                            st.session_state[stage_key] = current_stage_idx + 1
+                            st.rerun()
             else:
-                run_clicked = st.button("Run Code")
+                with st.container():
+                    run_clicked = st.button("Run Code")
 
         if run_clicked:
             try:
