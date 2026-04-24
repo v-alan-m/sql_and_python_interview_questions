@@ -4,11 +4,17 @@ def get_exercise():
     return {
         "title": "List Comprehensions and Filtering",
         "subtitle": "comprehensions",
-        "description": "Given a list of dictionaries representing student records, how can you extract the names of students who scored above 90 in their mathematics exam?\n\n```python\nrecords = [\n    {\"name\": \"Alice\", \"math_score\": 92},\n    {\"name\": \"Bob\", \"math_score\": 85},\n    {\"name\": \"Charlie\", \"math_score\": 88},\n    {\"name\": \"David\", \"math_score\": 91},\n    {\"name\": \"Eve\", \"math_score\": 95}\n]\n```",
+        "description": "Given a list of dictionaries representing student records, how can you extract the names of students who scored above 90 in their mathematics exam?",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
-        "data": None,
-        "hide_data": True,
+        "data": """\
+records = [
+    {"name": "Alice", "math_score": 92},
+    {"name": "Bob", "math_score": 85},
+    {"name": "Charlie", "math_score": 88},
+    {"name": "David", "math_score": 91},
+    {"name": "Eve", "math_score": 95}
+]""",
         "allowed_modes": ["Python"],
         "hint_python": "Review the syntax for list comprehensions: `[expression for item in iterable if condition]`.",
         "solution_python": "result = [student['name'] for student in records if student['math_score'] > 90]",
@@ -31,10 +37,16 @@ def get_exercise():
             {
                 "stage_number": 1,
                 "title": "Concept Implementation",
-                "scenario": "Given a list of dictionaries representing student records, how can you extract the names of students who scored above 90 in their mathematics exam?\n\n```python\nrecords = [\n    {\"name\": \"Alice\", \"math_score\": 92},\n    {\"name\": \"Bob\", \"math_score\": 85},\n    {\"name\": \"Charlie\", \"math_score\": 88},\n    {\"name\": \"David\", \"math_score\": 91},\n    {\"name\": \"Eve\", \"math_score\": 95}\n]\n```",
+                "scenario": "Given a list of dictionaries representing student records, how can you extract the names of students who scored above 90 in their mathematics exam?",
                 "hint": "Review the syntax for list comprehensions: `[expression for item in iterable if condition]`.",
-                "data": None,
-                "hide_data": True,
+                "data": """\
+records = [
+    {"name": "Alice", "math_score": 92},
+    {"name": "Bob", "math_score": 85},
+    {"name": "Charlie", "math_score": 88},
+    {"name": "David", "math_score": 91},
+    {"name": "Eve", "math_score": 95}
+]""",
                 "evaluation_criteria": ["Ability to write pythonic list comprehensions", "Understanding of iterable unpacking"],
                 "solution_code": "result = [student['name'] for student in records if student['math_score'] > 90]",
                 "expected_output": 'Options A and B',

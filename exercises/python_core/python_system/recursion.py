@@ -4,11 +4,15 @@ def get_exercise():
     return {
         "title": "Recursion Depth Limits",
         "subtitle": "recursion",
-        "description": "Consider the following Python code snippet:\n\n```python\ndef calculate_factorial(n):\n    if n == 0 or n == 1:\n        return 1\n    else:\n        return n * calculate_factorial(n - 1)\n```\n\nBased on the code, which of the given statements is accurate regarding its performance?",
+        "description": "Consider the following Python code snippet:\n\nBased on the code, which of the given statements is accurate regarding its performance?",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
-        "data": None,
-        "hide_data": True,
+        "data": """\
+def calculate_factorial(n):
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return n * calculate_factorial(n - 1)""",
         "allowed_modes": ["Python"],
         "hint_python": "Consider how Python handles the call stack and whether it supports Tail Call Optimization.",
         "solution_python": 'result = "The code has a high likelihood of encountering a stack overflow error for large input values of n."',
@@ -35,10 +39,14 @@ def get_exercise():
             {
                 "stage_number": 1,
                 "title": "Concept Implementation",
-                "scenario": "Consider the following Python code snippet:\n\n```python\ndef calculate_factorial(n):\n    if n == 0 or n == 1:\n        return 1\n    else:\n        return n * calculate_factorial(n - 1)\n```\n\nBased on the code, which of the given statements is accurate regarding its performance?",
+                "scenario": "Consider the following Python code snippet:\n\nBased on the code, which of the given statements is accurate regarding its performance?",
                 "hint": "Consider how Python handles the call stack and whether it supports Tail Call Optimization.",
-                "data": None,
-                "hide_data": True,
+                "data": """\
+def calculate_factorial(n):
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return n * calculate_factorial(n - 1)""",
                 "evaluation_criteria": ["Understanding of RecursionError", "Knowledge of Python's lack of TCO"],
                 "solution_code": 'result = "The code has a high likelihood of encountering a stack overflow error for large input values of n."',
                 "expected_output": 'The code has a high likelihood of encountering a stack overflow error for large input values of n.',
