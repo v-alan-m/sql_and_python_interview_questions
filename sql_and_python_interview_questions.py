@@ -104,6 +104,12 @@ h1 {
     justify-content: center !important;
     font-weight: 700 !important;
 }
+
+/* Sidebar Header spacing - adds more breathing room below 'Training Menu' */
+[data-testid="stSidebar"] h2 {
+    margin-bottom: 0.8rem !important;
+    margin-top: 0.4rem !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
