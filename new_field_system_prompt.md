@@ -48,7 +48,7 @@ Both `python_system` and `python_coding` exercises under `python_core` share the
 
 - Generate standard metadata.
 - Ensure the `mcq_questions` are fully populated from the Anki **front** value.
-- **Interview Stages**: For BOTH `python_coding` and `python_system`, you must generate a **single interview stage** (1 stage only). The stage should act as a proof of concept to accompany the MCQ questions, as the Anki imported data only contains information for one stage. Ensure `expected_output` for the stage exactly matches what the `solution_code` outputs to the `result` variable. Provide Sample Data (`data`) as a `pandas.DataFrame`.
+- **Interview Stages**: For BOTH `python_coding` and `python_system`, you must generate a **single interview stage** (1 stage only). The stage should act as a proof of concept to accompany the MCQ questions, as the Anki imported data only contains information for one stage. Ensure `expected_output` for the stage exactly matches what the `solution_code` outputs to the `result` variable. Provide Sample Data (`data`) as a `pandas.DataFrame`, or set it to `None` if the exercise scenario does not require external data.
 
 ### Task 4: Content Generation & Token Limits (High-Reasoning Optimization)
 When generating the detailed "Lead Engineer Perspective" deep dives for multiple Anki cards, you may approach the output token limit, which could force a reduction in output quality. Furthermore, executing numerous direct file writes via tool calls is slow.
@@ -77,7 +77,8 @@ def get_exercise():
         "description": "Anki Front - expanded into a business/interview scenario",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
-        "data": pd.DataFrame({"id": [1,2], "input": ["a", "b"]}), # Base sample data
+        "data": None, # Set to pd.DataFrame(...) only if required by scenario. Set to None to hide.
+        "hide_data": False, # Optional: Set to True to explicitly hide the data section even if data exists
         "allowed_modes": ["Python"],
         "hint_python": "Base hint",
         "solution_python": 'result = "python-is-fun!"', # The actual code solution or value of the expected answer
@@ -109,7 +110,8 @@ def get_exercise():
                 "title": "Concept Implementation",
                 "scenario": "Anki Front - identically copied from the description key",
                 "hint": "Thoughtful, conceptual hint pointing to the underlying mechanism",
-                "data": pd.DataFrame({"id": [3], "input": ["c"]}),
+                "data": None,
+                "hide_data": False,
                 "evaluation_criteria": ["Lead Engineer Concept 1", "Deep understanding of X"],
                 "solution_code": 'result = "python-is-fun!"',
                 "expected_output": 'python-is-fun!',

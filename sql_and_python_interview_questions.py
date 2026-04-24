@@ -264,14 +264,21 @@ if selected_key:
             st.markdown(f"<div class='header-spacing'>\n\n## Objective\n<div class='scenario-text'>\n\n#### {active_scenario}\n\n</div>\n</div>", unsafe_allow_html=True)
 
         # Data
-        st.write("## Sample Data" if active_title else "### Input Data")
-        df = active_data
-        if isinstance(df, pd.DataFrame):
-            st.dataframe(df, use_container_width=True)
-        elif isinstance(df, str):
-            st.code(df, language="python")
-        else:
-            st.write(df)
+        show_data = not ex.get("hide_data", False)
+        if has_stages and current_stage_idx > 0:
+            active_stage = stages[current_stage_idx - 1]
+            if active_stage.get("hide_data", False):
+                show_data = False
+
+        if show_data and active_data is not None:
+            st.write("## Sample Data" if active_title else "### Input Data")
+            df = active_data
+            if isinstance(df, pd.DataFrame):
+                st.dataframe(df, use_container_width=True)
+            elif isinstance(df, str):
+                st.code(df, language="python")
+            else:
+                st.write(df)
 
         # --- Conceptual Questions (MCQ) Section ---
         pass
