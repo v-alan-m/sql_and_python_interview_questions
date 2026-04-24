@@ -1,0 +1,16 @@
+For these questions and answers would it be possible to:
+```
+Please generate a list of Q&A flashcards based on the 8 Python interview questions from the images we just discussed, along with the answers and explanations you provided.
+
+You must strictly follow this formatting rule for every single flashcard. Each flashcard must be contained on ONE single line of output, using exactly two pipe characters (|) to separate the three fields.
+
+[tag]| Question| Answer
+
+Rules:
+1. Field 1: A short, relevant tag enclosed in brackets indicating the core Python concept (e.g., [closures], [scoping]).
+2. Field 2 (Question): You MUST extract and accurately transcribe the exact Python code snippet and all multiple-choice options from the images. 
+3. Field 3 (Answer): Provide the correct concise answer, followed by an HTML `<hr>` tag, followed by the detailed explanation.
+4. CRITICAL FORMATTING: Because this output must be strictly one line per flashcard for easy importing, you MUST replace all actual line breaks inside the code snippets, multiple-choice options, and explanations with HTML `<br>` tags. Enclose the Python code in `<pre><code>...</code></pre>` tags to preserve indentation. 
+5. Do not include any headers, bullet points, or extra commentary before or after the list. Just output the raw delimited lines.
+6. Output as a code text block please
+```
