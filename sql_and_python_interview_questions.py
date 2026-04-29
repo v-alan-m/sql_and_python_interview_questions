@@ -188,7 +188,8 @@ h1 {
 
 /* Hover state */
 [data-testid="stSidebar"] div[data-testid="stRadio"] [role="radiogroup"] label:hover {
-    background-color: rgba(255, 255, 255, 0.05) !important;
+    background-color: rgba(31, 244, 151, 0.15) !important;
+    border-color: rgba(31, 244, 151, 0.4) !important;
 }
 
 /* Selected state */
@@ -219,10 +220,10 @@ h1 {
 /* Show tick in the custom box when selected */
 [data-testid="stSidebar"] div[data-testid="stRadio"] [role="radiogroup"] label:has(input:checked)::before,
 [data-testid="stSidebar"] div[data-testid="stRadio"] [role="radiogroup"] label[data-selected="true"]::before {
-    background-color: #1E90FF;
-    border-color: #1E90FF;
-    content: "✓";
-    color: white;
+    background-color: #1ff497;
+    border-color: #1ff497;
+    content: "";
+    color: #0E1117;
     font-size: 13px;
     line-height: 18px;
     text-align: center;
