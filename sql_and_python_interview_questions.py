@@ -175,7 +175,7 @@ h1 {
     border-radius: 8px !important;
     background-color: #0E1117 !important; /* Match dropdown background */
     cursor: pointer !important;
-    width: 100% !important;
+    width: 120% !important;
     height: 45px !important; /* Match dropdown height */
     transition: all 0.2s ease !important;
 }
