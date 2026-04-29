@@ -228,6 +228,12 @@ h1 {
     line-height: 18px;
     text-align: center;
 }
+
+/* Premium Green Hover for action buttons */
+div[data-testid="stButton"] button:hover:not(:disabled) {
+    background-color: rgba(31, 244, 151, 0.15) !important;
+    border-color: rgba(31, 244, 151, 0.4) !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
