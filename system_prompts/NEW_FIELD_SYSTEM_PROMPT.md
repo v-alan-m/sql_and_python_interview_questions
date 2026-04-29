@@ -78,7 +78,7 @@ def get_exercise():
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
         "data": None, # If the scenario includes a code snippet or requires a pd.DataFrame(...), place it here. If there is a code snippet, format it as a raw string like \"\"\"\\code...\"\"\". Set to None ONLY if there is absolutely no data or code snippet.
-        "hide_data": False, # Optional: Set to True ONLY if data is None. If you put a code snippet or dataframe in data, keep this False or omit it so it renders under "Sample Data".
+        "hide_data": False, # Optional: Set to True ONLY if data is None. If you put a code snippet or dataframe in data, keep this False or omit it so it renders under "Sample Data" (the UI will automatically display "No specific code required.").
         "allowed_modes": ["Python"],
         "hint_python": "Base hint",
         "solution_python": 'result = "python-is-fun!"', # The actual code solution or value of the expected answer

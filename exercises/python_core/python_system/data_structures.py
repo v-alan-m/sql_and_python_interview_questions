@@ -7,7 +7,7 @@ def get_exercise():
         "description": """What is the primary performance benefit of using a set instead of a list to check for the existence of an item?\n\n""",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
-        "data": "No specific code setup required for this conceptual problem.",
+        "data": "No specific code required.",
         "allowed_modes": ["Python"],
         "hint_python": "Review the concept detailed in the multiple choice section.",
         "solution_python": 'result = "Sets use hash tables, providing average O(1) time for membership testing."',
@@ -45,7 +45,7 @@ While sets consume slightly more memory due to hash table overhead (sparse array
 
 """,
                 "hint": "Think about how Python sets are implemented under the hood. Do they rely on contiguous memory arrays, or something else?",
-                "data": "No specific code setup required for this conceptual problem.",
+                "data": "No specific code required.",
                 "evaluation_criteria": ["Knowledge of internal memory structures (Hash Tables vs Arrays)", "Time complexity analysis capabilities", "Trade-off evaluation (Time vs Memory)"],
                 "solution_code": 'result = "Sets use hash tables, providing average O(1) time for membership testing."',
                 "expected_output": "Sets use hash tables, providing average O(1) time for membership testing.",

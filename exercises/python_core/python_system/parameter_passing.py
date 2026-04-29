@@ -7,7 +7,7 @@ def get_exercise():
         "description": """How are arguments passed to functions in Python?\n\n""",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
-        "data": "No specific code setup required for this conceptual problem.",
+        "data": "No specific code required.",
         "allowed_modes": ["Python"],
         "hint_python": "Review the concept detailed in the multiple choice section.",
         "solution_python": 'result = "By \"pass-by-assignment,\" where the function gets a copy of the reference to the object."',
@@ -45,7 +45,7 @@ Here is the breakdown of why this happens:
 
 """,
                 "hint": "Focus on how Python treats object references under the hood, specifically the difference between mutable and immutable objects when passed to a local namespace.",
-                "data": "No specific code setup required for this conceptual problem.",
+                "data": "No specific code required.",
                 "evaluation_criteria": ["Understanding of pass-by-assignment", "Ability to distinguish mutable vs immutable behavior", "Clarity on namespace bindings"],
                 "solution_code": 'result = "By \"pass-by-assignment,\" where the function gets a copy of the reference to the object."',
                 "expected_output": "By \"pass-by-assignment,\" where the function gets a copy of the reference to the object.",

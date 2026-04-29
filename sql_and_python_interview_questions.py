@@ -403,9 +403,9 @@ if selected_key:
             if active_stage.get("hide_data", False):
                 show_data = False
 
-        if show_data and active_data is not None:
-            with st.container():
-                st.write("## Sample Data" if active_title else "### Input Data")
+        with st.container():
+            st.write("## Sample Data" if active_title else "### Input Data")
+            if show_data and active_data is not None:
                 df = active_data
                 if isinstance(df, pd.DataFrame):
                     st.dataframe(df, use_container_width=True)
@@ -413,6 +413,8 @@ if selected_key:
                     st.code(df, language="python")
                 else:
                     st.write(df)
+            else:
+                st.code("No specific code required.", language="python")
 
         # --- Conceptual Questions (MCQ) Section ---
         pass

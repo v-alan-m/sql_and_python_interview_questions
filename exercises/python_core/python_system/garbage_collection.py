@@ -7,7 +7,7 @@ def get_exercise():
         "description": """In Python, standard memory management relies heavily on reference counting. However, which of the following scenarios specifically requires Python's generational cyclic garbage collector to intervene to prevent memory leaks?\n\n""",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
-        "data": "No specific code setup required for this conceptual problem.",
+        "data": "No specific code required.",
         "allowed_modes": ["Python"],
         "hint_python": "Review the concept detailed in the multiple choice section.",
         "solution_python": 'result = "Two custom object instances that maintain attributes pointing to each other, creating an isolated island after their original variables are deleted."',
@@ -43,7 +43,7 @@ While recursive calls cause a stack overflow and file connections leak file desc
 
 """,
                 "hint": "Standard reference counting fails when objects hold references to each other but are disconnected from the main program scope.",
-                "data": "No specific code setup required for this conceptual problem.",
+                "data": "No specific code required.",
                 "evaluation_criteria": ["Deep understanding of Python memory management", "Ability to diagnose memory leaks", "Knowledge of Reference Counting vs Generational GC"],
                 "solution_code": 'result = "Two custom object instances that maintain attributes pointing to each other, creating an isolated island after their original variables are deleted."',
                 "expected_output": "Two custom object instances that maintain attributes pointing to each other, creating an isolated island after their original variables are deleted.",

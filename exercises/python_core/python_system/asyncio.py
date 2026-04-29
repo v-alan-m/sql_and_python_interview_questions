@@ -7,7 +7,7 @@ def get_exercise():
         "description": """Consider an asynchronous Python script handling API requests using asyncio. When the interpreter encounters an await expression (e.g., `await fetch_data()`), what happens behind the scenes at the system level?\n\n""",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
-        "data": "No specific code setup required for this conceptual problem.",
+        "data": "No specific code required.",
         "allowed_modes": ["Python"],
         "hint_python": "Review the concept detailed in the multiple choice section.",
         "solution_python": """result = "The function yields control back to the event loop, suspending its state and allowing the event loop to run other scheduled coroutines while waiting for the I/O to finish." """,
@@ -44,7 +44,7 @@ This model allows a single Python thread to handle tens of thousands of concurre
 
 """,
                 "hint": "Asyncio runs on a single thread. How does it manage to handle multiple network requests concurrently without blocking?",
-                "data": "No specific code setup required for this conceptual problem.",
+                "data": "No specific code required.",
                 "evaluation_criteria": ["Deep understanding of Event Loops and Cooperative Multitasking", "Differentiating Asyncio from Multithreading", "Scalability architecture"],
                 "solution_code": """result = "The function yields control back to the event loop, suspending its state and allowing the event loop to run other scheduled coroutines while waiting for the I/O to finish." """,
                 "expected_output": "The function yields control back to the event loop, suspending its state and allowing the event loop to run other scheduled coroutines while waiting for the I/O to finish.",
