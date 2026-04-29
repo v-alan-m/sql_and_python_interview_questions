@@ -130,6 +130,12 @@ h1 {
     margin-top: 2.2rem !important;
 }
 
+/* Increase starting width of the sidebar */
+[data-testid="stSidebar"][aria-expanded="true"],
+[data-testid="stSidebar"][aria-expanded="true"] > div:first-child {
+    width: 315px !important;
+}
+
 /* Premium Center Metric in Sidebar */
 [data-testid="stSidebar"] [data-testid="stMetric"] {
     display: flex;
@@ -380,7 +386,7 @@ if selected_key:
         if "subtitle" in ex:
             st.markdown(f"<div class='concepts-subtitle'>Concepts: {ex['subtitle']}</div>", unsafe_allow_html=True)
 
-    col1, col2 = st.columns([0.88, 0.99], gap="large")
+    col1, col2 = st.columns([0.80, 0.99], gap="large")
 
     with col1:
         # Objective / Scenario
