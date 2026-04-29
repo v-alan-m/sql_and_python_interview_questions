@@ -158,6 +158,69 @@ h1 {
     margin-bottom: 0.8rem !important;
     margin-top: 0.4rem !important;
 }
+
+/* Style the sidebar radio as a list of premium boxes */
+[data-testid="stSidebar"] div[data-testid="stRadio"] [role="radiogroup"] {
+    gap: 8px !important;
+    padding-top: 8px !important;
+}
+
+[data-testid="stSidebar"] div[data-testid="stRadio"] [role="radiogroup"] label {
+    display: flex !important;
+    flex-direction: row-reverse !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0px 14px !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 8px !important;
+    background-color: #0E1117 !important; /* Match dropdown background */
+    cursor: pointer !important;
+    width: 100% !important;
+    height: 45px !important; /* Match dropdown height */
+    transition: all 0.2s ease !important;
+}
+
+/* Hover state */
+[data-testid="stSidebar"] div[data-testid="stRadio"] [role="radiogroup"] label:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Selected state */
+[data-testid="stSidebar"] div[data-testid="stRadio"] [role="radiogroup"] label:has(input:checked),
+[data-testid="stSidebar"] div[data-testid="stRadio"] [role="radiogroup"] label[data-selected="true"] {
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    background-color: #0E1117 !important;
+}
+
+/* Hide the default radio circle */
+[data-testid="stSidebar"] div[data-testid="stRadio"] [role="radiogroup"] label > div:first-child {
+    display: none !important;
+}
+
+/* Create the custom tick box on the right */
+[data-testid="stSidebar"] div[data-testid="stRadio"] [role="radiogroup"] label::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    background-color: transparent;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+/* Show tick in the custom box when selected */
+[data-testid="stSidebar"] div[data-testid="stRadio"] [role="radiogroup"] label:has(input:checked)::before,
+[data-testid="stSidebar"] div[data-testid="stRadio"] [role="radiogroup"] label[data-selected="true"]::before {
+    background-color: #1E90FF;
+    border-color: #1E90FF;
+    content: "✓";
+    color: white;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: center;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -240,11 +303,20 @@ else:
         st.sidebar.warning(f"No exercises found for {selected_category}!")
         selected_key = None
     else:
-        selected_key = st.sidebar.selectbox(
+        exercise_list = sorted(list(filtered_exercises.keys()))
+        if 'selected_exercise' not in st.session_state or st.session_state.selected_exercise not in exercise_list:
+            st.session_state.selected_exercise = exercise_list[0] if exercise_list else None
+            
+        current_index = exercise_list.index(st.session_state.selected_exercise) if st.session_state.selected_exercise in exercise_list else 0
+
+        selected_key = st.sidebar.radio(
             "Select Exercise:", 
-            sorted(list(filtered_exercises.keys())),
-            format_func=lambda x: x.split(" > ")[-1]
+            exercise_list,
+            index=current_index,
+            format_func=lambda x: x.split(" > ")[-1],
+            key="exercise_radio"
         )
+        st.session_state.selected_exercise = selected_key
         ex = filtered_exercises[selected_key]
 
 # --- MAIN UI ---
