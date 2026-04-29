@@ -4,11 +4,22 @@ def get_exercise():
     return {
         "title": "Control Flow and State Tracking",
         "subtitle": "control-flow",
-        "description": "What will be the output of the following Python code?\n\n```python\ndef calculate_total_score(scores):\n    total = 0\n    for score in scores:\n        if score % 2 == 0:\n            total += score * 2\n        else:\n            total += score\n    return total\n\nstudent_scores = [10, 15, 20, 25, 30]\nresult = calculate_total_score(student_scores)\nprint(result)\n```",
+        "description": "What will be the output of the following Python code?",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
-        "data": None,
-        "hide_data": True,
+        "data": """def calculate_total_score(scores):
+    total = 0
+    for score in scores:
+        if score % 2 == 0:
+            total += score * 2
+        else:
+            total += score
+    return total
+
+student_scores = [10, 15, 20, 25, 30]
+result = calculate_total_score(student_scores)
+print(result)""",
+        "hide_data": False,
         "allowed_modes": ["Python"],
         "hint_python": "Walk through the loop, noting the total when each score (even vs. odd) is processed.",
         "solution_python": 'result = 160',
@@ -31,10 +42,21 @@ def get_exercise():
             {
                 "stage_number": 1,
                 "title": "Concept Implementation",
-                "scenario": "What will be the output of the following Python code?\n\n```python\ndef calculate_total_score(scores):\n    total = 0\n    for score in scores:\n        if score % 2 == 0:\n            total += score * 2\n        else:\n            total += score\n    return total\n\nstudent_scores = [10, 15, 20, 25, 30]\nresult = calculate_total_score(student_scores)\nprint(result)\n```",
+                "scenario": "What will be the output of the following Python code?",
                 "hint": "Walk through the loop, noting the total when each score (even vs. odd) is processed.",
-                "data": None,
-                "hide_data": True,
+                "data": """def calculate_total_score(scores):
+    total = 0
+    for score in scores:
+        if score % 2 == 0:
+            total += score * 2
+        else:
+            total += score
+    return total
+
+student_scores = [10, 15, 20, 25, 30]
+result = calculate_total_score(student_scores)
+print(result)""",
+                "hide_data": False,
                 "evaluation_criteria": ["Ability to mentally trace code execution", "Understanding of modulo operator"],
                 "solution_code": 'result = 160',
                 "expected_output": 160,

@@ -4,11 +4,25 @@ def get_exercise():
     return {
         "title": "Preserving Function Metadata in Decorators",
         "subtitle": "decorators",
-        "description": "You are writing a logging decorator for a framework, but users complain that their function docstrings and names are disappearing. Look at the code:\n\n```python\nimport functools\n\ndef log_call(func):\n    def wrapper(*args, **kwargs):\n        \"\"\"Wrapper docstring\"\"\"\n        print(f\"Calling {func.__name__}\")\n        return func(*args, **kwargs)\n    return wrapper\n\n@log_call\ndef calculate_tax(amount):\n    \"\"\"Calculates standard tax.\"\"\"\n    return amount * 0.2\n\nprint(calculate_tax.__name__)\n```\n\nWhat does the print statement currently output, and how do you fix it at the system level?",
+        "description": "You are writing a logging decorator for a framework, but users complain that their function docstrings and names are disappearing. Look at the code:\n\nWhat does the print statement currently output, and how do you fix it at the system level?",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
-        "data": None,
-        "hide_data": True,
+        "data": """import functools
+
+def log_call(func):
+    def wrapper(*args, **kwargs):
+        \"\"\"Wrapper docstring\"\"\"
+        print(f"Calling {func.__name__}")
+        return func(*args, **kwargs)
+    return wrapper
+
+@log_call
+def calculate_tax(amount):
+    \"\"\"Calculates standard tax.\"\"\"
+    return amount * 0.2
+
+print(calculate_tax.__name__)""",
+        "hide_data": False,
         "allowed_modes": ["Python"],
         "hint_python": "Decorators fundamentally replace the target function with the wrapper function. How do you copy the metadata from the original function back to the wrapper?",
         "solution_python": 'result = "Output: wrapper. Fix: Add @functools.wraps(func) directly above the \'def wrapper\' definition to copy the original function\'s metadata."',
@@ -48,10 +62,24 @@ This creates a seamless illusion: the function behaves with the new wrapper logi
             {
                 "stage_number": 1,
                 "title": "Preserving Function Metadata in Decorators",
-                "scenario": "You are writing a logging decorator for a framework, but users complain that their function docstrings and names are disappearing. Look at the code:\n\n```python\nimport functools\n\ndef log_call(func):\n    def wrapper(*args, **kwargs):\n        \"\"\"Wrapper docstring\"\"\"\n        print(f\"Calling {func.__name__}\")\n        return func(*args, **kwargs)\n    return wrapper\n\n@log_call\ndef calculate_tax(amount):\n    \"\"\"Calculates standard tax.\"\"\"\n    return amount * 0.2\n\nprint(calculate_tax.__name__)\n```\n\nWhat does the print statement currently output, and how do you fix it at the system level?",
+                "scenario": "You are writing a logging decorator for a framework, but users complain that their function docstrings and names are disappearing. Look at the code:\n\nWhat does the print statement currently output, and how do you fix it at the system level?",
                 "hint": "Decorators fundamentally replace the target function with the wrapper function. How do you copy the metadata from the original function back to the wrapper?",
-                "data": None,
-                "hide_data": True,
+                "data": """import functools
+
+def log_call(func):
+    def wrapper(*args, **kwargs):
+        \"\"\"Wrapper docstring\"\"\"
+        print(f"Calling {func.__name__}")
+        return func(*args, **kwargs)
+    return wrapper
+
+@log_call
+def calculate_tax(amount):
+    \"\"\"Calculates standard tax.\"\"\"
+    return amount * 0.2
+
+print(calculate_tax.__name__)""",
+                "hide_data": False,
                 "evaluation_criteria": ["Understanding of function wrappers and metadata", "Proper application of functools.wraps"],
                 "solution_code": 'result = "Output: wrapper. Fix: Add @functools.wraps(func) directly above the \'def wrapper\' definition to copy the original function\'s metadata."',
                 "expected_output": "Output: wrapper. Fix: Add @functools.wraps(func) directly above the 'def wrapper' definition to copy the original function's metadata.",

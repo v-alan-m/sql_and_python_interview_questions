@@ -4,11 +4,27 @@ def get_exercise():
     return {
         "title": "Custom Iterators and the Iteration Protocol",
         "subtitle": "iterators",
-        "description": "Consider the following Python code:\n\n```python\nclass CustomIterator:\n    def __init__(self, limit):\n        self.limit = limit\n        self.current = 0\n\n    def __next__(self):\n        if self.current >= self.limit:\n            raise StopIteration\n        else:\n            self.current += 2\n            return self.current\n\n    def __iter__(self):\n        return self\n\nnumbers = CustomIterator(10)\nresult = sum(numbers)\n```\n\nWhat will be the value of the result after executing the above code?",
+        "description": "Consider the following Python code:\n\nWhat will be the value of the result after executing the above code?",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
-        "data": None,
-        "hide_data": True,
+        "data": """class CustomIterator:
+    def __init__(self, limit):
+        self.limit = limit
+        self.current = 0
+
+    def __next__(self):
+        if self.current >= self.limit:
+            raise StopIteration
+        else:
+            self.current += 2
+            return self.current
+
+    def __iter__(self):
+        return self
+
+numbers = CustomIterator(10)
+result = sum(numbers)""",
+        "hide_data": False,
         "allowed_modes": ["Python"],
         "hint_python": "Trace the values yielded by `__next__` until `StopIteration` is raised.",
         "solution_python": 'result = 30',
@@ -31,10 +47,26 @@ def get_exercise():
             {
                 "stage_number": 1,
                 "title": "Concept Implementation",
-                "scenario": "Consider the following Python code:\n\n```python\nclass CustomIterator:\n    def __init__(self, limit):\n        self.limit = limit\n        self.current = 0\n\n    def __next__(self):\n        if self.current >= self.limit:\n            raise StopIteration\n        else:\n            self.current += 2\n            return self.current\n\n    def __iter__(self):\n        return self\n\nnumbers = CustomIterator(10)\nresult = sum(numbers)\n```\n\nWhat will be the value of the result after executing the above code?",
+                "scenario": "Consider the following Python code:\n\nWhat will be the value of the result after executing the above code?",
                 "hint": "Trace the values yielded by `__next__` until `StopIteration` is raised.",
-                "data": None,
-                "hide_data": True,
+                "data": """class CustomIterator:
+    def __init__(self, limit):
+        self.limit = limit
+        self.current = 0
+
+    def __next__(self):
+        if self.current >= self.limit:
+            raise StopIteration
+        else:
+            self.current += 2
+            return self.current
+
+    def __iter__(self):
+        return self
+
+numbers = CustomIterator(10)
+result = sum(numbers)""",
+                "hide_data": False,
                 "evaluation_criteria": ["Understanding of python iterators", "Tracing program state changes"],
                 "solution_code": 'result = 30',
                 "expected_output": 30,

@@ -4,11 +4,22 @@ def get_exercise():
     return {
         "title": "Control Flow and Iteration",
         "subtitle": "control-flow",
-        "description": "What will be the output of the following Python code?\n\n```python\ndef calculate_total_score(scores):\n    total = 0\n    for score in scores:\n        if score % 2 == 0:\n            total += score * 2\n        else:\n            total += score\n    return total\n\nstudent_scores = [10, 15, 20, 25, 30]\nresult = calculate_total_score(student_scores)\nprint(result)\n```",
+        "description": "What will be the output of the following Python code?",
         "difficulty_level": "easy",
         "source_inspiration": "Anki Deck",
-        "data": None,
-        "hide_data": True,
+        "data": """def calculate_total_score(scores):
+    total = 0
+    for score in scores:
+        if score % 2 == 0:
+            total += score * 2
+        else:
+            total += score
+    return total
+
+student_scores = [10, 15, 20, 25, 30]
+result = calculate_total_score(student_scores)
+print(result)""",
+        "hide_data": False,
         "allowed_modes": ["Python"],
         "hint_python": "Trace the loop step by step. If a number is even, double it and add it. If it is odd, add it as-is.",
         "solution_python": "result = 160",
@@ -48,10 +59,21 @@ The final accumulated total is `160`.
             {
                 "stage_number": 1,
                 "title": "Control Flow and Iteration",
-                "scenario": "What will be the output of the following Python code?\n\n```python\ndef calculate_total_score(scores):\n    total = 0\n    for score in scores:\n        if score % 2 == 0:\n            total += score * 2\n        else:\n            total += score\n    return total\n\nstudent_scores = [10, 15, 20, 25, 30]\nresult = calculate_total_score(student_scores)\nprint(result)\n```",
+                "scenario": "What will be the output of the following Python code?",
                 "hint": "Trace the loop step by step. If a number is even, double it and add it. If it is odd, add it as-is.",
-                "data": None,
-                "hide_data": True,
+                "data": """def calculate_total_score(scores):
+    total = 0
+    for score in scores:
+        if score % 2 == 0:
+            total += score * 2
+        else:
+            total += score
+    return total
+
+student_scores = [10, 15, 20, 25, 30]
+result = calculate_total_score(student_scores)
+print(result)""",
+                "hide_data": False,
                 "evaluation_criteria": ["Ability to mentally trace loops and conditionals", "Understanding of the modulus operator"],
                 "solution_code": "result = 160",
                 "expected_output": 160,

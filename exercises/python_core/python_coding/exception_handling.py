@@ -4,11 +4,19 @@ def get_exercise():
     return {
         "title": "Exception Handling and the Finally Block",
         "subtitle": "exception-handling",
-        "description": "What will be the output of the following function call?\n\n```python\ndef fetch_data():\n    try:\n        return \"Try Block\"\n    except Exception:\n        return \"Except Block\"\n    finally:\n        return \"Finally Block\"\n\nprint(fetch_data())\n```",
+        "description": "What will be the output of the following function call?",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
-        "data": None,
-        "hide_data": True,
+        "data": """def fetch_data():
+    try:
+        return "Try Block"
+    except Exception:
+        return "Except Block"
+    finally:
+        return "Finally Block"
+
+print(fetch_data())""",
+        "hide_data": False,
         "allowed_modes": ["Python"],
         "hint_python": "Consider the execution guarantee of the `finally` block. If `finally` contains a return statement, how does it interact with return statements triggered earlier in the `try` block?",
         "solution_python": 'result = "Finally Block"',
@@ -46,10 +54,18 @@ As a lead engineer, you should **never** place `return` statements inside a `fin
             {
                 "stage_number": 1,
                 "title": "Exception Handling and the Finally Block",
-                "scenario": "What will be the output of the following function call?\n\n```python\ndef fetch_data():\n    try:\n        return \"Try Block\"\n    except Exception:\n        return \"Except Block\"\n    finally:\n        return \"Finally Block\"\n\nprint(fetch_data())\n```",
+                "scenario": "What will be the output of the following function call?",
                 "hint": "Consider the execution guarantee of the `finally` block. If `finally` contains a return statement, how does it interact with return statements triggered earlier in the `try` block?",
-                "data": None,
-                "hide_data": True,
+                "data": """def fetch_data():
+    try:
+        return "Try Block"
+    except Exception:
+        return "Except Block"
+    finally:
+        return "Finally Block"
+
+print(fetch_data())""",
+                "hide_data": False,
                 "evaluation_criteria": ["Understanding of the `finally` execution guarantee", "Knowledge of control flow overrides and return statement precedence"],
                 "solution_code": 'result = "Finally Block"',
                 "expected_output": 'Finally Block',

@@ -4,11 +4,13 @@ def get_exercise():
     return {
         "title": "Dictionary Comprehensions",
         "subtitle": "comprehensions",
-        "description": "What is the content of new_dict after this dictionary comprehension runs?\n\n```python\nkeys = ['a', 'b', 'c', 'd']\nvalues = [1, 2, 3, 4]\nnew_dict = {k: v*v for k, v in zip(keys, values) if v % 2 == 0}\n```",
+        "description": "What is the content of new_dict after this dictionary comprehension runs?",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
-        "data": None,
-        "hide_data": True,
+        "data": """keys = ['a', 'b', 'c', 'd']
+values = [1, 2, 3, 4]
+new_dict = {k: v*v for k, v in zip(keys, values) if v % 2 == 0}""",
+        "hide_data": False,
         "allowed_modes": ["Python"],
         "hint_python": "First evaluate the `zip` pairing, then apply the `if` filter, and finally calculate the key-value mapping `k: v*v`.",
         "solution_python": 'result = "{''b'': 4, ''d'': 16}"',
@@ -31,10 +33,12 @@ def get_exercise():
             {
                 "stage_number": 1,
                 "title": "Concept Implementation",
-                "scenario": "What is the content of new_dict after this dictionary comprehension runs?\n\n```python\nkeys = ['a', 'b', 'c', 'd']\nvalues = [1, 2, 3, 4]\nnew_dict = {k: v*v for k, v in zip(keys, values) if v % 2 == 0}\n```",
+                "scenario": "What is the content of new_dict after this dictionary comprehension runs?",
                 "hint": "First evaluate the `zip` pairing, then apply the `if` filter, and finally calculate the key-value mapping `k: v*v`.",
-                "data": None,
-                "hide_data": True,
+                "data": """keys = ['a', 'b', 'c', 'd']
+values = [1, 2, 3, 4]
+new_dict = {k: v*v for k, v in zip(keys, values) if v % 2 == 0}""",
+                "hide_data": False,
                 "evaluation_criteria": ["Understanding of dict comprehensions", "Understanding of zip behavior"],
                 "solution_code": 'result = "{''b'': 4, ''d'': 16}"',
                 "expected_output": '{\'b\': 4, \'d\': 16}',

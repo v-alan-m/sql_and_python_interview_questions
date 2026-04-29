@@ -4,11 +4,21 @@ def get_exercise():
     return {
         "title": "Multiple Inheritance and MRO",
         "subtitle": "mro",
-        "description": "Consider the following Python code demonstrating multiple inheritance:\n\n```python\nclass A:\n    def process(self): return \"A\"\nclass B(A):\n    def process(self): return \"B\" + super().process()\nclass C(A):\n    def process(self): return \"C\" + super().process()\nclass D(B, C):\n    def process(self): return \"D\" + super().process()\n\nobj = D()\nprint(obj.process())\n```\n\nWhat is the output printed to the console?",
+        "description": "Consider the following Python code demonstrating multiple inheritance:\n\nWhat is the output printed to the console?",
         "difficulty_level": "hard",
         "source_inspiration": "Anki Deck",
-        "data": None,
-        "hide_data": True,
+        "data": """class A:
+    def process(self): return "A"
+class B(A):
+    def process(self): return "B" + super().process()
+class C(A):
+    def process(self): return "C" + super().process()
+class D(B, C):
+    def process(self): return "D" + super().process()
+
+obj = D()
+print(obj.process())""",
+        "hide_data": False,
         "allowed_modes": ["Python"],
         "hint_python": "Do not assume `super()` always calls the immediate parent class. `super()` traverses the Method Resolution Order (MRO) dynamically. Check `D.mro()`.",
         "solution_python": 'result = "DBCA"',
@@ -53,10 +63,20 @@ Bubbling back up, we get `"D" + "B" + "C" + "A"`, resulting in `"DBCA"`. This sp
             {
                 "stage_number": 1,
                 "title": "Multiple Inheritance and MRO",
-                "scenario": "Consider the following Python code demonstrating multiple inheritance:\n\n```python\nclass A:\n    def process(self): return \"A\"\nclass B(A):\n    def process(self): return \"B\" + super().process()\nclass C(A):\n    def process(self): return \"C\" + super().process()\nclass D(B, C):\n    def process(self): return \"D\" + super().process()\n\nobj = D()\nprint(obj.process())\n```\n\nWhat is the output printed to the console?",
+                "scenario": "Consider the following Python code demonstrating multiple inheritance:\n\nWhat is the output printed to the console?",
                 "hint": "Do not assume `super()` always calls the immediate parent class. `super()` traverses the Method Resolution Order (MRO) dynamically. Check `D.mro()`.",
-                "data": None,
-                "hide_data": True,
+                "data": """class A:
+    def process(self): return "A"
+class B(A):
+    def process(self): return "B" + super().process()
+class C(A):
+    def process(self): return "C" + super().process()
+class D(B, C):
+    def process(self): return "D" + super().process()
+
+obj = D()
+print(obj.process())""",
+                "hide_data": False,
                 "evaluation_criteria": ["Understanding of C3 Linearization algorithm", "Dynamic delegation behavior of super() across multiple inheritance diamonds"],
                 "solution_code": 'result = "DBCA"',
                 "expected_output": 'DBCA',

@@ -4,11 +4,22 @@ def get_exercise():
     return {
         "title": "Context Managers and Exception Suppression",
         "subtitle": "context-managers",
-        "description": "Analyze the custom context manager below:\n\n```python\nclass SuppressError:\n    def __enter__(self):\n        return self\n    def __exit__(self, exc_type, exc_value, traceback):\n        if exc_type is ValueError:\n            print(\"ValueError suppressed\")\n            return True\n        return False\n\nwith SuppressError():\n    int(\"Not a number\")\nprint(\"Execution continues\")\n```\n\nWhat is the console output when this script runs?",
+        "description": "Analyze the custom context manager below:\n\nWhat is the console output when this script runs?",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
-        "data": None,
-        "hide_data": True,
+        "data": """class SuppressError:
+    def __enter__(self):
+        return self
+    def __exit__(self, exc_type, exc_value, traceback):
+        if exc_type is ValueError:
+            print("ValueError suppressed")
+            return True
+        return False
+
+with SuppressError():
+    int("Not a number")
+print("Execution continues")""",
+        "hide_data": False,
         "allowed_modes": ["Python"],
         "hint_python": "Look at what the `__exit__` method returns when a `ValueError` is encountered. How does Python interpret a `True` return value from `__exit__`?",
         "solution_python": 'result = "ValueError suppressed\\nExecution continues"',
@@ -47,10 +58,21 @@ In this code, `int("Not a number")` throws a `ValueError`. The `__exit__` method
             {
                 "stage_number": 1,
                 "title": "Context Managers and Exception Suppression",
-                "scenario": "Analyze the custom context manager below:\n\n```python\nclass SuppressError:\n    def __enter__(self):\n        return self\n    def __exit__(self, exc_type, exc_value, traceback):\n        if exc_type is ValueError:\n            print(\"ValueError suppressed\")\n            return True\n        return False\n\nwith SuppressError():\n    int(\"Not a number\")\nprint(\"Execution continues\")\n```\n\nWhat is the console output when this script runs?",
+                "scenario": "Analyze the custom context manager below:\n\nWhat is the console output when this script runs?",
                 "hint": "Look at what the `__exit__` method returns when a `ValueError` is encountered. How does Python interpret a `True` return value from `__exit__`?",
-                "data": None,
-                "hide_data": True,
+                "data": """class SuppressError:
+    def __enter__(self):
+        return self
+    def __exit__(self, exc_type, exc_value, traceback):
+        if exc_type is ValueError:
+            print("ValueError suppressed")
+            return True
+        return False
+
+with SuppressError():
+    int("Not a number")
+print("Execution continues")""",
+                "hide_data": False,
                 "evaluation_criteria": ["Understanding of the context management protocol (__enter__, __exit__)", "Knowledge of exception suppression mechanics using return values in __exit__"],
                 "solution_code": 'result = "ValueError suppressed\\nExecution continues"',
                 "expected_output": 'ValueError suppressed\nExecution continues',

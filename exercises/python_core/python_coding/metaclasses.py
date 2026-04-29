@@ -4,11 +4,22 @@ def get_exercise():
     return {
         "title": "Metaclasses and the Singleton Pattern",
         "subtitle": "metaclasses",
-        "description": "Consider the following code utilizing a metaclass:\n\n```python\nclass SingletonMeta(type):\n    _instances = {}\n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            cls._instances[cls] = super().__call__(*args, **kwargs)\n        return cls._instances[cls]\n\nclass Database(metaclass=SingletonMeta):\n    pass\n\ndb1 = Database()\ndb2 = Database()\n```\n\nWhat is the underlying mechanism that ensures `db1 is db2` evaluates to True?",
+        "description": "Consider the following code utilizing a metaclass:\n\nWhat is the underlying mechanism that ensures `db1 is db2` evaluates to True?",
         "difficulty_level": "hard",
         "source_inspiration": "Anki Deck",
-        "data": None,
-        "hide_data": True,
+        "data": """class SingletonMeta(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class Database(metaclass=SingletonMeta):
+    pass
+
+db1 = Database()
+db2 = Database()""",
+        "hide_data": False,
         "allowed_modes": ["Python"],
         "hint_python": "When you call `Database()`, which method of the metaclass gets invoked? Does `__new__` execute first, or does the metaclass intercept it?",
         "solution_python": 'result = "The metaclass overrides __call__, intercepting the instantiation process of the Database class so it only allocates memory and initializes an instance if one does not already exist."',
@@ -49,10 +60,21 @@ Therefore, `db1` and `db2` both point to the exact same memory address.
             {
                 "stage_number": 1,
                 "title": "Metaclasses and the Singleton Pattern",
-                "scenario": "Consider the following code utilizing a metaclass:\n\n```python\nclass SingletonMeta(type):\n    _instances = {}\n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            cls._instances[cls] = super().__call__(*args, **kwargs)\n        return cls._instances[cls]\n\nclass Database(metaclass=SingletonMeta):\n    pass\n\ndb1 = Database()\ndb2 = Database()\n```\n\nWhat is the underlying mechanism that ensures `db1 is db2` evaluates to True?",
+                "scenario": "Consider the following code utilizing a metaclass:\n\nWhat is the underlying mechanism that ensures `db1 is db2` evaluates to True?",
                 "hint": "When you call `Database()`, which method of the metaclass gets invoked? Does `__new__` execute first, or does the metaclass intercept it?",
-                "data": None,
-                "hide_data": True,
+                "data": """class SingletonMeta(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class Database(metaclass=SingletonMeta):
+    pass
+
+db1 = Database()
+db2 = Database()""",
+                "hide_data": False,
                 "evaluation_criteria": ["Understanding of Python's object model and metaclasses", "Differentiating between class instantiation methods like __call__, __new__, and __init__"],
                 "solution_code": 'result = "The metaclass overrides __call__, intercepting the instantiation process of the Database class so it only allocates memory and initializes an instance if one does not already exist."',
                 "expected_output": 'The metaclass overrides __call__, intercepting the instantiation process of the Database class so it only allocates memory and initializes an instance if one does not already exist.',

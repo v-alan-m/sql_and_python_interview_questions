@@ -4,11 +4,16 @@ def get_exercise():
     return {
         "title": "Lexical Scoping and Closures",
         "subtitle": "closures",
-        "description": "Consider the following Python code:\nWhat will be the value of the result after executing the above code?\n\n```python\ndef outer_func(x):\n    def inner_func(y):\n        return x + y\n    return inner_func\n\nresult = outer_func(5)(3)\n```",
+        "description": "Consider the following Python code:\nWhat will be the value of the result after executing the above code?",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
-        "data": None,
-        "hide_data": True,
+        "data": """def outer_func(x):
+    def inner_func(y):
+        return x + y
+    return inner_func
+
+result = outer_func(5)(3)""",
+        "hide_data": False,
         "allowed_modes": ["Python"],
         "hint_python": "Notice that `outer_func(5)` returns a function. The `(3)` immediately calls that returned function. What value of `x` does `inner_func` remember?",
         "solution_python": "result = 8",
@@ -48,10 +53,15 @@ Closures are the foundational mechanism that allows function decorators to work 
             {
                 "stage_number": 1,
                 "title": "Lexical Scoping and Closures",
-                "scenario": "Consider the following Python code:\nWhat will be the value of the result after executing the above code?\n\n```python\ndef outer_func(x):\n    def inner_func(y):\n        return x + y\n    return inner_func\n\nresult = outer_func(5)(3)\n```",
+                "scenario": "Consider the following Python code:\nWhat will be the value of the result after executing the above code?",
                 "hint": "Notice that `outer_func(5)` returns a function. The `(3)` immediately calls that returned function. What value of `x` does `inner_func` remember?",
-                "data": None,
-                "hide_data": True,
+                "data": """def outer_func(x):
+    def inner_func(y):
+        return x + y
+    return inner_func
+
+result = outer_func(5)(3)""",
+                "hide_data": False,
                 "evaluation_criteria": ["Understanding of function closures", "Knowledge of lexical scoping and variable lifetime"],
                 "solution_code": "result = 8",
                 "expected_output": 8,

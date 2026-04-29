@@ -4,11 +4,15 @@ def get_exercise():
     return {
         "title": "Recursion and Stack Limits",
         "subtitle": "recursion",
-        "description": "Consider the following Python code snippet:\nBased on the code, which of the given statements is accurate regarding its performance?\n\n```python\ndef calculate_factorial(n):\n    if n == 0 or n == 1:\n        return 1\n    else:\n        return n * calculate_factorial(n - 1)\n```",
+        "description": "Consider the following Python code snippet:\nBased on the code, which of the given statements is accurate regarding its performance?",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
-        "data": None,
-        "hide_data": True,
+        "data": """def calculate_factorial(n):
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return n * calculate_factorial(n - 1)""",
+        "hide_data": False,
         "allowed_modes": ["Python"],
         "hint_python": "Unlike functional languages like Haskell or Elixir, Python does not natively optimize tail recursion. What happens to the C call stack if `n` is 10,000?",
         "solution_python": 'result = "The code has a high likelihood of encountering a stack overflow error for large input values of n."',
@@ -46,10 +50,14 @@ Furthermore, Python **does not support Tail Call Optimization (TCO)**. Even if y
             {
                 "stage_number": 1,
                 "title": "Recursion and Stack Limits",
-                "scenario": "Consider the following Python code snippet:\nBased on the code, which of the given statements is accurate regarding its performance?\n\n```python\ndef calculate_factorial(n):\n    if n == 0 or n == 1:\n        return 1\n    else:\n        return n * calculate_factorial(n - 1)\n```",
+                "scenario": "Consider the following Python code snippet:\nBased on the code, which of the given statements is accurate regarding its performance?",
                 "hint": "Unlike functional languages like Haskell or Elixir, Python does not natively optimize tail recursion. What happens to the C call stack if `n` is 10,000?",
-                "data": None,
-                "hide_data": True,
+                "data": """def calculate_factorial(n):
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return n * calculate_factorial(n - 1)""",
+                "hide_data": False,
                 "evaluation_criteria": ["Understanding of recursion limits in Python", "Knowledge of stack frame allocation and lack of tail-call optimization"],
                 "solution_code": 'result = "The code has a high likelihood of encountering a stack overflow error for large input values of n."',
                 "expected_output": 'The code has a high likelihood of encountering a stack overflow error for large input values of n.',

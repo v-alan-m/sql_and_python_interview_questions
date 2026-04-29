@@ -4,11 +4,16 @@ def get_exercise():
     return {
         "title": "Lexical Closures",
         "subtitle": "closures",
-        "description": "Consider the following Python code:\n\n```python\ndef outer_func(x):\n    def inner_func(y):\n        return x + y\n    return inner_func\n\nresult = outer_func(5)(3)\n```\n\nWhat will be the value of the result after executing the above code?",
+        "description": "Consider the following Python code:\n\nWhat will be the value of the result after executing the above code?",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
-        "data": None,
-        "hide_data": True,
+        "data": """def outer_func(x):
+    def inner_func(y):
+        return x + y
+    return inner_func
+
+result = outer_func(5)(3)""",
+        "hide_data": False,
         "allowed_modes": ["Python"],
         "hint_python": "Consider what value `outer_func(5)` returns, and what variables that returned function remembers from its environment.",
         "solution_python": 'result = 8',
@@ -31,10 +36,15 @@ def get_exercise():
             {
                 "stage_number": 1,
                 "title": "Concept Implementation",
-                "scenario": "Consider the following Python code:\n\n```python\ndef outer_func(x):\n    def inner_func(y):\n        return x + y\n    return inner_func\n\nresult = outer_func(5)(3)\n```\n\nWhat will be the value of the result after executing the above code?",
+                "scenario": "Consider the following Python code:\n\nWhat will be the value of the result after executing the above code?",
                 "hint": "Consider what value `outer_func(5)` returns, and what variables that returned function remembers from its environment.",
-                "data": None,
-                "hide_data": True,
+                "data": """def outer_func(x):
+    def inner_func(y):
+        return x + y
+    return inner_func
+
+result = outer_func(5)(3)""",
+                "hide_data": False,
                 "evaluation_criteria": ["Understanding of lexical closures", "Understanding of higher-order functions"],
                 "solution_code": 'result = 8',
                 "expected_output": 8,

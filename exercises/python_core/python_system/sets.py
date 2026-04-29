@@ -4,11 +4,14 @@ def get_exercise():
     return {
         "title": "Set Operations and Intersections",
         "subtitle": "sets",
-        "description": "What is the result of the following set operations?\n\n```python\ns1 = {10, 20, 30, 40}\ns2 = {30, 40, 50, 60}\nresult = (s1 | s2) - (s1 & s2)\nprint(result)\n```",
+        "description": "What is the result of the following set operations?",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
-        "data": None,
-        "hide_data": True,
+        "data": """s1 = {10, 20, 30, 40}
+s2 = {30, 40, 50, 60}
+result = (s1 | s2) - (s1 & s2)
+print(result)""",
+        "hide_data": False,
         "allowed_modes": ["Python"],
         "hint_python": "Calculate the Union `|` first, then calculate the Intersection `&`, and finally subtract the two sets.",
         "solution_python": 'result = "{10, 20, 50, 60}"',
@@ -31,10 +34,13 @@ def get_exercise():
             {
                 "stage_number": 1,
                 "title": "Concept Implementation",
-                "scenario": "What is the result of the following set operations?\n\n```python\ns1 = {10, 20, 30, 40}\ns2 = {30, 40, 50, 60}\nresult = (s1 | s2) - (s1 & s2)\nprint(result)\n```",
+                "scenario": "What is the result of the following set operations?",
                 "hint": "Calculate the Union `|` first, then calculate the Intersection `&`, and finally subtract the two sets.",
-                "data": None,
-                "hide_data": True,
+                "data": """s1 = {10, 20, 30, 40}
+s2 = {30, 40, 50, 60}
+result = (s1 | s2) - (s1 & s2)
+print(result)""",
+                "hide_data": False,
                 "evaluation_criteria": ["Understanding of set union, intersection, difference", "Knowledge of symmetric difference"],
                 "solution_code": 'result = "{10, 20, 50, 60}"',
                 "expected_output": '{10, 20, 50, 60}',

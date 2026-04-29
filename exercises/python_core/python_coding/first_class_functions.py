@@ -4,11 +4,18 @@ def get_exercise():
     return {
         "title": "First-Class Functions",
         "subtitle": "first-class-functions",
-        "description": "Consider the following Python function:\nWhat will be the output of the result list?\n\n```python\ndef custom_map(func, lst):\n    return [func(item) for item in lst]\n\ndef add_ten(num):\n    return num + 10\n\nnumbers = [1, 2, 3, 4, 5]\nresult = custom_map(add_ten, numbers)\n```",
+        "description": "Consider the following Python function:\nWhat will be the output of the result list?",
         "difficulty_level": "easy",
         "source_inspiration": "Anki Deck",
-        "data": None,
-        "hide_data": True,
+        "data": """def custom_map(func, lst):
+    return [func(item) for item in lst]
+
+def add_ten(num):
+    return num + 10
+
+numbers = [1, 2, 3, 4, 5]
+result = custom_map(add_ten, numbers)""",
+        "hide_data": False,
         "allowed_modes": ["Python"],
         "hint_python": "Notice how the `add_ten` function is passed without parentheses. It is being executed dynamically inside `custom_map` via a list comprehension.",
         "solution_python": "result = [11, 12, 13, 14, 15]",
@@ -56,10 +63,17 @@ The resulting list is `[11, 12, 13, 14, 15]`. This mimics the behavior of Python
             {
                 "stage_number": 1,
                 "title": "First-Class Functions",
-                "scenario": "Consider the following Python function:\nWhat will be the output of the result list?\n\n```python\ndef custom_map(func, lst):\n    return [func(item) for item in lst]\n\ndef add_ten(num):\n    return num + 10\n\nnumbers = [1, 2, 3, 4, 5]\nresult = custom_map(add_ten, numbers)\n```",
+                "scenario": "Consider the following Python function:\nWhat will be the output of the result list?",
                 "hint": "Notice how the `add_ten` function is passed without parentheses. It is being executed dynamically inside `custom_map` via a list comprehension.",
-                "data": None,
-                "hide_data": True,
+                "data": """def custom_map(func, lst):
+    return [func(item) for item in lst]
+
+def add_ten(num):
+    return num + 10
+
+numbers = [1, 2, 3, 4, 5]
+result = custom_map(add_ten, numbers)""",
+                "hide_data": False,
                 "evaluation_criteria": ["Understanding of functions as first-class objects", "Ability to trace higher-order function execution and list comprehensions"],
                 "solution_code": "result = [11, 12, 13, 14, 15]",
                 "expected_output": [11, 12, 13, 14, 15],

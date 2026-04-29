@@ -4,11 +4,24 @@ def get_exercise():
     return {
         "title": "Understanding Object Aliasing",
         "subtitle": "aliasing",
-        "description": "Consider the following Python code:\n\n```python\nclass Sample:\n    def __init__(self):\n        self._data = []\n\n    def add_data(self, value):\n        self._data.append(value)\n\n    def get_data(self):\n        return self._data\n\nsample1 = Sample()\nsample2 = sample1\nsample1.add_data(10)\nsample2.add_data(20)\n```\n\nWhat will be the output of `print(sample1.get_data())`?",
+        "description": "Consider the following Python code:\n\nWhat will be the output of `print(sample1.get_data())`?",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
-        "data": None,
-        "hide_data": True,
+        "data": """class Sample:
+    def __init__(self):
+        self._data = []
+
+    def add_data(self, value):
+        self._data.append(value)
+
+    def get_data(self):
+        return self._data
+
+sample1 = Sample()
+sample2 = sample1
+sample1.add_data(10)
+sample2.add_data(20)""",
+        "hide_data": False,
         "allowed_modes": ["Python"],
         "hint_python": "Think about what happens in memory when you assign `sample2 = sample1`.",
         "solution_python": 'result = "[10, 20]"',
@@ -35,10 +48,23 @@ def get_exercise():
             {
                 "stage_number": 1,
                 "title": "Concept Implementation",
-                "scenario": "Consider the following Python code:\n\n```python\nclass Sample:\n    def __init__(self):\n        self._data = []\n\n    def add_data(self, value):\n        self._data.append(value)\n\n    def get_data(self):\n        return self._data\n\nsample1 = Sample()\nsample2 = sample1\nsample1.add_data(10)\nsample2.add_data(20)\n```\n\nWhat will be the output of `print(sample1.get_data())`?",
+                "scenario": "Consider the following Python code:\n\nWhat will be the output of `print(sample1.get_data())`?",
                 "hint": "Think about what happens in memory when you assign `sample2 = sample1`.",
-                "data": None,
-                "hide_data": True,
+                "data": """class Sample:
+    def __init__(self):
+        self._data = []
+
+    def add_data(self, value):
+        self._data.append(value)
+
+    def get_data(self):
+        return self._data
+
+sample1 = Sample()
+sample2 = sample1
+sample1.add_data(10)
+sample2.add_data(20)""",
+                "hide_data": False,
                 "evaluation_criteria": ["Lead Engineer Concept 1", "Deep understanding of object references"],
                 "solution_code": 'result = "[10, 20]"',
                 "expected_output": '[10, 20]',

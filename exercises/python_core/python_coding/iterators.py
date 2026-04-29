@@ -4,11 +4,27 @@ def get_exercise():
     return {
         "title": "Custom Iterators and Magic Methods",
         "subtitle": "iterators",
-        "description": "Consider the following Python code:\nWhat will be the value of the result after executing the above code?\n\n```python\nclass CustomIterator:\n    def __init__(self, limit):\n        self.limit = limit\n        self.current = 0\n\n    def __next__(self):\n        if self.current >= self.limit:\n            raise StopIteration\n        else:\n            self.current += 2\n            return self.current\n\n    def __iter__(self):\n        return self\n\nnumbers = CustomIterator(10)\nresult = sum(numbers)\n```",
+        "description": "Consider the following Python code:\nWhat will be the value of the result after executing the above code?",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
-        "data": None,
-        "hide_data": True,
+        "data": """class CustomIterator:
+    def __init__(self, limit):
+        self.limit = limit
+        self.current = 0
+
+    def __next__(self):
+        if self.current >= self.limit:
+            raise StopIteration
+        else:
+            self.current += 2
+            return self.current
+
+    def __iter__(self):
+        return self
+
+numbers = CustomIterator(10)
+result = sum(numbers)""",
+        "hide_data": False,
         "allowed_modes": ["Python"],
         "hint_python": "Walk through the `__next__` method calls. What values are yielded before `self.current` hits or exceeds the `limit` of 10?",
         "solution_python": "result = 30",
@@ -55,10 +71,26 @@ The `sum()` function accumulates these values: `2 + 4 + 6 + 8 + 10 = 30`.
             {
                 "stage_number": 1,
                 "title": "Custom Iterators and Magic Methods",
-                "scenario": "Consider the following Python code:\nWhat will be the value of the result after executing the above code?\n\n```python\nclass CustomIterator:\n    def __init__(self, limit):\n        self.limit = limit\n        self.current = 0\n\n    def __next__(self):\n        if self.current >= self.limit:\n            raise StopIteration\n        else:\n            self.current += 2\n            return self.current\n\n    def __iter__(self):\n        return self\n\nnumbers = CustomIterator(10)\nresult = sum(numbers)\n```",
+                "scenario": "Consider the following Python code:\nWhat will be the value of the result after executing the above code?",
                 "hint": "Walk through the `__next__` method calls. What values are yielded before `self.current` hits or exceeds the `limit` of 10?",
-                "data": None,
-                "hide_data": True,
+                "data": """class CustomIterator:
+    def __init__(self, limit):
+        self.limit = limit
+        self.current = 0
+
+    def __next__(self):
+        if self.current >= self.limit:
+            raise StopIteration
+        else:
+            self.current += 2
+            return self.current
+
+    def __iter__(self):
+        return self
+
+numbers = CustomIterator(10)
+result = sum(numbers)""",
+                "hide_data": False,
                 "evaluation_criteria": ["Understanding of the Iterator Protocol (__iter__, __next__)", "Tracing state mutations across repeated method calls"],
                 "solution_code": "result = 30",
                 "expected_output": 30,

@@ -4,11 +4,19 @@ def get_exercise():
     return {
         "title": "The nonlocal Keyword and Scoping",
         "subtitle": "scoping",
-        "description": "What is the output of the following script that uses the nonlocal keyword?\n\n```python\ndef outer_func():\n    x = \"outer\"\n    def inner_func():\n        nonlocal x\n        x = \"inner\"\n    inner_func()\n    print(x)\n\nouter_func()\n```",
+        "description": "What is the output of the following script that uses the nonlocal keyword?",
         "difficulty_level": "mid",
         "source_inspiration": "Anki Deck",
-        "data": None,
-        "hide_data": True,
+        "data": """def outer_func():
+    x = "outer"
+    def inner_func():
+        nonlocal x
+        x = "inner"
+    inner_func()
+    print(x)
+
+outer_func()""",
+        "hide_data": False,
         "allowed_modes": ["Python"],
         "hint_python": "Review the LEGB (Local, Enclosing, Global, Built-in) rule and what `nonlocal` explicitly targets.",
         "solution_python": 'result = "inner"',
@@ -31,10 +39,18 @@ def get_exercise():
             {
                 "stage_number": 1,
                 "title": "Concept Implementation",
-                "scenario": "What is the output of the following script that uses the nonlocal keyword?\n\n```python\ndef outer_func():\n    x = \"outer\"\n    def inner_func():\n        nonlocal x\n        x = \"inner\"\n    inner_func()\n    print(x)\n\nouter_func()\n```",
+                "scenario": "What is the output of the following script that uses the nonlocal keyword?",
                 "hint": "Review the LEGB (Local, Enclosing, Global, Built-in) rule and what `nonlocal` explicitly targets.",
-                "data": None,
-                "hide_data": True,
+                "data": """def outer_func():
+    x = "outer"
+    def inner_func():
+        nonlocal x
+        x = "inner"
+    inner_func()
+    print(x)
+
+outer_func()""",
+                "hide_data": False,
                 "evaluation_criteria": ["Understanding of Python scope (LEGB)", "Knowledge of nonlocal vs global"],
                 "solution_code": 'result = "inner"',
                 "expected_output": 'inner',

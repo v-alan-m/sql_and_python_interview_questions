@@ -4,11 +4,17 @@ def get_exercise():
     return {
         "title": "List Comprehensions with Conditionals",
         "subtitle": "comprehensions",
-        "description": "Given a list of dictionaries representing student records, how can you extract the names of students who scored above 90 in their mathematics exam?\n\n```python\nrecords = [\n    {\"name\": \"Alice\", \"math_score\": 92},\n    {\"name\": \"Bob\", \"math_score\": 85},\n    {\"name\": \"Charlie\", \"math_score\": 88},\n    {\"name\": \"David\", \"math_score\": 91},\n    {\"name\": \"Eve\", \"math_score\": 95}\n]\n```",
+        "description": "Given a list of dictionaries representing student records, how can you extract the names of students who scored above 90 in their mathematics exam?",
         "difficulty_level": "easy",
         "source_inspiration": "Anki Deck",
-        "data": None,
-        "hide_data": True,
+        "data": """records = [
+    {"name": "Alice", "math_score": 92},
+    {"name": "Bob", "math_score": 85},
+    {"name": "Charlie", "math_score": 88},
+    {"name": "David", "math_score": 91},
+    {"name": "Eve", "math_score": 95}
+]""",
+        "hide_data": False,
         "allowed_modes": ["Python"],
         "hint_python": "Review the syntax of list comprehensions: `[expression for item in iterable if condition]`.",
         "solution_python": 'result = "Options A and B"',
@@ -48,10 +54,16 @@ Let's evaluate the correct options (A and B):
             {
                 "stage_number": 1,
                 "title": "List Comprehensions with Conditionals",
-                "scenario": "Given a list of dictionaries representing student records, how can you extract the names of students who scored above 90 in their mathematics exam?\n\n```python\nrecords = [\n    {\"name\": \"Alice\", \"math_score\": 92},\n    {\"name\": \"Bob\", \"math_score\": 85},\n    {\"name\": \"Charlie\", \"math_score\": 88},\n    {\"name\": \"David\", \"math_score\": 91},\n    {\"name\": \"Eve\", \"math_score\": 95}\n]\n```",
+                "scenario": "Given a list of dictionaries representing student records, how can you extract the names of students who scored above 90 in their mathematics exam?",
                 "hint": "Review the syntax of list comprehensions: `[expression for item in iterable if condition]`.",
-                "data": None,
-                "hide_data": True,
+                "data": """records = [
+    {"name": "Alice", "math_score": 92},
+    {"name": "Bob", "math_score": 85},
+    {"name": "Charlie", "math_score": 88},
+    {"name": "David", "math_score": 91},
+    {"name": "Eve", "math_score": 95}
+]""",
+                "hide_data": False,
                 "evaluation_criteria": ["Understanding of list comprehension syntax", "Ability to map and filter data simultaneously"],
                 "solution_code": 'result = "Options A and B"',
                 "expected_output": 'Options A and B',
