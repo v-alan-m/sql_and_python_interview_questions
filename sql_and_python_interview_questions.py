@@ -220,8 +220,8 @@ h1 {
 /* Show tick in the custom box when selected */
 [data-testid="stSidebar"] div[data-testid="stRadio"] [role="radiogroup"] label:has(input:checked)::before,
 [data-testid="stSidebar"] div[data-testid="stRadio"] [role="radiogroup"] label[data-selected="true"]::before {
-    background-color: #1ff497;
-    border-color: #1ff497;
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    border-color: rgba(255, 255, 255, 0.8) !important;
     content: "";
     color: #0E1117;
     font-size: 13px;
