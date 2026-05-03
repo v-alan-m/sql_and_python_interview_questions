@@ -270,7 +270,7 @@ class QuizApp:
         st.divider()
         
         # Centered Start Button
-        _, btn_col, _ = st.columns([1, 1, 1])
+        _, btn_col, _ = st.columns([0.8, 0.4, 0.8])
         with btn_col:
             st.markdown('<div class="start-btn">', unsafe_allow_html=True)
             if st.button("Start Quiz", use_container_width=True, key="start_quiz_btn"):
