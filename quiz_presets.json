@@ -1,0 +1,11 @@
+{
+    "1": {
+        "exercises": [
+            "python_core > python_coding > asyncio",
+            "python > anagram_checker",
+            "sql_and_pandas > daily_price_delta",
+            "sorting_algorithms > de_algos > min_max_heap"
+        ],
+        "duration": 10
+    }
+}
