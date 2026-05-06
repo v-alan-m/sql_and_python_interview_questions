@@ -10,6 +10,8 @@ Execution Mode: State-Machine (Strict Phase Lock)
 Core Rule: Monolithic execution is strictly forbidden. You must operate entirely within
 the bounds of your current STATE. Do not anticipate future states or write source code
 during planning states. Never skip a gate without explicit user approval.
+Token Management: Keep each response <7500 tokens to maintain quality. If a task is 
+too large, split it into phases or use multi-turn outputs where the user says "next".
 
 ---
 
@@ -39,8 +41,8 @@ Action:
    - Edge cases and error handling strategies
    - Testing strategies
 3. Generate (or update) a `Phase_Board.md` artifact at the project root containing:
-   - An explicit H2 heading for each implementation phase
-     (e.g., `## Phase 1: [Feature Name]`)
+   - An explicit H2 heading for each implementation phase (e.g., `## Phase 1: [Feature]`).
+   - **Token Sizing**: Ensure each phase is sized to produce <7500 tokens of code.
    - The Target Files to be created or edited in that phase
    - Exact, atomic Acceptance Criteria for that phase
 4. Mark all Phase 1 documentation tasks as `[x]` complete in `task.md`.
@@ -60,13 +62,13 @@ Action:
 1. Read the corresponding `docs/[feature_name]_plan.md` document(s) for Phase [X].
    These plans are the **unalterable source of truth**.
 2. Implement ONLY the acceptance criteria for Phase [X] as defined in `Phase_Board.md`.
-3. **Pre-flight Check (Token Optimization)**: Review the Target Files in `Phase_Board.md`. If the phase requires more than 5 files or extensive logic (likely exceeding 7500-8000 output tokens), you MUST plan to split the generation into multiple logical artifacts (e.g., Data Layer, API Layer).
+3. **Pre-flight Check (Token Optimization)**: Review the Target Files. If the phase exceeds 7500 tokens, you MUST split the generation into multiple logical parts.
 4. **High-Reasoning Optimization**: Generate the Markdown artifact containing the finalized, production-ready source code. 
    - **Zero-Placeholder Policy**: Every function, class, and logic block must be 100% complete. Do NOT use "TODO" or "// ... existing code" comments.
    - **Flash-Ready Formatting**: Use clear H3 headers for each file (e.g., `### FILE: path/to/file.py`) and wrap the code in standard markdown blocks.
    - The generated code must **strictly conform** to the logic mapped out in the plans. 
    - Do NOT write the actual source files yet.
-5. **Handling Large Phases (Multi-Turn)**: If you determined multiple artifacts are needed in Step 3, generate ONLY the first artifact in your response, then STOP. Prompt the user: *"Part 1 generated. Please type 'Continue' to generate the next artifact."* Do NOT attempt to output multiple large artifacts in a single turn.
+5. **Handling Large Phases (Multi-Turn)**: If multiple artifacts are needed, generate ONLY the first part (<7500 tokens), then STOP. Prompt the user: *"Part 1 generated. Type 'next' to continue."*
 6. Resolve any conceptual errors or bugs within the generated code.
 
 Constraints:
