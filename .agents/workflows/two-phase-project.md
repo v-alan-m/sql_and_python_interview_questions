@@ -13,6 +13,9 @@ during planning states. Never skip a gate without explicit user approval.
 Token Management: Keep each response <7500 tokens to maintain quality. If a task is 
 too large, split it into phases or use multi-turn outputs where the user says "next".
 
+[SESSION HANDOFF PROTOCOL]
+To prevent context decay, whenever a session is nearing its token limit or a phase is completed, the agent MUST generate a hand-off artifact in `new_chat_sesh_handoff_docs/handoff_phase_[X].md`. This artifact acts as a "Save State" for the next chat session.
+
 ---
 
 ## STATE 1: PROJECT INITIALIZER
@@ -100,4 +103,23 @@ Prompt User:
 - If any FAILs exist: "The audit found failures. Shall I fix the FAILs, or do you
   want to review them first?"
 - If all PASS: "Phase [X] verified. Shall I proceed to 'Execute Phase [X+1]', or
-  are we done?"
+  are we done? (I can also generate a hand-off document for a new chat session if you prefer)."
+
+---
+
+## SESSION HANDOFF (Save State)
+Trigger: User requests a handoff or a phase is verified as PASS.
+Persona: Context Synchronization Specialist
+
+Action:
+1. Create the `new_chat_sesh_handoff_docs/` directory if it does not exist.
+2. Generate a production-grade `handoff_phase_[X].md` file that MUST include:
+   - **Header**: Project Name & Current Phase.
+   - **State Context**: Explicitly define the current STATE (Architect/Developer/QA).
+   - **Knowledge Links**: List the files in `docs/`, `Phase_Board.md`, and `task.md` that the next agent MUST read to sync state.
+   - **Next Objective**: A clear, actionable definition of the immediate task for the next session.
+   - **Guardrails**: Re-enforce the Zero-Placeholder Policy and the <7500 token generation limit.
+   - **Bootstrap Prompt**: A pre-written prompt (starting with the `/two-phase-project` trigger) for the user to paste into the new chat window. It MUST explicitly mention the current STATE and the instruction to read the hand-off document to "re-hydrate" the agent.
+
+      **Example Bootstrap Prompt:**
+      > "/two-phase-project Please read the `new_chat_sesh_handoff_docs/handoff_phase_X.md` file to re-hydrate the state of the project. We are in **STATE 3: DEVELOPER** and have completed Phase [X-1]. Synchronize by reading the Source of Truth files (`Phase_Board.md`, `task.md`, and `docs/[relevant]_plan.md`) and then confirm you are ready to **Execute Phase [X]**."
