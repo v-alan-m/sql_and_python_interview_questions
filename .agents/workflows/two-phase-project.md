@@ -102,8 +102,7 @@ Gate: Stop execution completely.
 Prompt User:
 - If any FAILs exist: "The audit found failures. Shall I fix the FAILs, or do you
   want to review them first?"
-- If all PASS: "Phase [X] verified. Shall I proceed to 'Execute Phase [X+1]', or
-  are we done? (I can also generate a hand-off document for a new chat session if you prefer)."
+- If all PASS: "Phase [X] verified. I have generated a hand-off document for the next session. Shall I proceed to 'Execute Phase [X+1]', or are we done?"
 
 ---
 
