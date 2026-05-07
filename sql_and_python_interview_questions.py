@@ -32,6 +32,10 @@ with st.sidebar:
         if st.button("Quiz Mode", use_container_width=True, key="quiz_mode_btn"):
             st.session_state.app_mode = 'quiz'
             st.rerun()
+    elif st.session_state.app_mode == 'quiz':
+        if st.button("Return Home", use_container_width=True, key="return_home_btn"):
+            st.session_state.app_mode = 'normal'
+            st.rerun()
 # Timer
 if 'start_time' not in st.session_state:
     st.session_state.start_time = time.time()

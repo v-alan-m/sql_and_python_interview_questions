@@ -234,12 +234,30 @@ div[data-testid="stButton"].st-key-quiz_mode_btn button {
     background-color: rgba(255, 215, 0, 0.02) !important;
     border: 1px solid rgba(255, 215, 0, 0.2) !important;
     color: rgba(255, 255, 255, 0.8) !important;
+    margin-bottom: 2.2rem !important;
 }
 .st-key-quiz_mode_btn button:hover:not(:disabled),
 .st-key-quiz_mode_btn div[data-testid="stButton"] button:hover:not(:disabled),
 div[data-testid="stButton"].st-key-quiz_mode_btn button:hover:not(:disabled) {
     background-color: rgba(255, 234, 0, 0.25) !important;
     border-color: rgba(255, 234, 0, 0.5) !important;
+    color: #FFFFFF !important;
+}
+
+/* Return Home Button - Green */
+.st-key-return_home_btn button,
+.st-key-return_home_btn div[data-testid="stButton"] button,
+div[data-testid="stButton"].st-key-return_home_btn button {
+    background-color: rgba(31, 244, 151, 0.02) !important;
+    border: 1px solid rgba(31, 244, 151, 0.2) !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    margin-bottom: 2.2rem !important;
+}
+.st-key-return_home_btn button:hover:not(:disabled),
+.st-key-return_home_btn div[data-testid="stButton"] button:hover:not(:disabled),
+div[data-testid="stButton"].st-key-return_home_btn button:hover:not(:disabled) {
+    background-color: rgba(31, 244, 151, 0.25) !important;
+    border-color: rgba(31, 244, 151, 0.5) !important;
     color: #FFFFFF !important;
 }
 
