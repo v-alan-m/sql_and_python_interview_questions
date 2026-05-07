@@ -66,12 +66,12 @@ Action:
    These plans are the **unalterable source of truth**.
 2. Implement ONLY the acceptance criteria for Phase [X] as defined in `Phase_Board.md`.
 3. **Pre-flight Check (Token Optimization)**: Review the Target Files. If the phase exceeds 7500 tokens, you MUST split the generation into multiple logical parts.
-4. **High-Reasoning Optimization**: Generate the Markdown artifact containing the finalized, production-ready source code. 
+4. **High-Reasoning Optimization**: Create a physical Markdown file artifact (e.g., `Phase_[X]_Artifact.md`) at the project root containing the finalized, production-ready source code. You MUST use a file-writing tool to save this file to the filesystem. Do NOT just output the code in your conversational response.
    - **Zero-Placeholder Policy**: Every function, class, and logic block must be 100% complete. Do NOT use "TODO" or "// ... existing code" comments.
    - **Flash-Ready Formatting**: Use clear H3 headers for each file (e.g., `### FILE: path/to/file.py`) and wrap the code in standard markdown blocks.
    - The generated code must **strictly conform** to the logic mapped out in the plans. 
-   - Do NOT write the actual source files yet.
-5. **Handling Large Phases (Multi-Turn)**: If multiple artifacts are needed, generate ONLY the first part (<7500 tokens), then STOP. Prompt the user: *"Part 1 generated. Type 'next' to continue."*
+   - Do NOT write the actual `.py` or source files into their target directories yet. Only write the Markdown artifact file.
+5. **Handling Large Phases (Multi-Turn)**: If multiple artifacts are needed, generate ONLY the first part (<7500 tokens) as `Phase_[X]_Artifact_Part_1.md`, then STOP. Prompt the user: *"Part 1 generated. Type 'next' to continue."*
 6. Resolve any conceptual errors or bugs within the generated code.
 
 Constraints:
