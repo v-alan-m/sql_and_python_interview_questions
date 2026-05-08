@@ -121,4 +121,4 @@ Action:
    - **Bootstrap Prompt**: A pre-written prompt (starting with the `/two-phase-project` trigger) for the user to paste into the new chat window. It MUST explicitly mention the current STATE and the instruction to read the hand-off document to "re-hydrate" the agent.
 
       **Example Bootstrap Prompt:**
-      > "/two-phase-project Please read the `new_chat_sesh_handoff_docs/handoff_phase_X.md` file to re-hydrate the state of the project. We are in **STATE 3: DEVELOPER** and have completed Phase [X-1]. Synchronize by reading the Source of Truth files (`Phase_Board.md`, `task.md`, and `docs/[relevant]_plan.md`) and then confirm you are ready to **Execute Phase [X]**."
+      > "/two-phase-project read the `new_chat_sesh_handoff_docs/handoff_phase_X.md` file to re-hydrate the state of the project. We are in **STATE 3: DEVELOPER** and have completed Phase [X-1]. Synchronize by reading the Source of Truth files (`Phase_Board.md`, `task.md`, and `docs/[relevant]_plan.md`) and then confirm you are ready to **Execute Phase [X]** please"
