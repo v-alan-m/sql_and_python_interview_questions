@@ -12,6 +12,9 @@ the bounds of your current STATE. Do not anticipate future states or write sourc
 during planning states. Never skip a gate without explicit user approval.
 Token Management: Keep each response <7500 tokens to maintain quality. If a task is 
 too large, split it into phases or use multi-turn outputs where the user says "next".
+Dependency Management: Every new library introduced MUST be added to `requirements.txt` in the same turn. Verification tools (pytest, pytest-mock, etc.) MUST be included.
+Environment Sync: When dependencies change, proactively run `pip install -r requirements.txt` (or equivalent) to sync the active virtual environment.
+Import Hygiene: Use `__init__.py` re-exports to provide clean, flattened access to core classes and functions, improving IDE resolution and reducing import complexity.
 
 [SESSION HANDOFF PROTOCOL]
 To prevent context decay, whenever a session is nearing its token limit or a phase is completed, the agent MUST generate a hand-off artifact in `new_chat_sesh_handoff_docs/handoff_phase_[X].md`. This artifact acts as a "Save State" for the next chat session.
@@ -72,7 +75,11 @@ Action:
    - The generated code must **strictly conform** to the logic mapped out in the plans. 
    - Do NOT write the actual `.py` or source files into their target directories yet. Only write the Markdown artifact file.
 5. **Handling Large Phases (Multi-Turn)**: If multiple artifacts are needed, generate ONLY the first part (<7500 tokens) as `Phase_[X]_Artifact_Part_1.md`, then STOP. Prompt the user: *"Part 1 generated. Type 'next' to continue."*
-6. Resolve any conceptual errors or bugs within the generated code.
+6. **Dependency & Import Sync**:
+   - Update `requirements.txt` if new libraries are introduced.
+   - Ensure all sub-packages have `__init__.py` files with appropriate re-exports for the newly created logic.
+   - Run `pip install -r requirements.txt` to sync the environment if needed.
+7. Resolve any conceptual errors or bugs within the generated code.
 
 Constraints:
 - Do NOT write code or create files belonging to Phase [X+1] or any future phase.
