@@ -12,9 +12,10 @@ the bounds of your current STATE. Do not anticipate future states or write sourc
 during planning states. Never skip a gate without explicit user approval.
 Token Management: Keep each response <7500 tokens to maintain quality. If a task is 
 too large, split it into phases or use multi-turn outputs where the user says "next".
-Dependency Management: Every new library introduced MUST be added to `requirements.txt` in the same turn. Verification tools (pytest, pytest-mock, etc.) MUST be included.
-Environment Sync: When dependencies change, proactively run `pip install -r requirements.txt` (or equivalent) to sync the active virtual environment.
-Import Hygiene: Use `__init__.py` re-exports to provide clean, flattened access to core classes and functions, improving IDE resolution and reducing import complexity.
+15. Dependency Management: Every new library introduced MUST be added to `requirements.txt` AND `pyproject.toml` in the same turn. Verification tools (pytest, pytest-mock, pytest-asyncio, etc.) MUST be included.
+16. Environment Sync: When dependencies change, proactively run `pip install -r requirements.txt` (or equivalent) to sync the active virtual environment.
+17. Repository Hygiene: Maintain a clean project root. Do not use `scratch/` for permanent tests; all tests MUST reside in `tests/`. Remove any temporary artifacts before completing a phase.
+18. Import Hygiene: Use `__init__.py` re-exports to provide clean, flattened access to core classes and functions, improving IDE resolution and reducing import complexity.
 
 [SESSION HANDOFF PROTOCOL]
 To prevent context decay, whenever a session is nearing its token limit or a phase is completed, the agent MUST generate a hand-off artifact in `new_chat_sesh_handoff_docs/handoff_phase_[X].md`. This artifact acts as a "Save State" for the next chat session.
@@ -45,11 +46,11 @@ Action:
    - Database schemas and data models
    - Complex business rules and algorithms
    - Edge cases and error handling strategies
-   - Testing strategies
+   - Testing strategies: Define a specific `tests/test_phase_[x].py` for each phase.
 3. Generate (or update) a `Phase_Board.md` artifact at the project root containing:
    - An explicit H2 heading for each implementation phase (e.g., `## Phase 1: [Feature]`).
    - **Token Sizing**: Ensure each phase is sized to produce <7500 tokens of code.
-   - The Target Files to be created or edited in that phase
+   - The Target Files to be created or edited in that phase (MUST include a corresponding test file in `tests/`).
    - Exact, atomic Acceptance Criteria for that phase
 4. Mark all Phase 1 documentation tasks as `[x]` complete in `task.md`.
 
@@ -71,15 +72,17 @@ Action:
 3. **Pre-flight Check (Token Optimization)**: Review the Target Files. If the phase exceeds 7500 tokens, you MUST split the generation into multiple logical parts.
 4. **High-Reasoning Optimization**: Ensure a `phase_artifact/` directory exists. Create a physical Markdown file artifact (e.g., `phase_artifact/phase_[x]_artifact.md`) containing the finalized, production-ready source code. You MUST use a file-writing tool to save this file to the filesystem. Do NOT just output the code in your conversational response.
    - **Zero-Placeholder Policy**: Every function, class, and logic block must be 100% complete. Do NOT use "TODO" or "// ... existing code" comments.
+   - **Persistent Test Artifacts**: You MUST implement a corresponding test suite (e.g., `tests/test_phase_[x].py`) for every phase. These tests must be written to the filesystem as part of the phase artifact. Do not rely on transient scripts.
    - **Flash-Ready Formatting**: Use clear H3 headers for each file (e.g., `### FILE: path/to/file.py`) and wrap the code in standard markdown blocks.
    - The generated code must **strictly conform** to the logic mapped out in the plans. 
    - Do NOT write the actual `.py` or source files into their target directories yet. Only write the Markdown artifact file.
 5. **Handling Large Phases (Multi-Turn)**: If multiple artifacts are needed, generate ONLY the first part (<7500 tokens) as `phase_artifact/phase_[x]_artifact_part_1.md`, then STOP. Prompt the user: *"Part 1 generated. Type 'next' to continue."*
 6. **Dependency & Import Sync**:
-   - Update `requirements.txt` if new libraries are introduced.
+   - Update `requirements.txt` AND `pyproject.toml` if new libraries are introduced.
    - Ensure all sub-packages have `__init__.py` files with appropriate re-exports for the newly created logic.
    - Run `pip install -r requirements.txt` to sync the environment if needed.
-7. Resolve any conceptual errors or bugs within the generated code.
+7. **Repo Hygiene**: Delete any temporary `scratch/` files or one-off verification scripts before finishing.
+8. Resolve any conceptual errors or bugs within the generated code.
 
 Constraints:
 - Do NOT write code or create files belonging to Phase [X+1] or any future phase.
@@ -102,7 +105,7 @@ Action:
    |---|---|---|
    | [Acceptance criterion from Phase_Board.md] | PASS / FAIL | [Exact file + line number for PASS, or description of defect for FAIL] |
 
-3. Run any applicable test suites and include results as evidence.
+3. Run the phase-specific test suite (e.g., `pytest tests/test_phase_[x].py`) and include the full terminal output as evidence.
 4. Cross off completed items in `task.md`.
 
 Gate: Stop execution completely.
