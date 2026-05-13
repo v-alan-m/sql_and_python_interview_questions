@@ -71,9 +71,10 @@ Action:
 2. Implement ONLY the acceptance criteria for Phase [X] as defined in `Phase_Board.md`.
 3. **Pre-flight Check (Token Optimization)**: Review the Target Files. If the phase exceeds 7500 tokens, you MUST split the generation into multiple logical parts.
 4. **High-Reasoning Optimization**: Ensure a `phase_artifact/` directory exists. Create a physical Markdown file artifact (e.g., `phase_artifact/phase_[x]_artifact.md`) containing the finalized, production-ready source code. You MUST use a file-writing tool to save this file to the filesystem. Do NOT just output the code in your conversational response.
-   - **Zero-Placeholder Policy**: Every function, class, and logic block must be 100% complete. Do NOT use "TODO" or "// ... existing code" comments.
+   - **Zero-Placeholder Policy (New Files)**: For entirely new files, every function, class, and logic block must be 100% complete. Do NOT use "TODO" or "// ... existing code" comments.
+   - **Surgical Updates (Existing Files)**: When modifying existing files, provide 100% complete, placeholder-free code ONLY for the specific functions, methods, or logic blocks being changed. Use clear search/replace blocks or standard diff formatting so the executing model knows exactly where to apply the updates without repeating the entire unchanged file.
    - **Persistent Test Artifacts**: You MUST implement a corresponding test suite (e.g., `tests/test_phase_[x].py`) for every phase. These tests must be written to the filesystem as part of the phase artifact. Do not rely on transient scripts.
-   - **Flash-Ready Formatting**: Use clear H3 headers for each file (e.g., `### FILE: path/to/file.py`) and wrap the code in standard markdown blocks.
+   - **Flash-Ready Formatting**: Use clear H3 headers for each file (e.g., `### FILE: path/to/file.py`) and wrap the code in standard markdown blocks (or diff blocks for surgical updates).
    - The generated code must **strictly conform** to the logic mapped out in the plans. 
    - Do NOT write the actual `.py` or source files into their target directories yet. Only write the Markdown artifact file.
 5. **Handling Large Phases (Multi-Turn)**: If multiple artifacts are needed, generate ONLY the first part (<7500 tokens) as `phase_artifact/phase_[x]_artifact_part_1.md`, then STOP. Prompt the user: *"Part 1 generated. Type 'next' to continue."*
