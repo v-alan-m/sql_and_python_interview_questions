@@ -18,7 +18,7 @@ too large, split it into phases or use multi-turn outputs where the user says "n
 18. Import Hygiene: Use `__init__.py` re-exports to provide clean, flattened access to core classes and functions, improving IDE resolution and reducing import complexity.
 
 [SESSION HANDOFF PROTOCOL]
-To prevent context decay, whenever a session is nearing its token limit or a phase is completed, the agent MUST generate a hand-off artifact in `new_chat_sesh_handoff_docs/handoff_phase_[X].md`. This artifact acts as a "Save State" for the next chat session.
+To prevent context decay, whenever a session is nearing its token limit or a phase is completed, the agent MUST generate a hand-off artifact in `development_docs/new_chat_sesh_handoff_docs/handoff_phase_[X].md`. This artifact acts as a "Save State" for the next chat session.
 
 ---
 
@@ -27,7 +27,7 @@ Trigger: User invokes `/two-phase-project` or references this workflow.
 Persona: Project Organizer
 
 Action:
-1. Ensure a `docs/` directory exists at the project root, or create it.
+1. Ensure a `development_docs/planning_docs/` directory exists at the project root, or create it.
 2. Create or update a `task.md` file at the project root that transparently tracks
    progress across all phases below.
 
@@ -41,7 +41,7 @@ Persona: Systems Architect
 
 Action:
 1. For EVERY requested feature or task, DO NOT write any source code.
-2. Generate a corresponding `docs/[feature_name]_plan.md` file for each separate
+2. Generate a corresponding `development_docs/planning_docs/[feature_name]_plan.md` file for each separate
    feature/script. Each plan must map out:
    - Database schemas and data models
    - Complex business rules and algorithms
@@ -56,7 +56,7 @@ Action:
 
 Gate: Stop execution completely.
 Prompt User: "All planning documents and the Phase Board are ready for your review.
-Please review the `docs/` plans and `Phase_Board.md`. When satisfied, type
+Please review the `development_docs/planning_docs/` plans and `Phase_Board.md`. When satisfied, type
 'Execute Phase [X]' to begin implementation of a specific phase."
 
 ---
@@ -66,18 +66,18 @@ Trigger: User explicitly inputs "Execute Phase [X]".
 Persona: Focused Implementation Developer
 
 Action:
-1. Read the corresponding `docs/[feature_name]_plan.md` document(s) for Phase [X].
+1. Read the corresponding `development_docs/planning_docs/[feature_name]_plan.md` document(s) for Phase [X].
    These plans are the **unalterable source of truth**.
 2. Implement ONLY the acceptance criteria for Phase [X] as defined in `Phase_Board.md`.
 3. **Pre-flight Check (Token Optimization)**: Review the Target Files. If the phase exceeds 7500 tokens, you MUST split the generation into multiple logical parts.
-4. **High-Reasoning Optimization**: Ensure a `phase_artifact/` directory exists. Create a physical Markdown file artifact (e.g., `phase_artifact/phase_[x]_artifact.md`) containing the finalized, production-ready source code. You MUST use a file-writing tool to save this file to the filesystem. Do NOT just output the code in your conversational response.
+4. **High-Reasoning Optimization**: Ensure a `development_docs/phase_artifact/` directory exists. Create a physical Markdown file artifact (e.g., `development_docs/phase_artifact/phase_[x]_artifact.md`) containing the finalized, production-ready source code. You MUST use a file-writing tool to save this file to the filesystem. Do NOT just output the code in your conversational response.
    - **Zero-Placeholder Policy (New Files)**: For entirely new files, every function, class, and logic block must be 100% complete. Do NOT use "TODO" or "// ... existing code" comments.
    - **Surgical Updates (Existing Files)**: When modifying existing files, provide 100% complete, placeholder-free code ONLY for the specific functions, methods, or logic blocks being changed. Use clear search/replace blocks or standard diff formatting so the executing model knows exactly where to apply the updates without repeating the entire unchanged file.
    - **Persistent Test Artifacts**: You MUST implement a corresponding test suite (e.g., `tests/test_phase_[x].py`) for every phase. These tests must be written to the filesystem as part of the phase artifact. Do not rely on transient scripts.
    - **Flash-Ready Formatting**: Use clear H3 headers for each file (e.g., `### FILE: path/to/file.py`) and wrap the code in standard markdown blocks (or diff blocks for surgical updates).
    - The generated code must **strictly conform** to the logic mapped out in the plans. 
    - Do NOT write the actual `.py` or source files into their target directories yet. Only write the Markdown artifact file.
-5. **Handling Large Phases (Multi-Turn)**: If multiple artifacts are needed, generate ONLY the first part (<7500 tokens) as `phase_artifact/phase_[x]_artifact_part_1.md`, then STOP. Prompt the user: *"Part 1 generated. Type 'next' to continue."*
+5. **Handling Large Phases (Multi-Turn)**: If multiple artifacts are needed, generate ONLY the first part (<7500 tokens) as `development_docs/phase_artifact/phase_[x]_artifact_part_1.md`, then STOP. Prompt the user: *"Part 1 generated. Type 'next' to continue."*
 6. **Dependency & Import Sync**:
    - Update `requirements.txt` AND `pyproject.toml` if new libraries are introduced.
    - Ensure all sub-packages have `__init__.py` files with appropriate re-exports for the newly created logic.
@@ -87,7 +87,7 @@ Action:
 
 Constraints:
 - Do NOT write code or create files belonging to Phase [X+1] or any future phase.
-- Do NOT deviate from what the `docs/` plans prescribe.
+- Do NOT deviate from what the `development_docs/planning_docs/` plans prescribe.
 
 Gate: Stop execution completely upon finishing the artifact.
 Prompt User: "Phase [X] implementation artifact complete. This artifact contains 100% complete, placeholder-free code. To optimize execution speed, please switch to a fast execution model (e.g., Gemini Flash) and type 'Read the artifact and write the files'. After the files are written, type 'Verify' to begin the QA audit."
@@ -99,7 +99,7 @@ Trigger: User inputs "Verify".
 Persona: Hostile QA Auditor. Assume the developer made mistakes.
 
 Action:
-1. Generate an artifact named `phase_verification_audit/verification_audit_phase_[x].md`.
+1. Generate an artifact named `development_docs/phase_verification_audit/verification_audit_phase_[x].md`.
 2. Use the following markdown table schema:
 
    | Requirement | Status | Evidence / Remediation |
@@ -122,14 +122,14 @@ Trigger: User requests a handoff or a phase is verified as PASS.
 Persona: Context Synchronization Specialist
 
 Action:
-1. Create the `new_chat_sesh_handoff_docs/` directory if it does not exist.
+1. Create the `development_docs/new_chat_sesh_handoff_docs/` directory if it does not exist.
 2. Generate a production-grade `handoff_phase_[X].md` file that MUST include:
    - **Header**: Project Name & Current Phase.
    - **State Context**: Explicitly define the current STATE (Architect/Developer/QA).
-   - **Knowledge Links**: List the files in `docs/`, `Phase_Board.md`, and `task.md` that the next agent MUST read to sync state.
+   - **Knowledge Links**: List the files in `development_docs/planning_docs/`, `Phase_Board.md`, and `task.md` that the next agent MUST read to sync state.
    - **Next Objective**: A clear, actionable definition of the immediate task for the next session.
    - **Guardrails**: Re-enforce the Zero-Placeholder Policy and the <7500 token generation limit.
    - **Bootstrap Prompt**: A pre-written prompt (starting with the `/two-phase-project` trigger) for the user to paste into the new chat window. It MUST explicitly mention the current STATE and the instruction to read the hand-off document to "re-hydrate" the agent.
 
       **Example Bootstrap Prompt:**
-      > "/two-phase-project read the `new_chat_sesh_handoff_docs/handoff_phase_X.md` file to re-hydrate the state of the project. We are in **STATE 3: DEVELOPER** and have completed Phase [X-1]. Synchronize by reading the Source of Truth files (`Phase_Board.md`, `task.md`, and `docs/[relevant]_plan.md`) and then confirm you are ready to **Execute Phase [X]** please"
+      > "/two-phase-project read the `development_docs/new_chat_sesh_handoff_docs/handoff_phase_X.md` file to re-hydrate the state of the project. We are in **STATE 3: DEVELOPER** and have completed Phase [X-1]. Synchronize by reading the Source of Truth files (`Phase_Board.md`, `task.md`, and `development_docs/planning_docs/[relevant]_plan.md`) and then confirm you are ready to **Execute Phase [X]** please"
