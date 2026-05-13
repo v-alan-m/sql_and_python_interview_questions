@@ -28,7 +28,7 @@ Persona: Project Organizer
 
 Action:
 1. Ensure a `development_docs/planning_docs/` directory exists at the project root, or create it.
-2. Create or update a `task.md` file at the project root that transparently tracks
+2. Create or update a `development_docs/task.md` file that transparently tracks
    progress across all phases below.
 
 Gate: Proceed immediately to STATE 2 (no user input required here).
@@ -47,16 +47,16 @@ Action:
    - Complex business rules and algorithms
    - Edge cases and error handling strategies
    - Testing strategies: Define a specific `tests/test_phase_[x].py` for each phase.
-3. Generate (or update) a `Phase_Board.md` artifact at the project root containing:
+3. Generate (or update) a `development_docs/phase_board.md` artifact containing:
    - An explicit H2 heading for each implementation phase (e.g., `## Phase 1: [Feature]`).
    - **Token Sizing**: Ensure each phase is sized to produce <7500 tokens of code.
    - The Target Files to be created or edited in that phase (MUST include a corresponding test file in `tests/`).
    - Exact, atomic Acceptance Criteria for that phase
-4. Mark all Phase 1 documentation tasks as `[x]` complete in `task.md`.
+4. Mark all Phase 1 documentation tasks as `[x]` complete in `development_docs/task.md`.
 
 Gate: Stop execution completely.
 Prompt User: "All planning documents and the Phase Board are ready for your review.
-Please review the `development_docs/planning_docs/` plans and `Phase_Board.md`. When satisfied, type
+Please review the `development_docs/planning_docs/` plans and `development_docs/phase_board.md`. When satisfied, type
 'Execute Phase [X]' to begin implementation of a specific phase."
 
 ---
@@ -68,7 +68,7 @@ Persona: Focused Implementation Developer
 Action:
 1. Read the corresponding `development_docs/planning_docs/[feature_name]_plan.md` document(s) for Phase [X].
    These plans are the **unalterable source of truth**.
-2. Implement ONLY the acceptance criteria for Phase [X] as defined in `Phase_Board.md`.
+2. Implement ONLY the acceptance criteria for Phase [X] as defined in `development_docs/phase_board.md`.
 3. **Pre-flight Check (Token Optimization)**: Review the Target Files. If the phase exceeds 7500 tokens, you MUST split the generation into multiple logical parts.
 4. **High-Reasoning Optimization**: Ensure a `development_docs/phase_artifact/` directory exists. Create a physical Markdown file artifact (e.g., `development_docs/phase_artifact/phase_[x]_artifact.md`) containing the finalized, production-ready source code. You MUST use a file-writing tool to save this file to the filesystem. Do NOT just output the code in your conversational response.
    - **Zero-Placeholder Policy (New Files)**: For entirely new files, every function, class, and logic block must be 100% complete. Do NOT use "TODO" or "// ... existing code" comments.
@@ -104,10 +104,10 @@ Action:
 
    | Requirement | Status | Evidence / Remediation |
    |---|---|---|
-   | [Acceptance criterion from Phase_Board.md] | PASS / FAIL | [Exact file + line number for PASS, or description of defect for FAIL] |
+   | [Acceptance criterion from development_docs/phase_board.md] | PASS / FAIL | [Exact file + line number for PASS, or description of defect for FAIL] |
 
 3. Run the phase-specific test suite (e.g., `pytest tests/test_phase_[x].py`) and include the full terminal output as evidence.
-4. Cross off completed items in `task.md`.
+4. Cross off completed items in `development_docs/task.md`.
 
 Gate: Stop execution completely.
 Prompt User:
@@ -126,10 +126,10 @@ Action:
 2. Generate a production-grade `handoff_phase_[X].md` file that MUST include:
    - **Header**: Project Name & Current Phase.
    - **State Context**: Explicitly define the current STATE (Architect/Developer/QA).
-   - **Knowledge Links**: List the files in `development_docs/planning_docs/`, `Phase_Board.md`, and `task.md` that the next agent MUST read to sync state.
+   - **Knowledge Links**: List the files in `development_docs/planning_docs/`, `development_docs/phase_board.md`, and `development_docs/task.md` that the next agent MUST read to sync state.
    - **Next Objective**: A clear, actionable definition of the immediate task for the next session.
    - **Guardrails**: Re-enforce the Zero-Placeholder Policy and the <7500 token generation limit.
    - **Bootstrap Prompt**: A pre-written prompt (starting with the `/two-phase-project` trigger) for the user to paste into the new chat window. It MUST explicitly mention the current STATE and the instruction to read the hand-off document to "re-hydrate" the agent.
 
       **Example Bootstrap Prompt:**
-      > "/two-phase-project read the `development_docs/new_chat_sesh_handoff_docs/handoff_phase_X.md` file to re-hydrate the state of the project. We are in **STATE 3: DEVELOPER** and have completed Phase [X-1]. Synchronize by reading the Source of Truth files (`Phase_Board.md`, `task.md`, and `development_docs/planning_docs/[relevant]_plan.md`) and then confirm you are ready to **Execute Phase [X]** please"
+      > "/two-phase-project read the `development_docs/new_chat_sesh_handoff_docs/handoff_phase_X.md` file to re-hydrate the state of the project. We are in **STATE 3: DEVELOPER** and have completed Phase [X-1]. Synchronize by reading the Source of Truth files (`development_docs/phase_board.md`, `development_docs/task.md`, and `development_docs/planning_docs/[relevant]_plan.md`) and then confirm you are ready to **Execute Phase [X]** please"
