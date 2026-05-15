@@ -53,6 +53,11 @@ Action:
    - The Target Files to be created or edited in that phase (MUST include a corresponding test file in `tests/`).
    - Exact, atomic Acceptance Criteria for that phase
 4. Mark all Phase 1 documentation tasks as `[x]` complete in `development_docs/task.md`.
+5. **Ecosystem Audit**: For every phase, the Architect MUST identify not just source code changes, but also updates required for:
+   - **Metadata**: `pyproject.toml`, `README.md`, `.env.example`.
+   - **DevOps**: `Dockerfile`, `docker-compose.yml`, CI/CD pipelines.
+   - **Branding**: UI titles, logs, and user-facing prompts.
+   - **Documentation**: Ensure internal comments and external docs reflect the new domain/system.
 
 Gate: Stop execution completely.
 Prompt User: "All planning documents and the Phase Board are ready for your review.
@@ -108,6 +113,7 @@ Action:
 
 3. Run the phase-specific test suite (e.g., `pytest tests/test_phase_[x].py`) and include the full terminal output as evidence.
 4. Cross off completed items in `development_docs/task.md`.
+5. **Legacy Scan**: Conduct a case-insensitive search for keywords from the previous system (e.g., old brand names, legacy URLs, outdated constants) to ensure 100% replacement/migration in the new implementation.
 
 Gate: Stop execution completely.
 Prompt User:
