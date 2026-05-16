@@ -95,7 +95,7 @@ Constraints:
 - Do NOT deviate from what the `development_docs/planning_docs/` plans prescribe.
 
 Gate: Stop execution completely upon finishing the artifact.
-Prompt User: "Phase [X] implementation artifact complete. This artifact contains 100% complete, placeholder-free code. To optimize execution speed, please switch to a fast execution model (e.g., Gemini Flash) and type 'Read the artifact and write the files'. After the files are written, type 'Verify' to begin the QA audit."
+Prompt User: "Phase [X] implementation artifact complete. This artifact contains 100% complete, placeholder-free code. To optimize execution speed, please switch to a **fast execution model** and type 'Read the artifact and write the files'. After the files are written, type 'Verify' to begin the QA audit."
 
 ---
 
@@ -115,6 +115,7 @@ Action:
 4. Cross off completed items in `development_docs/task.md`.
 5. **Legacy Scan**: Conduct a case-insensitive search for keywords from the previous system (e.g., old brand names, legacy URLs, outdated constants) to ensure 100% replacement/migration in the new implementation.
 6. **Ecosystem Sync Check**: Verify that `README.md`, `Dockerfile`, and other metadata files identified in the Ecosystem Audit were actually updated and match the new source code logic.
+7. **High-Reasoning Audit Summary**: Conclude the audit with a "Structural Integrity" summary. The **fast execution model** must explain *why* the implementation is sound, identifying any subtle optimizations or latent technical debt (e.g., "The volume logic is robust for current limits, but if polling rate decreases, the EMA window will need recalibration").
 
 Gate: Stop execution completely.
 Prompt User:
@@ -135,6 +136,10 @@ Action:
    - **State Context**: Explicitly define the current STATE (Architect/Developer/QA).
    - **Knowledge Links**: List the files in `development_docs/planning_docs/`, `development_docs/phase_board.md`, and `development_docs/task.md` that the next agent MUST read to sync state.
    - **Next Objective**: A clear, actionable definition of the immediate task for the next session.
+   - **Contextual Nuance & Intent**: A technical summary of the *reasoning* behind the current state. This must include:
+      - **Handled Edge Cases**: Detailed explanation of complex scenarios addressed (e.g., "Accounted for API race conditions by implementing X").
+      - **Architectural Assumptions**: List any assumptions made that the next **high-reasoning model** should verify or build upon.
+      - **Latent Risks**: Highlight potential "bottlenecks" or stability concerns for future phases.
    - **Guardrails**: Re-enforce the Zero-Placeholder Policy and the <7500 token generation limit.
    - **Bootstrap Prompt**: A pre-written prompt (starting with the `/two-phase-project` trigger) for the user to paste into the new chat window. It MUST explicitly mention the current STATE and the instruction to read the hand-off document to "re-hydrate" the agent.
 
