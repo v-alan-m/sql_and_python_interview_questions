@@ -57,7 +57,7 @@ Action:
    - **Metadata**: `pyproject.toml`, `README.md`, `.env.example`.
    - **DevOps**: `Dockerfile`, `docker-compose.yml`, CI/CD pipelines.
    - **Branding**: UI titles, logs, and user-facing prompts.
-   - **Documentation**: Ensure internal comments and external docs reflect the new domain/system.
+   - **Documentation**: Ensure internal comments and external docs reflect the new domain/system. These files MUST be added to the `Target Files` list for the phase.
 
 Gate: Stop execution completely.
 Prompt User: "All planning documents and the Phase Board are ready for your review.
@@ -114,6 +114,7 @@ Action:
 3. Run the phase-specific test suite (e.g., `pytest tests/test_phase_[x].py`) and include the full terminal output as evidence.
 4. Cross off completed items in `development_docs/task.md`.
 5. **Legacy Scan**: Conduct a case-insensitive search for keywords from the previous system (e.g., old brand names, legacy URLs, outdated constants) to ensure 100% replacement/migration in the new implementation.
+6. **Ecosystem Sync Check**: Verify that `README.md`, `Dockerfile`, and other metadata files identified in the Ecosystem Audit were actually updated and match the new source code logic.
 
 Gate: Stop execution completely.
 Prompt User:
